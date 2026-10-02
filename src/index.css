@@ -11,8 +11,44 @@ body,
   min-height: 100%;
 }
 
+html {
+  background: #080808;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #111;
+  margin: 0;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background: #080808;
+
   color: white;
+
+  overflow-x: hidden;
+}
+
+
+/*
+  Prevent scrolling while
+  interacting with the shutter.
+*/
+
+body.shutter-dragging {
+  overflow: hidden;
+
+  touch-action: none;
+}
+
+
+/*
+  Better mobile touch behavior.
+*/
+
+button,
+a {
+  -webkit-tap-highlight-color:
+    transparent;
 }

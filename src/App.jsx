@@ -1,7 +1,12 @@
 import Home from "./pages/Home";
+import ShutterIntro from "./components/ShutterIntro/ShutterIntro";
 
 function App() {
-  return <Home />;
+  return (
+    <ShutterIntro>
+      <Home />
+    </ShutterIntro>
+  );
 }
 
 export default App;

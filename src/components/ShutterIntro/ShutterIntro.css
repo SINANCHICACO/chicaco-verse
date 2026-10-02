@@ -1,0 +1,907 @@
+/* =========================================================
+   CHICACO VERSE — SHUTTER INTRO
+========================================================= */
+
+
+/* =========================================================
+   MAIN INTRO WRAPPER
+========================================================= */
+
+.shutter-intro {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  background: #080808;
+
+  z-index: 999999;
+
+  isolation: isolate;
+
+  user-select: none;
+}
+
+
+/* =========================================================
+   WEBSITE UNDER THE SHUTTER
+========================================================= */
+
+.shutter-background {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  background: #080808;
+
+  z-index: 1;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   GARAGE SHUTTER
+========================================================= */
+
+.garage-shutter {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  z-index: 100;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      #720006 0%,
+      #a8000c 10%,
+      #c60012 28%,
+      #d00015 50%,
+      #c60012 72%,
+      #a8000c 90%,
+      #720006 100%
+    );
+
+  will-change: transform;
+
+  touch-action: none;
+
+  user-select: none;
+
+  cursor: ns-resize;
+
+  transition: none;
+}
+
+
+/* =========================================================
+   OPENING ANIMATION
+========================================================= */
+
+.garage-shutter.garage-opening {
+  transition:
+    transform
+    750ms
+    cubic-bezier(
+      0.77,
+      0,
+      0.175,
+      1
+    );
+}
+
+
+/* =========================================================
+   METAL SHUTTER SURFACE
+========================================================= */
+
+.shutter-surface {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  z-index: 5;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(50, 0, 0, 0.3),
+      transparent 12%,
+      transparent 88%,
+      rgba(50, 0, 0, 0.3)
+    );
+}
+
+
+/* =========================================================
+   INDIVIDUAL SHUTTER SLATS
+========================================================= */
+
+.shutter-slat {
+  position: relative;
+
+  flex: 1;
+
+  min-height: 7px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #e00017 0%,
+      #d00014 22%,
+      #b4000e 58%,
+      #8a0009 100%
+    );
+
+  border-bottom:
+    1px solid
+    rgba(50, 0, 0, 0.8);
+
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 120, 120, 0.14),
+
+    inset 0 -2px 0
+      rgba(40, 0, 0, 0.38);
+}
+
+
+/* =========================================================
+   SLAT TOP HIGHLIGHT
+========================================================= */
+
+.slat-highlight {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0.04)
+    );
+}
+
+
+/* =========================================================
+   SLAT BOTTOM SHADOW
+========================================================= */
+
+.slat-shadow {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 0;
+
+  height: 2px;
+
+  background:
+    rgba(45, 0, 0, 0.6);
+}
+
+
+/* =========================================================
+   METAL TEXTURE
+========================================================= */
+
+.shutter-surface::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 8;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0px,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  opacity: 0.7;
+
+  mix-blend-mode: overlay;
+}
+
+
+/* =========================================================
+   TOP GARAGE FRAME
+========================================================= */
+
+.garage-top-frame {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  height:
+    clamp(
+      45px,
+      7vh,
+      75px
+    );
+
+  z-index: 40;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #520004 0%,
+      #850008 20%,
+      #a8000d 45%,
+      #b70010 62%,
+      #780007 82%,
+      #4b0004 100%
+    );
+
+  border-bottom:
+    5px solid #430004;
+
+  box-shadow:
+    0 8px 18px
+    rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================================================
+   TOP FRAME HIGHLIGHT
+========================================================= */
+
+.garage-top-highlight {
+  position: absolute;
+
+  top: 5px;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    rgba(
+      255,
+      120,
+      120,
+      0.3
+    );
+}
+
+
+/* =========================================================
+   ROLLER
+========================================================= */
+
+.garage-top-roller {
+  position: absolute;
+
+  right: 5%;
+
+  top: 50%;
+
+  transform:
+    translateY(-50%);
+
+  width: 70px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background:
+    #600006;
+
+  box-shadow:
+    inset 0 3px 4px
+      rgba(255, 100, 100, 0.12),
+
+    inset 0 -3px 4px
+      rgba(0, 0, 0, 0.5);
+}
+
+
+/* Roller lines */
+
+.roller-line {
+  position: absolute;
+
+  left: 10px;
+  right: 10px;
+
+  height: 2px;
+
+  background:
+    rgba(
+      255,
+      100,
+      100,
+      0.12
+    );
+}
+
+.roller-line:nth-child(1) {
+  top: 5px;
+}
+
+.roller-line:nth-child(2) {
+  top: 9px;
+}
+
+.roller-line:nth-child(3) {
+  top: 13px;
+}
+
+
+/* =========================================================
+   SIDE GARAGE FRAMES
+========================================================= */
+
+.garage-side {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  width:
+    clamp(
+      12px,
+      2.5vw,
+      35px
+    );
+
+  z-index: 40;
+
+  background:
+    linear-gradient(
+      90deg,
+      #430004 0%,
+      #800008 35%,
+      #a9000d 50%,
+      #700006 75%,
+      #400003 100%
+    );
+
+  box-shadow:
+    inset 2px 0 3px
+      rgba(255, 100, 100, 0.1),
+
+    inset -3px 0 5px
+      rgba(0, 0, 0, 0.35);
+}
+
+.garage-side-left {
+  left: 0;
+}
+
+.garage-side-right {
+  right: 0;
+}
+
+
+/* =========================================================
+   LOGO AREA
+========================================================= */
+
+.spray-logo-wrapper {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width:
+    min(
+      52vw,
+      620px
+    );
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
+  z-index: 50;
+
+  pointer-events: none;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* =========================================================
+   SPRAY PAINT CLOUDS
+========================================================= */
+
+.spray-cloud {
+  position: absolute;
+
+  border-radius: 50%;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.13
+    );
+
+  filter: blur(18px);
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+
+.spray-cloud-one {
+  width: 90px;
+  height: 90px;
+
+  left: 4%;
+  top: 14%;
+}
+
+
+.spray-cloud-two {
+  width: 130px;
+  height: 100px;
+
+  right: 4%;
+  bottom: 17%;
+}
+
+
+.spray-cloud-three {
+  width: 75px;
+  height: 75px;
+
+  left: 20%;
+  bottom: 6%;
+}
+
+
+/* =========================================================
+   CHICACO VERSE LOGO
+========================================================= */
+
+.spray-logo {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  opacity: 1;
+
+  /*
+    Keep the original logo colors.
+    The uploaded logo already contains:
+    - black monster
+    - white CHICACO
+    - white VERSE
+    - white space details
+  */
+
+  filter:
+    drop-shadow(
+      0 5px 5px
+      rgba(0, 0, 0, 0.35)
+    );
+}
+
+
+/* =========================================================
+   PULL INTERFACE
+========================================================= */
+
+.pull-interface {
+  position: absolute;
+
+  left: 50%;
+
+  bottom:
+    clamp(
+      28px,
+      5vh,
+      55px
+    );
+
+  transform:
+    translateX(-50%);
+
+  z-index: 60;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  color: white;
+
+  text-align: center;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.15s ease;
+}
+
+
+/* =========================================================
+   PULL HANDLE
+========================================================= */
+
+.pull-grip {
+  width: 58px;
+  height: 9px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  box-shadow:
+    0 3px 10px
+    rgba(0, 0, 0, 0.5);
+}
+
+
+.pull-grip span {
+  width: 4px;
+  height: 3px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.45
+    );
+}
+
+
+/* =========================================================
+   PULL TEXT
+========================================================= */
+
+.pull-text {
+  margin-top: 12px;
+
+  font-size:
+    clamp(
+      9px,
+      1.2vw,
+      13px
+    );
+
+  font-weight: 900;
+
+  letter-spacing:
+    clamp(
+      2px,
+      0.5vw,
+      5px
+    );
+
+  white-space: nowrap;
+
+  text-shadow:
+    0 2px 6px
+    rgba(0, 0, 0, 0.9);
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.pull-arrow {
+  margin-top: 6px;
+
+  font-size:
+    clamp(
+      24px,
+      3vw,
+      34px
+    );
+
+  line-height: 1;
+
+  text-shadow:
+    0 3px 8px
+    rgba(0, 0, 0, 0.8);
+
+  animation:
+    pull-arrow-animation
+    1.2s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes pull-arrow-animation {
+
+  0%,
+  100% {
+    transform:
+      translateY(5px);
+  }
+
+  50% {
+    transform:
+      translateY(-7px);
+  }
+
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.pull-progress {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 16px;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(
+      220px,
+      45vw
+    );
+
+  height: 2px;
+
+  overflow: hidden;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+
+  z-index: 70;
+}
+
+
+.pull-progress-fill {
+  width: 100%;
+  height: 100%;
+
+  background: white;
+
+  transform-origin:
+    left center;
+}
+
+
+/* =========================================================
+   TOUCH / MOUSE AREA
+========================================================= */
+
+.shutter-touch-area {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 55;
+
+  width: 100%;
+  height: 100%;
+
+  touch-action: none;
+
+  cursor: grab;
+}
+
+
+.shutter-touch-area:active {
+  cursor: grabbing;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .spray-logo-wrapper {
+    width:
+      min(
+        72vw,
+        620px
+      );
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .garage-top-frame {
+    height: 48px;
+  }
+
+
+  .garage-top-roller {
+    width: 50px;
+    height: 17px;
+  }
+
+
+  .spray-logo-wrapper {
+    width:
+      min(
+        82vw,
+        440px
+      );
+  }
+
+
+  .pull-interface {
+    bottom: 36px;
+  }
+
+
+  .pull-grip {
+    width: 50px;
+    height: 8px;
+  }
+
+
+  .pull-text {
+    margin-top: 10px;
+  }
+
+
+  .pull-progress {
+    bottom: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .spray-logo-wrapper {
+    width: 91vw;
+  }
+
+
+  .garage-side {
+    width: 10px;
+  }
+
+
+  .pull-interface {
+    bottom: 30px;
+  }
+
+
+  .pull-text {
+    font-size: 8px;
+
+    letter-spacing: 2px;
+  }
+
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONES
+========================================================= */
+
+@media (
+  max-height: 500px
+) and (
+  orientation: landscape
+) {
+
+  .spray-logo-wrapper {
+    width:
+      min(
+        52vh,
+        520px
+      );
+  }
+
+
+  .pull-interface {
+    bottom: 18px;
+  }
+
+
+  .pull-progress {
+    bottom: 7px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .pull-arrow {
+    animation: none;
+  }
+
+
+  .garage-shutter.garage-opening {
+    transition:
+      transform 0.25s ease;
+  }
+
+}
