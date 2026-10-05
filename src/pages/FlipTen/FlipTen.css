@@ -1,0 +1,1125 @@
+/* =========================================================
+   FLIPTEN SETUP
+========================================================= */
+
+.flipten-setup {
+  min-height: 100dvh;
+  width: 100%;
+
+  background: #ef4949;
+  color: #111;
+
+  overflow-x: hidden;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.flipten-header {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    70px
+    1fr
+    70px;
+
+  align-items: center;
+
+  padding: 20px;
+
+  position: relative;
+
+  z-index: 10;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.flipten-title {
+  text-align: center;
+
+  font-size: 34px;
+
+  font-weight: 1000;
+
+  letter-spacing: 3px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   BACK + INFO BUTTONS
+========================================================= */
+
+.flipten-back,
+.flipten-info {
+  width: 52px;
+  height: 52px;
+
+  border: 4px solid #111;
+
+  border-radius: 50%;
+
+  background: #f7f0df;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 0 #111;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  padding: 6px;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   BACK ARROW
+========================================================= */
+
+.flipten-back img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+
+  transform: scale(1.08);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   INFO BUTTON
+========================================================= */
+
+.flipten-info {
+  justify-self: end;
+
+  padding: 0;
+
+  font-size: 29px;
+
+  font-weight: 10;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  line-height: 1;
+
+  -webkit-text-stroke: 1px #111;
+
+  text-shadow:
+    2px 2px 0
+    rgba(
+      0,
+      0,
+      0,
+      0.15
+    );
+}
+
+
+/* =========================================================
+   BUTTON PRESS
+========================================================= */
+
+.flipten-back:active,
+.flipten-info:active {
+  transform:
+    translateY(4px);
+
+  box-shadow:
+    0 1px 0 #111;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.flipten-setup-content {
+  width:
+    min(
+      100%,
+      560px
+    );
+
+  margin:
+    0 auto;
+
+  padding:
+    20px
+    25px
+    60px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+}
+
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.flipten-subtitle {
+  margin-top: 15px;
+
+  margin-bottom: 0;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  opacity: 0.6;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.flipten-setup-content h1 {
+  margin-top: 10px;
+
+  margin-bottom: 0;
+
+  font-size:
+    clamp(
+      28px,
+      8vw,
+      48px
+    );
+
+  font-weight: 1000;
+
+  letter-spacing: -1px;
+
+  line-height: 1;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   PLAYER COUNT
+========================================================= */
+
+.player-count-section {
+  width: 100%;
+
+  margin-top: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+.section-label {
+  font-size: 11px;
+
+  font-weight: 1000;
+
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   PLAYER COUNTER
+========================================================= */
+
+.player-counter {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+.player-counter button {
+  width: 42px;
+  height: 42px;
+
+  border: 3px solid #111;
+
+  border-radius: 50%;
+
+  background: #f7f0df;
+
+  color: #111;
+
+  font-size: 24px;
+
+  font-weight: 1000;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 0 #111;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+.player-counter button:active {
+  transform:
+    translateY(2px);
+
+  box-shadow:
+    0 1px 0 #111;
+}
+
+
+.player-counter button:disabled {
+  opacity: 0.35;
+
+  cursor: default;
+}
+
+
+.player-counter span {
+  min-width: 30px;
+
+  text-align: center;
+
+  font-size: 24px;
+
+  font-weight: 1000;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   PLAYER LIST
+========================================================= */
+
+.player-list {
+  width: 100%;
+
+  margin-top: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   PLAYER INPUT ROW
+========================================================= */
+
+.player-input-row {
+  width: 100%;
+
+  height: 62px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding:
+    7px
+    12px
+    7px
+    7px;
+
+  background: #f7f0df;
+
+  border: 3px solid #111;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 4px 0 #111;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+/* =========================================================
+   PLAYER NUMBER
+========================================================= */
+
+.player-number {
+  width: 35px;
+
+  flex-shrink: 0;
+
+  font-size: 12px;
+
+  font-weight: 1000;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   PLAYER INPUT
+========================================================= */
+
+.player-input-row input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 100%;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #111;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+.player-input-row input::placeholder {
+  color: #111;
+
+  opacity: 0.35;
+}
+
+
+.player-input-row input:focus::placeholder {
+  opacity: 0.2;
+}
+
+
+/* =========================================================
+   PLAYER COLORS
+========================================================= */
+
+.player-color {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  border: 3px solid #111;
+
+  flex-shrink: 0;
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+}
+
+
+.player-color-1 {
+  background: #ef4949;
+}
+
+
+.player-color-2 {
+  background: #4285e8;
+}
+
+
+.player-color-3 {
+  background: #55ad68;
+}
+
+
+.player-color-4 {
+  background: #e8c744;
+}
+
+
+.player-color-5 {
+  background: #a66be0;
+}
+
+
+.player-color-6 {
+  background: #ed8a45;
+}
+
+
+/* =========================================================
+   START BUTTON
+========================================================= */
+
+.flipten-start {
+  width: 100%;
+
+  height: 62px;
+
+  margin-top: 28px;
+
+  border: 3px solid #111;
+
+  border-radius: 18px;
+
+  background: #f7f0df;
+
+  color: #111;
+
+  font-size: 16px;
+
+  font-weight: 1000;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 15px;
+
+  box-shadow:
+    0 5px 0 #111;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+.flipten-start span {
+  font-size: 22px;
+
+  font-weight: 1000;
+}
+
+
+.flipten-start:active {
+  transform:
+    translateY(4px);
+
+  box-shadow:
+    0 1px 0 #111;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS OVERLAY
+========================================================= */
+
+.instruction-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 100;
+
+  padding: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.55
+    );
+}
+
+
+/* =========================================================
+   INSTRUCTION BOX
+========================================================= */
+
+.instruction-box {
+  position: relative;
+
+  width:
+    min(
+      100%,
+      430px
+    );
+
+  max-height: 85vh;
+
+  overflow-y: auto;
+
+  padding:
+    30px
+    25px;
+
+  background: #f7f0df;
+
+  color: #111;
+
+  border: 4px solid #111;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 8px 0 #111;
+}
+
+
+/* =========================================================
+   INSTRUCTION TITLE
+========================================================= */
+
+.instruction-box h2 {
+  margin:
+    0 0 22px;
+
+  font-size: 25px;
+
+  font-weight: 1000;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   INSTRUCTION CONTENT
+========================================================= */
+
+.instruction-content {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.instruction-content p {
+  margin: 0;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  font-weight: 600;
+}
+
+
+.instruction-content strong {
+  font-weight: 1000;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.instruction-close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  width: 38px;
+  height: 38px;
+
+  border: 3px solid #111;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #111;
+
+  font-size: 24px;
+
+  font-weight: 1000;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .flipten-header {
+    grid-template-columns:
+      55px
+      1fr
+      55px;
+
+    padding: 15px;
+  }
+
+
+  .flipten-title {
+    font-size: 26px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .flipten-back,
+  .flipten-info {
+    width: 48px;
+    height: 48px;
+
+    border-width: 4px;
+
+    box-shadow:
+      0 4px 0 #111;
+  }
+
+
+  .flipten-back img {
+    transform: scale(1.1);
+  }
+
+
+  .flipten-info {
+    font-size: 26px;
+  }
+
+
+  .flipten-setup-content {
+    padding:
+      15px
+      20px
+      50px;
+  }
+
+
+  .flipten-subtitle {
+    margin-top: 10px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .flipten-setup-content h1 {
+    margin-top: 9px;
+
+    font-size:
+      clamp(
+        27px,
+        8vw,
+        42px
+      );
+  }
+
+
+  .player-count-section {
+    margin-top: 25px;
+  }
+
+
+  .player-counter {
+    gap: 15px;
+  }
+
+
+  .player-counter button {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .player-input-row {
+    height: 60px;
+
+    border-radius: 16px;
+  }
+
+
+  .player-color {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  .flipten-start {
+    height: 60px;
+
+    margin-top: 25px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .flipten-header {
+    grid-template-columns:
+      52px
+      1fr
+      52px;
+
+    padding:
+      13px
+      12px;
+  }
+
+
+  .flipten-title {
+    font-size: 24px;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  .flipten-back,
+  .flipten-info {
+    width: 46px;
+    height: 46px;
+  }
+
+
+  .flipten-back img {
+    transform: scale(1.12);
+  }
+
+
+  .flipten-info {
+    font-size: 25px;
+  }
+
+
+  .flipten-setup-content {
+    padding:
+      12px
+      16px
+      40px;
+  }
+
+
+  .flipten-subtitle {
+    font-size: 9px;
+
+    letter-spacing: 1.8px;
+  }
+
+
+  .flipten-setup-content h1 {
+    font-size: 29px;
+  }
+
+
+  .player-count-section {
+    margin-top: 22px;
+  }
+
+
+  .section-label {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .player-counter {
+    gap: 12px;
+  }
+
+
+  .player-counter button {
+    width: 38px;
+    height: 38px;
+
+    font-size: 22px;
+  }
+
+
+  .player-counter span {
+    font-size: 22px;
+  }
+
+
+  .player-list {
+    margin-top: 17px;
+
+    gap: 10px;
+  }
+
+
+  .player-input-row {
+    height: 57px;
+
+    gap: 9px;
+
+    padding:
+      6px
+      10px
+      6px
+      6px;
+
+    border-radius: 15px;
+  }
+
+
+  .player-color {
+    width: 34px;
+    height: 34px;
+
+    border-width: 3px;
+  }
+
+
+  .player-number {
+    width: 29px;
+
+    font-size: 11px;
+  }
+
+
+  .player-input-row input {
+    font-size: 15px;
+  }
+
+
+  .flipten-start {
+    height: 58px;
+
+    margin-top: 23px;
+
+    border-radius: 15px;
+
+    font-size: 14px;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  .flipten-start span {
+    font-size: 20px;
+  }
+
+
+  .instruction-overlay {
+    padding: 15px;
+  }
+
+
+  .instruction-box {
+    padding:
+      28px
+      20px
+      25px;
+
+    border-width: 4px;
+
+    border-radius: 20px;
+  }
+
+
+  .instruction-box h2 {
+    font-size: 23px;
+  }
+
+
+  .instruction-content {
+    gap: 12px;
+  }
+
+
+  .instruction-content p {
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .flipten-header {
+    grid-template-columns:
+      48px
+      1fr
+      48px;
+
+    padding:
+      11px
+      10px;
+  }
+
+
+  .flipten-title {
+    font-size: 22px;
+
+    letter-spacing: 1px;
+  }
+
+
+  .flipten-back,
+  .flipten-info {
+    width: 43px;
+    height: 43px;
+
+    border-width: 3px;
+
+    box-shadow:
+      0 3px 0 #111;
+  }
+
+
+  .flipten-back img {
+    transform: scale(1.08);
+  }
+
+
+  .flipten-info {
+    font-size: 23px;
+  }
+
+
+  .flipten-setup-content {
+    padding:
+      10px
+      13px
+      35px;
+  }
+
+
+  .flipten-subtitle {
+    font-size: 8px;
+
+    letter-spacing: 1.4px;
+  }
+
+
+  .flipten-setup-content h1 {
+    font-size: 26px;
+  }
+
+
+  .player-input-row {
+    height: 54px;
+  }
+
+
+  .player-color {
+    width: 31px;
+    height: 31px;
+  }
+
+
+  .player-number {
+    width: 27px;
+
+    font-size: 10px;
+  }
+
+
+  .player-input-row input {
+    font-size: 14px;
+  }
+
+
+  .flipten-start {
+    height: 54px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .flipten-back,
+  .flipten-info,
+  .player-counter button,
+  .flipten-start {
+    transition: none;
+  }
+
+}

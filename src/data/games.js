@@ -1,13 +1,13 @@
 const games = [
   {
-    id: "imposter",
-    name: "Imposter",
-    description: "Find the one who doesn't belong.",
-    category: "Party",
+    id: "flipten",
+    name: "FLIPTEN",
+    description: "Draw. Reveal. Complete all ten.",
+    category: "Card",
     minPlayers: 2,
-    maxPlayers: 10,
+    maxPlayers: 6,
     status: "available",
-    path: "/games/imposter",
+    path: "/games/flipten",
   },
 
   {
