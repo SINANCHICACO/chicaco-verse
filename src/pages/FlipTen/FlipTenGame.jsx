@@ -1358,7 +1358,7 @@ function FlipTenGame() {
                                                                 {
                                                                     card.type ===
                                                                     "skip"
-                                                                        ? "↗"
+                                                                        ? "X"
                                                                         : card.number
                                                                 }
 
@@ -1372,7 +1372,7 @@ function FlipTenGame() {
                                                             {
                                                                 card.type ===
                                                                 "skip"
-                                                                    ? "↗"
+                                                                    ? "X"
                                                                     : card.number
                                                             }
 
@@ -1384,7 +1384,7 @@ function FlipTenGame() {
                                                             {
                                                                 card.type ===
                                                                 "skip"
-                                                                    ? "↗"
+                                                                    ? "X"
                                                                     : card.number
                                                             }
 
@@ -1517,7 +1517,7 @@ function FlipTenGame() {
                                     {
                                         popupCard.type ===
                                         "skip"
-                                            ? "↗"
+                                            ? "X"
                                             : popupCard.number
                                     }
 
@@ -1531,7 +1531,7 @@ function FlipTenGame() {
                                         {
                                             popupCard.type ===
                                             "skip"
-                                                ? "↗"
+                                                ? "X"
                                                 : popupCard.number
                                         }
 
@@ -1545,7 +1545,7 @@ function FlipTenGame() {
                                     {
                                         popupCard.type ===
                                         "skip"
-                                            ? "↗"
+                                            ? "X"
                                             : popupCard.number
                                     }
 
