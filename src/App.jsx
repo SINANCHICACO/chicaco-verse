@@ -6,7 +6,8 @@ import FlipTenGame from "./pages/FlipTen/FlipTenGame";
 
 import ShutterIntro from "./components/ShutterIntro/ShutterIntro";
 
-
+import Loopback from "./pages/Loopback/Loopback";
+import LoopbackGame from "./pages/Loopback/LoopbackGame";
 function App() {
 
     const path = window.location.pathname;
@@ -119,6 +120,25 @@ function App() {
         return <FlipTenGame />;
 
     }
+
+
+    /* LOOPBACK SETUP */
+
+    if (path === "/games/loopback") {
+
+        return <Loopback />;
+
+    }
+
+
+    /* LOOPBACK GAME */
+
+    if (path === "/games/loopback/game") {
+
+        return <LoopbackGame />;
+
+    }
+
 
 
     /*

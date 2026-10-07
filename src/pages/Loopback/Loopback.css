@@ -1,0 +1,1255 @@
+/* =========================================================
+   LOOPBACK SETUP
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.loopback-setup {
+    --lavender: #9877e0;
+    --lavender-light: #eee8ff;
+    --lavender-dark: #5c4791;
+    --purple: #7354b7;
+    --black: #17151c;
+    --white: #ffffff;
+
+    width: 100%;
+    min-height: 100dvh;
+
+    background:
+        var(--lavender);
+
+    color:
+        var(--black);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.loopback-header {
+    width: 100%;
+
+    height: 90px;
+
+    padding:
+        15px
+        24px;
+
+    display: grid;
+
+    grid-template-columns:
+        70px
+        1fr
+        70px;
+
+    align-items: center;
+
+    position: relative;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.loopback-back {
+    width: 56px;
+    height: 56px;
+
+    padding: 7px;
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 50%;
+
+    background:
+        var(--lavender-light);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        4px
+        5px
+        0
+        rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.loopback-back img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.loopback-back:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        4px
+        7px
+        0
+        rgba(0, 0, 0, 0.18);
+}
+
+.loopback-back:active {
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        1px
+        2px
+        0
+        rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.loopback-title {
+    justify-self: center;
+
+    font-size:
+        clamp(
+            25px,
+            4vw,
+            42px
+        );
+
+    line-height: 1;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        clamp(
+            2px,
+            0.5vw,
+            6px
+        );
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   INFO BUTTON
+========================================================= */
+
+.loopback-info {
+    justify-self: end;
+
+    width: 56px;
+    height: 56px;
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 50%;
+
+    background:
+        var(--lavender-light);
+
+    color:
+        var(--black);
+
+    font-size: 32px;
+
+    line-height: 1;
+
+    font-weight: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    box-shadow:
+        4px
+        5px
+        0
+        rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+    -webkit-tap-highlight-color:
+        transparent;
+}
+
+.loopback-info:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        4px
+        7px
+        0
+        rgba(0, 0, 0, 0.18);
+}
+
+.loopback-info:active {
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        1px
+        2px
+        0
+        rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.loopback-setup-content {
+    width: 100%;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        20px
+        20px
+        60px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.loopback-subtitle {
+    margin:
+        0
+        0
+        12px;
+
+    font-size:
+        clamp(
+            11px,
+            1.5vw,
+            16px
+        );
+
+    font-weight: 900;
+
+    letter-spacing:
+        clamp(
+            2px,
+            0.4vw,
+            4px
+        );
+
+    color:
+        var(--purple);
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.loopback-setup-content h1 {
+    margin:
+        0
+        0
+        38px;
+
+    font-size:
+        clamp(
+            34px,
+            6vw,
+            65px
+        );
+
+    line-height: 0.95;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        clamp(
+            1px,
+            0.25vw,
+            4px
+        );
+}
+
+
+/* =========================================================
+   PLAYER LIST
+========================================================= */
+
+.loopback-player-list {
+    width:
+        min(
+            100%,
+            540px
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   PLAYER ROW
+========================================================= */
+
+.loopback-player-row {
+    width: 100%;
+
+    min-height: 82px;
+
+    padding:
+        10px
+        12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background:
+        var(--lavender-light);
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 16px;
+
+    box-shadow:
+        5px
+        6px
+        0
+        rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.loopback-player-row:focus-within {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        5px
+        8px
+        0
+        rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   PLAYER COLOR
+========================================================= */
+
+.loopback-player-color {
+    width: 18px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    border:
+        2px solid
+        var(--black);
+}
+
+.loopback-red {
+    background:
+        #ef4949;
+}
+
+.loopback-blue {
+    background:
+        #4285e8;
+}
+
+
+/* =========================================================
+   PLAYER NUMBER
+========================================================= */
+
+.loopback-player-number {
+    width: 52px;
+
+    flex-shrink: 0;
+
+    font-size: 18px;
+
+    font-weight: 1000;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   PLAYER INPUT
+========================================================= */
+
+.loopback-player-row input {
+    width: 100%;
+
+    min-width: 0;
+
+    height: 58px;
+
+    padding:
+        0
+        16px;
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    background:
+        var(--white);
+
+    color:
+        var(--black);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    text-align: left;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.loopback-player-row input::placeholder {
+    color:
+        #77717f;
+
+    opacity: 1;
+}
+
+.loopback-player-row input:focus {
+    border-color:
+        var(--purple);
+
+    box-shadow:
+        0
+        0
+        0
+        3px
+        rgba(
+            115,
+            84,
+            183,
+            0.22
+        );
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+.loopback-start {
+    width:
+        min(
+            100%,
+            540px
+        );
+
+    height: 66px;
+
+    margin-top: 32px;
+
+    padding:
+        0
+        22px;
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 15px;
+
+    background:
+        var(--purple);
+
+    color:
+        white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        clamp(
+            15px,
+            2vw,
+            20px
+        );
+
+    font-weight: 1000;
+
+    letter-spacing:
+        1.5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        5px
+        6px
+        0
+        var(--black);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.loopback-start span {
+    font-size: 26px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.15s ease;
+}
+
+.loopback-start:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        5px
+        8px
+        0
+        var(--black);
+}
+
+.loopback-start:hover span {
+    transform:
+        translateX(5px);
+}
+
+.loopback-start:active {
+    transform:
+        translateY(5px);
+
+    box-shadow:
+        0
+        1px
+        0
+        var(--black);
+}
+
+
+/* =========================================================
+   INSTRUCTIONS OVERLAY
+========================================================= */
+
+.loopback-instruction-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    padding: 20px;
+
+    background:
+        rgba(
+            23,
+            21,
+            28,
+            0.62
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS BOX
+========================================================= */
+
+.loopback-instruction-box {
+    width:
+        min(
+            100%,
+            500px
+        );
+
+    max-height:
+        min(
+            80vh,
+            650px
+        );
+
+    overflow-y: auto;
+
+    position: relative;
+
+    padding:
+        32px
+        28px;
+
+    background:
+        var(--lavender-light);
+
+    border:
+        4px solid
+        var(--black);
+
+    border-radius: 22px;
+
+    box-shadow:
+        7px
+        8px
+        0
+        var(--black);
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+.loopback-instruction-close {
+    position: absolute;
+
+    top: 13px;
+    right: 13px;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    border:
+        3px solid
+        var(--black);
+
+    border-radius: 50%;
+
+    background:
+        var(--white);
+
+    color:
+        var(--black);
+
+    font-size: 26px;
+
+    line-height: 1;
+
+    font-weight: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.loopback-instruction-close:hover {
+    background:
+        #e8defd;
+}
+
+
+/* =========================================================
+   INSTRUCTION TITLE
+========================================================= */
+
+.loopback-instruction-box h2 {
+    margin:
+        0
+        0
+        25px;
+
+    padding-right: 45px;
+
+    font-size:
+        clamp(
+            25px,
+            4vw,
+            34px
+        );
+
+    line-height: 1;
+
+    font-weight: 1000;
+}
+
+
+/* =========================================================
+   INSTRUCTION CONTENT
+========================================================= */
+
+.loopback-instruction-content {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 13px;
+}
+
+.loopback-instruction-content p {
+    margin: 0;
+
+    padding:
+        12px
+        14px;
+
+    background:
+        var(--white);
+
+    border:
+        2px solid
+        rgba(
+            23,
+            21,
+            28,
+            0.7
+        );
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    line-height: 1.45;
+
+    font-weight: 600;
+}
+
+.loopback-instruction-content strong {
+    font-weight: 1000;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .loopback-header {
+        height: 78px;
+
+        padding:
+            12px
+            16px;
+
+        grid-template-columns:
+            58px
+            1fr
+            58px;
+    }
+
+    .loopback-back,
+    .loopback-info {
+        width: 48px;
+        height: 48px;
+    }
+
+    .loopback-info {
+        font-size: 28px;
+    }
+
+    .loopback-setup-content {
+        justify-content: flex-start;
+
+        padding:
+            50px
+            18px
+            40px;
+    }
+
+    .loopback-setup-content h1 {
+        margin-bottom: 30px;
+    }
+
+    .loopback-player-list {
+        gap: 14px;
+    }
+
+    .loopback-player-row {
+        min-height: 74px;
+
+        padding: 8px 10px;
+
+        border-width: 2px;
+
+        border-radius: 13px;
+    }
+
+    .loopback-player-color {
+        width: 14px;
+        height: 52px;
+    }
+
+    .loopback-player-number {
+        width: 45px;
+
+        font-size: 16px;
+    }
+
+    .loopback-player-row input {
+        height: 52px;
+
+        border-width: 2px;
+
+        font-size: 15px;
+    }
+
+    .loopback-start {
+        height: 60px;
+
+        margin-top: 26px;
+
+        border-width: 2px;
+
+        box-shadow:
+            4px
+            5px
+            0
+            var(--black);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .loopback-header {
+        height: 68px;
+
+        padding:
+            9px
+            10px;
+
+        grid-template-columns:
+            46px
+            1fr
+            46px;
+    }
+
+    .loopback-back,
+    .loopback-info {
+        width: 40px;
+        height: 40px;
+
+        border-width: 2px;
+
+        box-shadow:
+            3px
+            4px
+            0
+            rgba(
+                0,
+                0,
+                0,
+                0.18
+            );
+    }
+
+    .loopback-back {
+        padding: 5px;
+    }
+
+    .loopback-info {
+        font-size: 24px;
+    }
+
+    .loopback-title {
+        font-size: 21px;
+
+        letter-spacing: 2px;
+    }
+
+    .loopback-setup-content {
+        padding:
+            38px
+            14px
+            35px;
+    }
+
+    .loopback-subtitle {
+        margin-bottom: 10px;
+
+        font-size: 9px;
+
+        letter-spacing: 2px;
+    }
+
+    .loopback-setup-content h1 {
+        margin-bottom: 27px;
+
+        font-size:
+            clamp(
+                29px,
+                9vw,
+                42px
+            );
+    }
+
+    .loopback-player-list {
+        width: 100%;
+
+        gap: 12px;
+    }
+
+    .loopback-player-row {
+        min-height: 68px;
+
+        padding:
+            7px
+            8px;
+
+        gap: 8px;
+
+        border-width: 2px;
+
+        border-radius: 12px;
+
+        box-shadow:
+            3px
+            4px
+            0
+            rgba(
+                0,
+                0,
+                0,
+                0.18
+            );
+    }
+
+    .loopback-player-color {
+        width: 10px;
+        height: 46px;
+
+        border-width: 1.5px;
+
+        border-radius: 6px;
+    }
+
+    .loopback-player-number {
+        width: 32px;
+
+        font-size: 13px;
+    }
+
+    .loopback-player-row input {
+        height: 46px;
+
+        padding:
+            0
+            11px;
+
+        border-width: 2px;
+
+        border-radius: 9px;
+
+        font-size: 14px;
+    }
+
+    .loopback-start {
+        width: 100%;
+
+        height: 56px;
+
+        margin-top: 22px;
+
+        border-width: 2px;
+
+        border-radius: 11px;
+
+        box-shadow:
+            3px
+            4px
+            0
+            var(--black);
+
+        font-size: 14px;
+
+        gap: 12px;
+    }
+
+    .loopback-start span {
+        font-size: 21px;
+    }
+
+    .loopback-instruction-overlay {
+        padding: 14px;
+    }
+
+    .loopback-instruction-box {
+        max-height: 88vh;
+
+        padding:
+            27px
+            17px
+            20px;
+
+        border-width: 3px;
+
+        border-radius: 17px;
+
+        box-shadow:
+            5px
+            6px
+            0
+            var(--black);
+    }
+
+    .loopback-instruction-close {
+        top: 9px;
+        right: 9px;
+
+        width: 34px;
+        height: 34px;
+
+        border-width: 2px;
+
+        font-size: 22px;
+    }
+
+    .loopback-instruction-box h2 {
+        margin-bottom: 19px;
+
+        font-size: 24px;
+    }
+
+    .loopback-instruction-content {
+        gap: 9px;
+    }
+
+    .loopback-instruction-content p {
+        padding:
+            10px
+            11px;
+
+        border-width: 1.5px;
+
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .loopback-header {
+        grid-template-columns:
+            42px
+            1fr
+            42px;
+    }
+
+    .loopback-back,
+    .loopback-info {
+        width: 36px;
+        height: 36px;
+    }
+
+    .loopback-info {
+        font-size: 22px;
+    }
+
+    .loopback-title {
+        font-size: 18px;
+    }
+
+    .loopback-setup-content {
+        padding-top: 30px;
+    }
+
+    .loopback-subtitle {
+        font-size: 8px;
+    }
+
+    .loopback-setup-content h1 {
+        font-size: 27px;
+
+        margin-bottom: 22px;
+    }
+
+    .loopback-player-row {
+        min-height: 62px;
+    }
+
+    .loopback-player-color {
+        height: 40px;
+    }
+
+    .loopback-player-row input {
+        height: 40px;
+
+        font-size: 13px;
+    }
+
+    .loopback-start {
+        height: 52px;
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONE
+========================================================= */
+
+@media (
+    max-height: 600px
+) and (
+    max-width: 800px
+) {
+
+    .loopback-setup {
+        min-height: 100dvh;
+    }
+
+    .loopback-header {
+        height: 62px;
+    }
+
+    .loopback-setup-content {
+        padding:
+            18px
+            18px
+            30px;
+    }
+
+    .loopback-subtitle {
+        margin-bottom: 7px;
+    }
+
+    .loopback-setup-content h1 {
+        margin-bottom: 18px;
+
+        font-size: 30px;
+    }
+
+    .loopback-player-list {
+        max-width: 500px;
+
+        gap: 9px;
+    }
+
+    .loopback-player-row {
+        min-height: 56px;
+    }
+
+    .loopback-player-color {
+        height: 36px;
+    }
+
+    .loopback-player-row input {
+        height: 38px;
+    }
+
+    .loopback-start {
+        height: 48px;
+
+        margin-top: 15px;
+    }
+}

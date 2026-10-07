@@ -11,14 +11,14 @@ const games = [
   },
 
   {
-    id: "game-02",
-    name: "Coming Soon",
-    description: "Something chaotic is coming.",
+    id: "loopback",
+    name: "LOOPBACK",
+    description: "Draw. Move. Get pushed back. Reach the finish.",
     category: "Party",
     minPlayers: 2,
-    maxPlayers: 6,
-    status: "coming-soon",
-    path: "#",
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/loopback",
   },
 
   {
