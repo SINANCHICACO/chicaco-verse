@@ -563,7 +563,7 @@ function ColorGuess() {
                         className="cg-button cg-done-button"
                         onClick={finishGuess}
                     >
-                        DONE <span>↗</span>
+                        DONE 
                     </button>
                 </section>
             )}
