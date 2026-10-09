@@ -22,14 +22,14 @@ const games = [
   },
 
   {
-    id: "game-03",
-    name: "Coming Soon",
+    id: "ColorGuess",
+    name: "Color Guess",
     description: "A new challenge awaits.",
     category: "Arcade",
-    minPlayers: 1,
-    maxPlayers: 4,
-    status: "coming-soon",
-    path: "#",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/color-guess",
   },
 
   {

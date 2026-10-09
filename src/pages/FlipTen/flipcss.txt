@@ -1,0 +1,3489 @@
+* {
+    box-sizing: border-box;
+}
+
+.flipten-game {
+    position: relative;
+
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+
+    overflow: hidden;
+
+    color: #111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        background-color 0.35s ease;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.flipten-game-header {
+    width: 100%;
+
+    min-height: 155px;
+
+    padding:
+        28px
+        4vw
+        10px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+    align-items: start;
+
+    position: relative;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   EXIT
+========================================================= */
+
+.flipten-exit-wrapper {
+    justify-self: start;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.flipten-exit {
+    position: relative;
+
+    width: 88px;
+    height: 88px;
+
+    /*
+     * TRANSPARENT BACKGROUND
+     */
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow: none;
+
+    touch-action: none;
+
+    z-index: 2;
+
+    padding: 0;
+}
+
+.flipten-exit img {
+    width: 58px;
+    height: 58px;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+    display: block;
+}
+
+.flipten-exit-progress {
+    position: absolute;
+
+    inset: -6px;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #ffffff var(--exit-progress),
+            transparent 0deg
+        );
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    opacity: 0.95;
+}
+
+.flipten-exit-progress::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 6px;
+
+    border-radius: 50%;
+
+    background: transparent;
+}
+
+.flipten-exit-text {
+    margin-top: 8px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.05;
+
+    font-weight: 1000;
+}
+
+
+/* =========================================================
+   PLAYER HEADING
+========================================================= */
+
+.flipten-player-heading {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+.flipten-player-number {
+    font-size:
+        clamp(
+            24px,
+            2.4vw,
+            40px
+        );
+
+    font-weight: 1000;
+
+    line-height: 1;
+}
+
+.flipten-player-name {
+    min-width:
+        clamp(
+            220px,
+            25vw,
+            380px
+        );
+
+    margin-top: 15px;
+
+    padding:
+        12px 28px;
+
+    background: #f8f3e8;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius: 20px;
+
+    box-shadow:
+        5px 6px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
+
+    font-size:
+        clamp(
+            20px,
+            2vw,
+            32px
+        );
+
+    line-height: 1;
+
+    font-weight: 1000;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.flipten-game-info {
+    justify-self: end;
+
+    width: 88px;
+    height: 88px;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius: 50%;
+
+    background: #f8f3e8;
+
+    font-size: 50px;
+
+    font-weight: 1000;
+
+    cursor: pointer;
+
+    box-shadow:
+        5px 6px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   BOARD
+========================================================= */
+
+.flipten-board {
+    width: 100%;
+
+    padding:
+        10px
+        4vw
+        0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    flex: 1;
+
+    min-height: 0;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   CARD GRID
+========================================================= */
+
+.flipten-card-grid {
+    width:
+        min(
+            76vw,
+            850px
+        );
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap:
+        clamp(
+            12px,
+            1.5vw,
+            25px
+        );
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   PLAYER CARD
+========================================================= */
+
+.flipten-player-card {
+    position: relative;
+
+    aspect-ratio:
+        0.68;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius:
+        clamp(
+            12px,
+            1.2vw,
+            22px
+        );
+
+    background: #244D83;
+
+    box-shadow:
+        5px 7px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+    overflow: visible;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+
+/* =========================================================
+   INNER BORDER
+========================================================= */
+
+.flipten-player-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset:
+        clamp(
+            5px,
+            0.7vw,
+            9px
+        );
+
+    border:
+        3px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.85
+        );
+
+    border-radius:
+        clamp(
+            7px,
+            0.7vw,
+            15px
+        );
+
+    pointer-events: none;
+
+    z-index: 4;
+}
+
+
+/* =========================================================
+   CARD INNER
+========================================================= */
+
+.card-inner {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   FACE DOWN
+========================================================= */
+
+.card-circle {
+    width:
+        clamp(
+            28px,
+            4vw,
+            60px
+        );
+
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            110,
+            163,
+            228,
+            0.65
+        );
+}
+
+
+/* =========================================================
+   SOLVED CARD
+========================================================= */
+
+.flipten-player-card.solved {
+
+    background:
+        var(--card-color);
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   UNO WHITE OVAL
+========================================================= */
+
+.flipten-player-card.solved::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 72%;
+    height: 76%;
+
+    left: 14%;
+    top: 12%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
+
+    transform:
+        rotate(-20deg);
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.uno-card-symbol {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transform:
+        rotate(-20deg);
+}
+
+.uno-card-symbol span {
+
+    font-size:
+        clamp(
+            28px,
+            4vw,
+            62px
+        );
+
+    font-weight: 1000;
+
+    color: #111;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   CORNERS
+========================================================= */
+
+.uno-card-corner {
+
+    position: absolute;
+
+    z-index: 6;
+
+    font-size:
+        clamp(
+            9px,
+            1vw,
+            17px
+        );
+
+    font-weight: 1000;
+
+    color: #111;
+
+    line-height: 1;
+}
+
+.uno-card-corner.top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.uno-card-corner.bottom-right {
+    right: 10px;
+    bottom: 10px;
+
+    transform:
+        rotate(180deg);
+}
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+.flipten-player-card.targeting {
+
+    transform:
+        translateY(-8px)
+        scale(1.04);
+
+    box-shadow:
+
+        0 0 0 5px
+        rgba(
+            255,
+            255,
+            255,
+            0.9
+        ),
+
+        7px 11px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+    animation:
+        targetPulse
+        0.75s
+        ease-in-out
+        infinite alternate;
+}
+
+.flipten-player-card.targeting:not(.solved) {
+    background:
+        #244D83;
+}
+
+
+/* =========================================================
+   PLACEMENT
+========================================================= */
+
+.flipten-player-card.placing-card {
+
+    animation:
+        cardPlace
+        0.65s
+        cubic-bezier(
+            0.2,
+            0.9,
+            0.25,
+            1
+        );
+}
+
+
+/* =========================================================
+   DRAW DECK
+========================================================= */
+
+.flipten-draw-pile {
+
+    position: relative;
+
+    width:
+        clamp(
+            105px,
+            11vw,
+            170px
+        );
+
+    aspect-ratio:
+        0.72;
+
+    margin-top:
+        clamp(
+            45px,
+            6vh,
+            80px
+        );
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    filter:
+        drop-shadow(
+            7px 10px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.18
+            )
+        );
+}
+
+.draw-layer {
+
+    position: absolute;
+
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius: 18px;
+
+    background:
+        #f8f3e8;
+}
+
+.layer-1 {
+    bottom: -16px;
+}
+
+.layer-2 {
+    bottom: -10px;
+}
+
+.layer-3 {
+    bottom: -5px;
+}
+
+.draw-top-card {
+
+    position: absolute;
+
+    inset: 0;
+
+    border:
+        5px solid
+        #111;
+
+    border-radius: 20px;
+
+    background:
+        #244D83;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.draw-top-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 9px;
+
+    border:
+        3px solid
+        #dbe7f5;
+
+    border-radius: 13px;
+}
+
+.draw-card-circle {
+
+    width:
+        clamp(
+            30px,
+            4vw,
+            60px
+        );
+
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            104,
+            159,
+            226,
+            0.65
+        );
+}
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+.flipten-shuffle-button {
+
+    position: absolute;
+
+    right:
+        3vw;
+
+    bottom:
+        3.5vh;
+
+    width:
+        clamp(
+            190px,
+            19vw,
+            300px
+        );
+
+    height:
+        clamp(
+            60px,
+            6vw,
+            90px
+        );
+
+    border:
+        4px solid
+        #111;
+
+    border-radius:
+        20px;
+
+    background:
+        #f8f3e8;
+
+    box-shadow:
+        6px 7px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    font-size:
+        clamp(
+            17px,
+            1.5vw,
+            26px
+        );
+
+    font-weight: 1000;
+
+    z-index: 10;
+}
+
+.flipten-shuffle-button:disabled {
+
+    cursor: default;
+
+    opacity: 0.55;
+}
+
+.shuffle-icon {
+
+    font-size:
+        clamp(
+            28px,
+            3vw,
+            48px
+        );
+
+    font-weight: 1000;
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.flipten-popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
+}
+
+.flipten-popup-card {
+
+    width:
+        clamp(
+            250px,
+            25vw,
+            350px
+        );
+
+    min-height:
+        clamp(
+            360px,
+            38vw,
+            500px
+        );
+
+    padding:
+        25px;
+
+    background:
+        #f8f3e8;
+
+    border:
+        5px solid
+        #111;
+
+    border-radius:
+        26px;
+
+    box-shadow:
+        8px 10px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    animation:
+        popupCardIn
+        0.28s
+        cubic-bezier(
+            0.2,
+            0.8,
+            0.25,
+            1
+        );
+}
+
+.flipten-popup-label {
+
+    font-size:
+        clamp(
+            11px,
+            1.2vw,
+            17px
+        );
+
+    font-weight: 1000;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   POPUP UNO CARD
+========================================================= */
+
+.flipten-popup-uno-card {
+
+    position: relative;
+
+    width:
+        clamp(
+            125px,
+            13vw,
+            180px
+        );
+
+    aspect-ratio:
+        0.67;
+
+    background:
+        var(--popup-color);
+
+    border:
+        4px solid
+        #111;
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        5px 7px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.22
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    animation:
+        popupUnoCard
+        0.35s
+        ease-out;
+}
+
+.popup-oval {
+
+    width: 75%;
+    height: 78%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
+
+    transform:
+        rotate(-20deg);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-oval span {
+
+    transform:
+        rotate(20deg);
+
+    color: #111;
+
+    font-size:
+        clamp(
+            58px,
+            6vw,
+            90px
+        );
+
+    font-weight: 1000;
+
+    line-height: 1;
+}
+
+.popup-corner {
+
+    position: absolute;
+
+    z-index: 3;
+
+    color: #fff;
+
+    font-size:
+        clamp(
+            14px,
+            1.4vw,
+            22px
+        );
+
+    font-weight: 1000;
+}
+
+.popup-corner.top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.popup-corner.bottom-right {
+    right: 10px;
+    bottom: 10px;
+
+    transform:
+        rotate(180deg);
+}
+
+
+/* =========================================================
+   PLACE BUTTON
+========================================================= */
+
+.flipten-popup-place {
+
+    margin-top: 22px;
+
+    min-width:
+        clamp(
+            160px,
+            16vw,
+            230px
+        );
+
+    height:
+        clamp(
+            52px,
+            5vw,
+            70px
+        );
+
+    padding:
+        0 20px;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius:
+        15px;
+
+    background:
+        #111;
+
+    color:
+        #fff;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    font-size:
+        clamp(
+            15px,
+            1.5vw,
+            22px
+        );
+
+    font-weight: 1000;
+
+    cursor: pointer;
+
+    box-shadow:
+        4px 5px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+}
+
+.flipten-popup-place span {
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background:
+        #f8f3e8;
+
+    color: #111;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   WINNER OVERLAY
+========================================================= */
+
+.flipten-winner-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    overflow: hidden;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.72
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    animation:
+        winnerBackground
+        0.5s
+        ease-out;
+}
+
+
+/* =========================================================
+   WINNER BOX
+========================================================= */
+
+.flipten-winner-box {
+
+    position: relative;
+
+    width:
+        min(
+            90vw,
+            580px
+        );
+
+    background:
+        #f8f3e8;
+
+    border:
+        6px solid
+        #111;
+
+    border-radius:
+        32px;
+
+    box-shadow:
+        10px 13px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.3
+        );
+
+    padding:
+        38px 35px 35px;
+
+    text-align: center;
+
+    z-index: 20;
+
+    animation:
+        winnerBoxEnter
+        0.85s
+        cubic-bezier(
+            0.17,
+            0.89,
+            0.32,
+            1.28
+        );
+}
+
+
+/* =========================================================
+   TROPHY
+========================================================= */
+
+.winner-trophy {
+
+    font-size:
+        clamp(
+            55px,
+            7vw,
+            90px
+        );
+
+    line-height: 1;
+
+    animation:
+        trophyBounce
+        1s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   WINNER TEXT
+========================================================= */
+
+.winner-small {
+
+    margin-top: 8px;
+
+    font-size:
+        clamp(
+            16px,
+            1.7vw,
+            25px
+        );
+
+    font-weight: 1000;
+
+    letter-spacing:
+        5px;
+
+    animation:
+        winnerTextIn
+        0.7s
+        0.25s
+        both;
+}
+
+.winner-name {
+
+    margin-top: 10px;
+
+    font-size:
+        clamp(
+            40px,
+            6vw,
+            78px
+        );
+
+    font-weight: 1000;
+
+    text-transform:
+        uppercase;
+
+    line-height: 1;
+
+    overflow-wrap:
+        anywhere;
+
+    animation:
+        winnerNameIn
+        0.8s
+        0.35s
+        both;
+}
+
+.winner-message {
+
+    margin-top: 15px;
+
+    font-size:
+        clamp(
+            15px,
+            1.6vw,
+            23px
+        );
+
+    font-weight: 1000;
+
+    animation:
+        winnerTextIn
+        0.7s
+        0.55s
+        both;
+}
+
+.winner-stars {
+
+    margin-top: 10px;
+
+    font-size:
+        clamp(
+            20px,
+            2.5vw,
+            35px
+        );
+
+    letter-spacing:
+        5px;
+
+    animation:
+        starsPop
+        0.7s
+        0.7s
+        both;
+}
+
+
+/* =========================================================
+   PLAY AGAIN
+========================================================= */
+
+.flipten-winner-box button {
+
+    margin-top: 22px;
+
+    padding:
+        15px 32px;
+
+    border:
+        4px solid
+        #111;
+
+    border-radius:
+        14px;
+
+    background:
+        #111;
+
+    color:
+        #fff;
+
+    font-size:
+        clamp(
+            14px,
+            1.4vw,
+            20px
+        );
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        4px 5px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+
+    animation:
+        winnerTextIn
+        0.7s
+        0.8s
+        both;
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+.winner-confetti {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.confetti-piece {
+
+    position: absolute;
+
+    top: -30px;
+
+    border-radius:
+        2px;
+
+    animation:
+        confettiFall
+        linear
+        forwards;
+
+    opacity: 0;
+
+}
+
+
+/* =========================================================
+   POPPERS
+========================================================= */
+
+.winner-popper {
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    z-index: 15;
+
+    pointer-events: none;
+}
+
+.left-popper {
+    left: 3%;
+    bottom: 12%;
+    transform: rotate(25deg);
+}
+
+.right-popper {
+    right: 3%;
+    bottom: 12%;
+    transform: rotate(-25deg);
+}
+
+.winner-popper::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+    height: 42px;
+
+    left: 25px;
+    top: 60px;
+
+    background:
+        #f8f3e8;
+
+    border:
+        5px solid
+        #111;
+
+    border-radius:
+        8px;
+
+    transform:
+        rotate(-15deg);
+
+    box-shadow:
+        5px 6px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+}
+
+.right-popper::before {
+
+    transform:
+        rotate(15deg);
+}
+
+.winner-popper span {
+
+    position: absolute;
+
+    width: 13px;
+    height: 23px;
+
+    border-radius:
+        2px;
+
+    left: 58px;
+    top: 58px;
+
+    opacity: 0;
+
+    animation:
+        popperBurst
+        1.2s
+        ease-out
+        infinite;
+}
+
+.winner-popper span:nth-child(1) {
+    background: #EF4444;
+    animation-delay: 0s;
+}
+
+.winner-popper span:nth-child(2) {
+    background: #3B82E8;
+    animation-delay: 0.1s;
+}
+
+.winner-popper span:nth-child(3) {
+    background: #E8C43A;
+    animation-delay: 0.2s;
+}
+
+.winner-popper span:nth-child(4) {
+    background: #4CAF68;
+    animation-delay: 0.3s;
+}
+
+.winner-popper span:nth-child(5) {
+    background: #A66BE0;
+    animation-delay: 0.4s;
+}
+
+.winner-popper span:nth-child(6) {
+    background: #ED8A45;
+    animation-delay: 0.5s;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS
+========================================================= */
+
+.flipten-instruction-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 300;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.5
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+}
+
+.flipten-instruction-box {
+
+    position: relative;
+
+    width:
+        min(
+            90vw,
+            520px
+        );
+
+    max-height:
+        85vh;
+
+    overflow-y:
+        auto;
+
+    padding:
+        40px 30px;
+
+    background:
+        #f8f3e8;
+
+    border:
+        5px solid
+        #111;
+
+    border-radius:
+        25px;
+
+    box-shadow:
+        8px 10px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+}
+
+.flipten-instruction-box h2 {
+
+    margin:
+        0 0 25px;
+
+    font-size:
+        clamp(
+            25px,
+            4vw,
+            40px
+        );
+
+    font-weight:
+        1000;
+}
+
+.instruction-close {
+
+    position:
+        absolute;
+
+    right:
+        15px;
+
+    top:
+        15px;
+
+    width:
+        45px;
+
+    height:
+        45px;
+
+    border:
+        3px solid
+        #111;
+
+    border-radius:
+        12px;
+
+    background:
+        #fff;
+
+    font-size:
+        28px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+}
+
+.instruction-content p {
+
+    margin:
+        0 0 15px;
+
+    font-size:
+        clamp(
+            15px,
+            1.6vw,
+            20px
+        );
+
+    line-height:
+        1.45;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes targetPulse {
+
+    from {
+        transform:
+            translateY(-4px)
+            scale(1.02);
+    }
+
+    to {
+        transform:
+            translateY(-10px)
+            scale(1.05);
+    }
+}
+
+
+@keyframes cardPlace {
+
+    0% {
+        transform:
+            translateY(-8px)
+            scale(1.04)
+            rotateY(0deg);
+    }
+
+    45% {
+        transform:
+            translateY(0)
+            scale(1)
+            rotateY(90deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scale(1)
+            rotateY(0deg);
+    }
+}
+
+
+@keyframes popupCardIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.65)
+            translateY(35px)
+            rotate(-4deg);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0)
+            rotate(0);
+    }
+}
+
+
+@keyframes popupUnoCard {
+
+    from {
+        transform:
+            scale(0.65)
+            rotate(-8deg);
+
+        opacity: 0;
+    }
+
+    to {
+        transform:
+            scale(1)
+            rotate(0);
+
+        opacity: 1;
+    }
+}
+
+
+@keyframes deckShuffle {
+
+    0% {
+        transform:
+            translateX(0)
+            rotate(0);
+    }
+
+    20% {
+        transform:
+            translateX(-30px)
+            rotate(-8deg);
+    }
+
+    40% {
+        transform:
+            translateX(30px)
+            rotate(8deg);
+    }
+
+    60% {
+        transform:
+            translateX(-20px)
+            rotate(-6deg);
+    }
+
+    80% {
+        transform:
+            translateX(15px)
+            rotate(4deg);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            rotate(0);
+    }
+}
+
+
+.deck-is-shuffling .flipten-draw-pile {
+
+    animation:
+        deckShuffle
+        0.75s
+        ease-in-out;
+}
+
+
+/* =========================================================
+   WINNER ANIMATIONS
+========================================================= */
+
+@keyframes winnerBackground {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes winnerBoxEnter {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(0.25)
+            translateY(80px)
+            rotate(-8deg);
+    }
+
+    60% {
+
+        transform:
+            scale(1.08)
+            translateY(-10px)
+            rotate(2deg);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0)
+            rotate(0);
+    }
+}
+
+
+@keyframes trophyBounce {
+
+    from {
+
+        transform:
+            translateY(0)
+            rotate(-5deg)
+            scale(1);
+    }
+
+    to {
+
+        transform:
+            translateY(-12px)
+            rotate(5deg)
+            scale(1.08);
+    }
+}
+
+
+@keyframes winnerNameIn {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(0.4)
+            rotate(-8deg);
+    }
+
+    65% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.15)
+            rotate(2deg);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+
+@keyframes winnerTextIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes starsPop {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(0);
+    }
+
+    70% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.3);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   CONFETTI FALL
+========================================================= */
+
+@keyframes confettiFall {
+
+    0% {
+
+        opacity: 0;
+
+        top: -30px;
+
+        transform:
+            translateX(0)
+            rotate(0deg);
+    }
+
+    10% {
+
+        opacity: 1;
+    }
+
+    100% {
+
+        opacity: 1;
+
+        top: 110%;
+
+        transform:
+            translateX(
+                calc(
+                    (var(--random-x, 1) - 0.5)
+                    * 250px
+                )
+            )
+            rotate(900deg);
+    }
+}
+
+
+/* =========================================================
+   POPPER BURST
+========================================================= */
+
+@keyframes popperBurst {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(0, 0)
+            rotate(0deg)
+            scale(0);
+    }
+
+    15% {
+
+        opacity: 1;
+
+        transform:
+            translate(0, 0)
+            rotate(0deg)
+            scale(1);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translate(
+                calc(
+                    (var(--burst-x, 1) - 0.5)
+                    * 300px
+                ),
+                -250px
+            )
+            rotate(540deg)
+            scale(0.8);
+    }
+}
+
+
+/* =========================================================
+   LAPTOP / DESKTOP RESPONSIVE
+========================================================= */
+
+@media (min-width: 801px) {
+
+    .flipten-game {
+        min-height: 100dvh;
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+
+    /* ================================
+       HEADER
+    ================================ */
+
+    .flipten-game-header {
+
+        min-height: 105px;
+
+        height: 105px;
+
+        padding:
+            16px
+            3vw
+            5px;
+
+    }
+
+
+    /* ================================
+       EXIT BUTTON
+    ================================ */
+
+    .flipten-exit {
+
+        width: 64px;
+        height: 64px;
+
+    }
+
+
+    .flipten-exit img {
+
+        width: 43px;
+        height: 43px;
+
+    }
+
+
+    .flipten-exit-text {
+
+        margin-top: 5px;
+
+        font-size: 10px;
+
+        line-height: 1;
+
+    }
+
+
+    /* ================================
+       INFO BUTTON
+    ================================ */
+
+    .flipten-game-info {
+
+        width: 64px;
+        height: 64px;
+
+        border-width: 3px;
+
+        font-size: 38px;
+
+        box-shadow:
+            4px 5px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.18
+            );
+
+    }
+
+
+    /* ================================
+       PLAYER HEADING
+    ================================ */
+
+    .flipten-player-number {
+
+        font-size: 28px;
+
+    }
+
+
+    .flipten-player-name {
+
+        min-width: 210px;
+
+        max-width: 300px;
+
+        margin-top: 7px;
+
+        padding:
+            8px
+            18px;
+
+        border-width: 3px;
+
+        border-radius: 14px;
+
+        font-size: 20px;
+
+        box-shadow:
+            4px 5px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.18
+            );
+
+    }
+
+
+    /* ================================
+       BOARD
+    ================================ */
+
+    .flipten-board {
+
+        padding:
+            5px
+            3vw
+            0;
+
+        justify-content:
+            flex-start;
+
+    }
+
+
+    /* ================================
+       PLAYER CARD GRID
+    ================================ */
+
+    .flipten-card-grid {
+
+        width:
+            min(
+                58vw,
+                680px
+            );
+
+        max-width: 680px;
+
+        gap: 10px;
+
+    }
+
+
+    /* ================================
+       PLAYER CARDS
+    ================================ */
+
+    .flipten-player-card {
+
+        border-width: 3px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            4px 5px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.25
+            );
+
+    }
+
+
+    .flipten-player-card::before {
+
+        border-width: 2px;
+
+    }
+
+
+    /* ================================
+       CARD NUMBER
+    ================================ */
+
+    .uno-card-symbol span {
+
+        font-size:
+            clamp(
+                28px,
+                3vw,
+                48px
+            );
+
+    }
+
+
+    .uno-card-corner {
+
+        font-size: 10px;
+
+    }
+
+
+    .uno-card-corner.top-left {
+
+        top: 8px;
+
+        left: 8px;
+
+    }
+
+
+    .uno-card-corner.bottom-right {
+
+        right: 8px;
+
+        bottom: 8px;
+
+    }
+
+
+    /* ================================
+       DRAW DECK
+    ================================ */
+
+    .flipten-draw-pile {
+
+        width: 82px;
+
+        margin-top: 24px;
+
+    }
+
+
+    .draw-layer {
+
+        border-width: 3px;
+
+        border-radius: 14px;
+
+    }
+
+
+    .draw-top-card {
+
+        border-width: 3px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .draw-top-card::before {
+
+        inset: 7px;
+
+        border-width: 2px;
+
+        border-radius: 9px;
+
+    }
+
+
+    .draw-card-circle {
+
+        width: 28px;
+
+    }
+
+
+    /* ================================
+       SHUFFLE
+    ================================ */
+
+    .flipten-shuffle-button {
+
+        width: 170px;
+
+        height: 52px;
+
+        right: 22px;
+
+        bottom: 18px;
+
+        border-width: 3px;
+
+        border-radius: 14px;
+
+        gap: 9px;
+
+        font-size: 15px;
+
+    }
+
+
+    .shuffle-icon {
+
+        font-size: 25px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SHORT LAPTOP
+   Example:
+   1280 × 720
+   1366 × 768
+========================================================= */
+
+@media (
+    min-width: 801px
+) and (
+    max-height: 800px
+) {
+
+    .flipten-game-header {
+
+        min-height: 88px;
+
+        height: 88px;
+
+        padding:
+            10px
+            2.5vw
+            3px;
+
+    }
+
+
+    /* ================================
+       HEADER BUTTONS
+    ================================ */
+
+    .flipten-exit {
+
+        width: 56px;
+        height: 56px;
+
+    }
+
+
+    .flipten-exit img {
+
+        width: 38px;
+        height: 38px;
+
+    }
+
+
+    .flipten-exit-text {
+
+        margin-top: 3px;
+
+        font-size: 8px;
+
+    }
+
+
+    .flipten-game-info {
+
+        width: 56px;
+        height: 56px;
+
+        font-size: 32px;
+
+    }
+
+
+    /* ================================
+       PLAYER HEADING
+    ================================ */
+
+    .flipten-player-number {
+
+        font-size: 23px;
+
+    }
+
+
+    .flipten-player-name {
+
+        min-width: 175px;
+
+        max-width: 240px;
+
+        margin-top: 5px;
+
+        padding:
+            7px
+            15px;
+
+        border-width: 3px;
+
+        border-radius: 12px;
+
+        font-size: 17px;
+
+    }
+
+
+    /* ================================
+       BOARD
+    ================================ */
+
+    .flipten-board {
+
+        padding:
+            2px
+            2vw
+            0;
+
+    }
+
+
+    /* ================================
+       CARD GRID
+    ================================ */
+
+    .flipten-card-grid {
+
+        width:
+            min(
+                48vw,
+                560px
+            );
+
+        max-width: 560px;
+
+        gap: 8px;
+
+    }
+
+
+    /* ================================
+       PLAYER CARDS
+    ================================ */
+
+    .flipten-player-card {
+
+        border-width: 3px;
+
+        border-radius: 11px;
+
+        box-shadow:
+            3px 4px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.25
+            );
+
+    }
+
+
+    .flipten-player-card::before {
+
+        inset: 4px;
+
+        border-width: 2px;
+
+        border-radius: 7px;
+
+    }
+
+
+    .card-circle {
+
+        width: 25px;
+
+    }
+
+
+    .uno-card-symbol span {
+
+        font-size: 30px;
+
+    }
+
+
+    .uno-card-corner {
+
+        font-size: 8px;
+
+    }
+
+
+    .uno-card-corner.top-left {
+
+        top: 6px;
+
+        left: 6px;
+
+    }
+
+
+    .uno-card-corner.bottom-right {
+
+        right: 6px;
+
+        bottom: 6px;
+
+    }
+
+
+    /* ================================
+       DRAW PILE
+    ================================ */
+
+    .flipten-draw-pile {
+
+        width: 68px;
+
+        margin-top: 17px;
+
+    }
+
+
+    .draw-layer {
+
+        border-width: 3px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .draw-top-card {
+
+        border-width: 3px;
+
+        border-radius: 12px;
+
+    }
+
+
+    .draw-top-card::before {
+
+        inset: 5px;
+
+        border-width: 2px;
+
+        border-radius: 7px;
+
+    }
+
+
+    .draw-card-circle {
+
+        width: 23px;
+
+    }
+
+
+    /* ================================
+       SHUFFLE
+    ================================ */
+
+    .flipten-shuffle-button {
+
+        width: 145px;
+
+        height: 45px;
+
+        right: 16px;
+
+        bottom: 12px;
+
+        border-width: 3px;
+
+        border-radius: 11px;
+
+        gap: 7px;
+
+        font-size: 12px;
+
+    }
+
+
+    .shuffle-icon {
+
+        font-size: 21px;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SHORT LAPTOP
+   Example:
+   1280 × 600
+   1366 × 650
+========================================================= */
+
+@media (
+    min-width: 801px
+) and (
+    max-height: 680px
+) {
+
+    .flipten-game-header {
+
+        min-height: 76px;
+
+        height: 76px;
+
+        padding:
+            7px
+            2vw
+            2px;
+
+    }
+
+
+    .flipten-exit {
+
+        width: 48px;
+        height: 48px;
+
+    }
+
+
+    .flipten-exit img {
+
+        width: 32px;
+        height: 32px;
+
+    }
+
+
+    .flipten-exit-text {
+
+        font-size: 7px;
+
+        margin-top: 2px;
+
+    }
+
+
+    .flipten-game-info {
+
+        width: 48px;
+        height: 48px;
+
+        font-size: 27px;
+
+    }
+
+
+    .flipten-player-number {
+
+        font-size: 19px;
+
+    }
+
+
+    .flipten-player-name {
+
+        min-width: 150px;
+
+        margin-top: 3px;
+
+        padding:
+            5px
+            12px;
+
+        border-radius: 10px;
+
+        font-size: 15px;
+
+    }
+
+
+    .flipten-card-grid {
+
+        width:
+            min(
+                43vw,
+                500px
+            );
+
+        max-width: 500px;
+
+        gap: 6px;
+
+    }
+
+
+    .flipten-player-card {
+
+        border-width: 2px;
+
+        border-radius: 9px;
+
+        box-shadow:
+            3px 4px 0
+            rgba(
+                0,
+                0,
+                0,
+                0.25
+            );
+
+    }
+
+
+    .flipten-player-card::before {
+
+        inset: 3px;
+
+        border-width: 2px;
+
+        border-radius: 6px;
+
+    }
+
+
+    .card-circle {
+
+        width: 20px;
+
+    }
+
+
+    .uno-card-symbol span {
+
+        font-size: 26px;
+
+    }
+
+
+    .uno-card-corner {
+
+        font-size: 7px;
+
+    }
+
+
+    .uno-card-corner.top-left {
+
+        top: 5px;
+
+        left: 5px;
+
+    }
+
+
+    .uno-card-corner.bottom-right {
+
+        right: 5px;
+
+        bottom: 5px;
+
+    }
+
+
+    .flipten-draw-pile {
+
+        width: 58px;
+
+        margin-top: 12px;
+
+    }
+
+
+    .draw-layer {
+
+        border-width: 2px;
+
+        border-radius: 9px;
+
+    }
+
+
+    .draw-top-card {
+
+        border-width: 2px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .draw-top-card::before {
+
+        inset: 4px;
+
+        border-width: 1px;
+
+        border-radius: 6px;
+
+    }
+
+
+    .draw-card-circle {
+
+        width: 19px;
+
+    }
+
+
+    .flipten-shuffle-button {
+
+        width: 125px;
+
+        height: 39px;
+
+        right: 12px;
+
+        bottom: 9px;
+
+        border-width: 2px;
+
+        border-radius: 9px;
+
+        font-size: 10px;
+
+        gap: 5px;
+
+    }
+
+
+    .shuffle-icon {
+
+        font-size: 18px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .flipten-game-header {
+
+        min-height: 125px;
+
+        padding:
+            18px 20px 8px;
+    }
+
+
+    .flipten-exit,
+    .flipten-game-info {
+
+        width: 65px;
+
+        height: 65px;
+    }
+
+
+    .flipten-exit img {
+
+        width: 42px;
+
+        height: 42px;
+    }
+
+
+    .flipten-game-info {
+
+        font-size: 38px;
+    }
+
+
+    .flipten-exit-text {
+
+        font-size: 10px;
+    }
+
+
+    .flipten-player-name {
+
+        min-width: 170px;
+
+        padding:
+            10px 16px;
+
+        font-size: 19px;
+    }
+
+
+    .flipten-card-grid {
+
+        width: 92vw;
+
+        gap: 9px;
+    }
+
+
+    .flipten-draw-pile {
+
+        width: 100px;
+
+        margin-top: 45px;
+    }
+
+
+    .flipten-shuffle-button {
+
+        width: 170px;
+
+        height: 55px;
+
+        right: 15px;
+
+        bottom: 18px;
+
+        font-size: 15px;
+    }
+
+
+    .flipten-popup-card {
+
+        width: 225px;
+
+        min-height: 345px;
+    }
+
+
+    .flipten-popup-uno-card {
+
+        width: 125px;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .flipten-game-header {
+
+        min-height: 110px;
+
+        padding:
+            12px 10px 5px;
+    }
+
+
+    .flipten-exit {
+
+        width: 54px;
+
+        height: 54px;
+    }
+
+
+    .flipten-exit img {
+
+        width: 31px;
+
+        height: 31px;
+    }
+
+
+    .flipten-exit-text {
+
+        font-size: 8px;
+
+        margin-top: 4px;
+    }
+
+
+    .flipten-player-number {
+
+        font-size: 17px;
+    }
+
+
+    .flipten-player-name {
+
+        min-width: 120px;
+
+        max-width: 150px;
+
+        margin-top: 8px;
+
+        padding:
+            8px 10px;
+
+        border-width: 3px;
+
+        border-radius: 12px;
+
+        font-size: 15px;
+    }
+
+
+    .flipten-game-info {
+
+        width: 54px;
+
+        height: 54px;
+
+        border-width: 3px;
+
+        font-size: 31px;
+    }
+
+
+    .flipten-board {
+
+        padding:
+            8px 10px 0;
+    }
+
+
+    .flipten-card-grid {
+
+        width: 94vw;
+
+        gap: 6px;
+    }
+
+
+    .flipten-player-card {
+
+        border-width: 3px;
+
+        border-radius: 10px;
+    }
+
+
+    .flipten-player-card::before {
+
+        inset: 4px;
+
+        border-width: 2px;
+
+        border-radius: 6px;
+    }
+
+
+    .card-circle {
+
+        width: 27px;
+    }
+
+
+    .uno-card-symbol span {
+
+        font-size: 29px;
+    }
+
+
+    .uno-card-corner {
+
+        font-size: 8px;
+    }
+
+
+    .uno-card-corner.top-left {
+
+        top: 7px;
+
+        left: 7px;
+    }
+
+
+    .uno-card-corner.bottom-right {
+
+        right: 7px;
+
+        bottom: 7px;
+    }
+
+
+    .flipten-draw-pile {
+
+        width: 82px;
+
+        margin-top: 28px;
+    }
+
+
+    .draw-layer {
+
+        border-width: 3px;
+
+        border-radius: 13px;
+    }
+
+
+    .draw-top-card {
+
+        border-width: 3px;
+
+        border-radius: 13px;
+    }
+
+
+    .draw-top-card::before {
+
+        inset: 6px;
+
+        border-width: 2px;
+
+        border-radius: 8px;
+    }
+
+
+    .draw-card-circle {
+
+        width: 28px;
+    }
+
+
+    .flipten-shuffle-button {
+
+        right: 10px;
+
+        bottom: 12px;
+
+        width: 135px;
+
+        height: 45px;
+
+        border-width: 3px;
+
+        border-radius: 12px;
+
+        gap: 7px;
+
+        font-size: 12px;
+    }
+
+
+    .shuffle-icon {
+
+        font-size: 22px;
+    }
+
+
+    .flipten-popup-card {
+
+        width: 195px;
+
+        min-height: 315px;
+
+        padding:
+            18px;
+
+        border-width: 4px;
+
+        border-radius: 20px;
+    }
+
+
+    .flipten-popup-label {
+
+        font-size: 9px;
+
+        letter-spacing: 2px;
+
+        margin-bottom: 9px;
+    }
+
+
+    .flipten-popup-uno-card {
+
+        width: 112px;
+
+        border-width: 3px;
+
+        border-radius: 15px;
+    }
+
+
+    .popup-oval span {
+
+        font-size: 58px;
+    }
+
+
+    .popup-corner {
+
+        font-size: 12px;
+    }
+
+
+    .flipten-popup-place {
+
+        margin-top: 17px;
+
+        min-width: 135px;
+
+        height: 44px;
+
+        border-width: 3px;
+
+        border-radius: 11px;
+
+        font-size: 12px;
+    }
+
+
+    .flipten-popup-place span {
+
+        width: 25px;
+
+        height: 25px;
+
+        font-size: 13px;
+    }
+
+
+    /* WINNER */
+
+    .flipten-winner-box {
+
+        width: 88vw;
+
+        padding:
+            28px 18px 24px;
+
+        border-width: 4px;
+
+        border-radius: 24px;
+    }
+
+
+    .winner-name {
+
+        font-size:
+            clamp(
+                35px,
+                12vw,
+                60px
+            );
+    }
+
+
+    .winner-trophy {
+
+        font-size: 55px;
+    }
+
+
+    .winner-popper {
+
+        transform:
+            scale(0.65);
+    }
+
+
+    .left-popper {
+
+        left: -25px;
+
+        bottom: 8%;
+    }
+
+
+    .right-popper {
+
+        right: -25px;
+
+        bottom: 8%;
+    }
+
+}
+
+
+/* =========================================================
+   SHORT PHONE
+========================================================= */
+
+@media (
+    max-width: 500px
+) and (
+    max-height: 700px
+) {
+
+    .flipten-game-header {
+
+        min-height: 95px;
+    }
+
+
+    .flipten-exit,
+    .flipten-game-info {
+
+        width: 48px;
+
+        height: 48px;
+    }
+
+
+    .flipten-exit img {
+
+        width: 27px;
+
+        height: 27px;
+    }
+
+
+    .flipten-game-info {
+
+        font-size: 27px;
+    }
+
+
+    .flipten-player-number {
+
+        font-size: 15px;
+    }
+
+
+    .flipten-player-name {
+
+        font-size: 13px;
+
+        min-width: 105px;
+
+        padding:
+            6px 8px;
+    }
+
+
+    .flipten-card-grid {
+
+        gap: 5px;
+    }
+
+
+    .flipten-draw-pile {
+
+        width: 68px;
+
+        margin-top: 20px;
+    }
+
+
+    .flipten-shuffle-button {
+
+        height: 40px;
+
+        width: 120px;
+
+        font-size: 11px;
+
+        bottom: 9px;
+    }
+
+
+    .flipten-popup-card {
+
+        width: 175px;
+
+        min-height: 280px;
+    }
+
+
+    .flipten-popup-uno-card {
+
+        width: 98px;
+    }
+
+
+    .popup-oval span {
+
+        font-size: 50px;
+    }
+
+}

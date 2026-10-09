@@ -8,6 +8,9 @@ import ShutterIntro from "./components/ShutterIntro/ShutterIntro";
 
 import Loopback from "./pages/Loopback/Loopback";
 import LoopbackGame from "./pages/Loopback/LoopbackGame";
+
+import ColorGuess from "./pages/ColorGuess/ColorGuess";
+
 function App() {
 
     const path = window.location.pathname;
@@ -137,6 +140,11 @@ function App() {
 
         return <LoopbackGame />;
 
+    }
+
+
+    if (path === "/games/color-guess") {
+        return <ColorGuess />;
     }
 
 
