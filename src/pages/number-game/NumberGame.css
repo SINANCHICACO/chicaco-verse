@@ -1,0 +1,1243 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+.number-game,
+.number-game * {
+  box-sizing: border-box;
+}
+
+.number-game {
+  --ng-bg: #090a0e;
+  --ng-line: rgba(255, 255, 255, .13);
+  --ng-muted: #999eac;
+  --ng-text: #f5f6fa;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background: var(--ng-bg);
+  color: var(--ng-text);
+  font-family: 'Manrope', sans-serif;
+}
+
+.number-game::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .15;
+  background-image: radial-gradient(
+    rgba(255,255,255,.28) .6px,
+    transparent .6px
+  );
+  background-size: 5px 5px;
+}
+
+.number-game.tone-red {
+  --player-color: #ff4057;
+}
+
+.number-game.tone-blue {
+  --player-color: #4387ff;
+}
+
+.number-game button {
+  color: inherit;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.number-game button:focus-visible {
+  outline: 2px solid var(--player-color, #fff);
+  outline-offset: 3px;
+}
+
+.number-game button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+/* SETUP */
+
+.ng-setup {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px clamp(20px, 5vw, 72px) 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.ng-back {
+  position: absolute;
+  top: 22px;
+  left: clamp(20px, 5vw, 72px);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ng-line);
+  background: transparent;
+  border-radius: 50%;
+  font-size: 24px !important;
+  cursor: pointer;
+}
+
+.ng-brand {
+  margin: 12px 0 25px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .19em;
+}
+
+.ng-brand span {
+  color: var(--ng-muted);
+  font-weight: 500;
+}
+
+.ng-setup-content {
+  width: min(100%, 440px);
+  margin: auto 0;
+  text-align: center;
+}
+
+.ng-eyebrow {
+  margin: 0 0 12px;
+  color: var(--player-color, #b7bdcc);
+  font: 500 11px 'DM Mono', monospace;
+  letter-spacing: .2em;
+}
+
+.ng-setup h1,
+.ng-turn-heading h1,
+.ng-guess-player h1,
+.ng-intermission h1 {
+  margin: 0;
+  font: 800 clamp(54px, 11vw, 88px)/.84 'Barlow Condensed', sans-serif;
+  letter-spacing: -.025em;
+}
+
+.ng-setup h1 span,
+.ng-intermission h1 span {
+  color: var(--player-color, #fff);
+}
+
+.ng-description {
+  margin: 18px 0 30px;
+  color: var(--ng-muted);
+  font-size: 13px;
+}
+
+/* TIMER SETUP */
+
+.ng-time-panel {
+  padding: 20px;
+  border: 1px solid var(--ng-line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.035);
+  text-align: left;
+}
+
+.ng-field-label,
+.ng-time-value small {
+  display: block;
+  color: var(--ng-muted);
+  font: 500 10px 'DM Mono', monospace;
+  letter-spacing: .16em;
+}
+
+.ng-time-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0 18px;
+}
+
+.ng-time-control > button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ng-line);
+  border-radius: 50%;
+  background: #1a1c24;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.ng-time-value {
+  flex: 1;
+  text-align: center;
+}
+
+.ng-time-value strong {
+  display: block;
+  font: 700 42px 'DM Mono', monospace;
+  letter-spacing: -.06em;
+}
+
+.ng-time-value small {
+  margin-top: 4px;
+}
+
+.ng-time-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.ng-time-options button {
+  padding: 10px 4px;
+  border: 1px solid var(--ng-line);
+  border-radius: 8px;
+  background: transparent;
+  font: 500 10px 'DM Mono', monospace;
+  cursor: pointer;
+}
+
+.ng-time-options button.selected {
+  background: var(--player-color, #fff);
+  border-color: var(--player-color, #fff);
+  color: #08090d;
+  font-weight: 700;
+}
+
+/* DUPLICATE DIGIT SETTING */
+
+.ng-duplicate-setting {
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ng-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ng-duplicate-setting > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ng-duplicate-setting strong {
+  font: 600 10px 'DM Mono', monospace;
+  letter-spacing: .05em;
+}
+
+.ng-duplicate-setting small {
+  color: var(--ng-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.ng-toggle {
+  flex-shrink: 0;
+  min-width: 83px;
+  height: 34px;
+  padding: 4px 8px;
+  border: 1px solid var(--ng-line);
+  border-radius: 30px;
+  background: #20222a;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.ng-toggle span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #9da2ad;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.ng-toggle b {
+  font: 700 9px 'DM Mono', monospace;
+}
+
+.ng-toggle.on {
+  background: color-mix(in srgb, var(--player-color) 18%, #14151b);
+  border-color: var(--player-color);
+}
+
+.ng-toggle.on span {
+  background: var(--player-color);
+  transform: translateX(0);
+}
+
+.ng-toggle:not(.on) {
+  flex-direction: row-reverse;
+}
+
+/* PLAYER LEGEND */
+
+.ng-player-legend {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin: 22px 0;
+  color: var(--ng-muted);
+  font: 500 10px 'DM Mono', monospace;
+  letter-spacing: .08em;
+}
+
+.ng-player-legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ng-dot {
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.ng-dot.red {
+  background: #ff4057;
+}
+
+.ng-dot.blue {
+  background: #4387ff;
+}
+
+/* BUTTONS */
+
+.ng-primary {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--player-color, #f5f6fa);
+  color: #090a0e !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.ng-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.ng-primary span {
+  font-size: 21px;
+}
+
+.ng-small-note {
+  margin: 13px 0 0;
+  color: #777d8a;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* GAME LAYOUT */
+
+.ng-play {
+  width: min(100%, 1180px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 22px clamp(16px, 4vw, 48px) 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ng-play-header {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ng-round-label {
+  font: 500 11px 'DM Mono', monospace;
+  letter-spacing: .12em;
+}
+
+.ng-round-label span {
+  color: var(--ng-muted);
+}
+
+.ng-quit {
+  padding: 8px 12px;
+  border: 1px solid var(--ng-line);
+  border-radius: 100px;
+  background: transparent;
+  font: 500 10px 'DM Mono', monospace !important;
+  cursor: pointer;
+}
+
+.ng-turn-heading {
+  margin: clamp(22px, 5vh, 50px) 0 22px;
+  text-align: center;
+}
+
+.ng-turn-heading h1 {
+  font-size: clamp(42px, 8vw, 70px);
+}
+
+.ng-turn-heading p,
+.ng-guess-player p {
+  margin: 10px 0 0;
+  color: var(--ng-muted);
+  font-size: 12px;
+}
+
+/* DIGIT SLOTS */
+
+.ng-code-slots {
+  width: min(100%, 340px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 auto 12px;
+}
+
+.ng-code-slot {
+  min-width: 0;
+  aspect-ratio: .86;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 12px;
+  background: rgba(0,0,0,.23);
+  font: 700 clamp(28px, 6vw, 42px) 'DM Mono', monospace;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.ng-code-slot > span {
+  color: rgba(255,255,255,.2);
+}
+
+.ng-code-slot.filled {
+  border-color: var(--player-color);
+  background: color-mix(in srgb, var(--player-color) 14%, transparent);
+  animation: ng-slot-in .16s ease-out;
+}
+
+@keyframes ng-slot-in {
+  from { transform: scale(.92); }
+  to { transform: scale(1); }
+}
+
+.ng-helper {
+  margin: 0 0 20px;
+  color: var(--ng-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* KEYPAD */
+
+.ng-keypad {
+  width: min(100%, 340px);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 auto 18px;
+}
+
+.ng-keypad button {
+  min-width: 0;
+  min-height: 54px;
+  border: 1px solid var(--ng-line);
+  border-radius: 10px;
+  background: rgba(255,255,255,.055);
+  font: 600 19px 'DM Mono', monospace;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.ng-keypad button:hover:not(:disabled) {
+  background: rgba(255,255,255,.13);
+}
+
+.ng-keypad button:active:not(:disabled) {
+  transform: scale(.96);
+}
+
+.ng-keypad .ng-key-special {
+  color: var(--player-color);
+  font-size: 25px;
+}
+
+.ng-submit {
+  width: min(100%, 340px);
+  margin: 0 auto;
+}
+
+/* ERRORS AND SHAKE */
+
+.ng-error {
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 10px auto 12px;
+  padding: 10px 13px;
+  border: 1px solid rgba(255,64,87,.5);
+  border-radius: 8px;
+  background: rgba(255,64,87,.1);
+  color: #ff7182;
+  font: 600 10px 'DM Mono', monospace;
+  letter-spacing: .04em;
+  text-align: center;
+  animation: ng-error-in .18s ease-out;
+}
+
+.ng-shake {
+  animation: ng-shake .35s ease-in-out;
+}
+
+@keyframes ng-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-7px); }
+  40%, 80% { transform: translateX(7px); }
+}
+
+@keyframes ng-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* INTRO MESSAGE */
+
+.ng-toast {
+  position: fixed;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  max-width: calc(100vw - 36px);
+  padding: 15px 20px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  background: rgba(8,9,13,.94);
+  box-shadow: 0 20px 80px rgba(0,0,0,.35);
+  color: #fff;
+  text-align: center;
+  font: 600 11px 'DM Mono', monospace;
+  letter-spacing: .13em;
+  animation: ng-toast-in .2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ng-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* GUESSING LAYOUT */
+
+.ng-guess-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(230px, .8fr) minmax(300px, 1fr);
+  align-items: start;
+  gap: clamp(20px, 5vw, 64px);
+  padding: clamp(24px, 5vh, 50px) 0 20px;
+}
+
+.ng-history {
+  min-height: 230px;
+  max-height: min(65vh, 620px);
+  padding: 16px;
+  overflow-y: auto;
+  border: 1px solid var(--ng-line);
+  border-radius: 14px;
+  background: rgba(255,255,255,.025);
+}
+
+.ng-history-title,
+.ng-history-columns,
+.ng-history-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.ng-history-title {
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--ng-line);
+  font: 600 11px 'DM Mono', monospace;
+  letter-spacing: .08em;
+}
+
+.ng-history-title strong {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+}
+
+.ng-history-columns {
+  padding: 14px 0 8px;
+  color: #7f8593;
+  font: 500 9px 'DM Mono', monospace;
+}
+
+.ng-empty-history {
+  min-height: 135px;
+  display: grid;
+  place-content: center;
+  color: #777d8a;
+  font-size: 11px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.ng-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ng-history-row {
+  grid-template-columns: 28px 1fr auto;
+  gap: 8px;
+  padding: 11px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.045);
+  font-family: 'DM Mono', monospace;
+}
+
+.ng-history-index {
+  color: #777d8a;
+  font-size: 10px;
+}
+
+.ng-history-row strong {
+  font-size: 16px;
+  letter-spacing: .08em;
+}
+
+.ng-history-row b {
+  color: var(--player-color);
+  font-size: 12px;
+}
+
+/* GUESS TIMER */
+
+.ng-guess-main {
+  width: 100%;
+  max-width: 410px;
+  margin: 0 auto;
+}
+
+.ng-guess-player {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.ng-guess-player h1 {
+  font-size: clamp(40px, 6vw, 62px);
+}
+
+.ng-timer {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border: 1px solid var(--ng-line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.035);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.ng-timer > span,
+.ng-frozen-timer > span {
+  display: block;
+  color: var(--ng-muted);
+  font: 500 9px 'DM Mono', monospace;
+  letter-spacing: .13em;
+}
+
+.ng-timer > strong {
+  display: block;
+  margin: 4px 0 10px;
+  font: 700 30px 'DM Mono', monospace;
+  letter-spacing: -.05em;
+}
+
+.ng-timer-track {
+  height: 3px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255,255,255,.1);
+}
+
+.ng-timer-track i {
+  height: 100%;
+  display: block;
+  background: var(--player-color);
+  transition: width .1s linear;
+}
+
+.ng-timer.urgent {
+  border-color: var(--player-color);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--player-color) 18%, transparent);
+  animation: ng-pulse .8s infinite alternate;
+}
+
+.ng-timer.urgent > strong {
+  color: var(--player-color);
+}
+
+@keyframes ng-pulse {
+  from { box-shadow: 0 0 0 transparent; }
+  to {
+    box-shadow: 0 0 25px color-mix(in srgb, var(--player-color) 22%, transparent);
+  }
+}
+
+.ng-guess-slots {
+  width: 100%;
+  gap: 8px;
+}
+
+.ng-guess-slots .ng-code-slot {
+  aspect-ratio: 1.05;
+}
+
+.ng-guess-keypad {
+  width: 100%;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.ng-guess-keypad button {
+  min-height: 48px;
+}
+
+.ng-feedback-note {
+  margin-top: 12px;
+  color: #777d8a;
+  font: 500 9px 'DM Mono', monospace;
+  letter-spacing: .1em;
+  text-align: center;
+}
+
+/* SOLVED AND RESULT SCREENS */
+
+.ng-intermission {
+  width: min(100%, 540px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: ng-rise-in .45s cubic-bezier(.2,.75,.25,1) both;
+}
+
+@keyframes ng-rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ng-solved-mark,
+.ng-timeout-mark {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--player-color);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--player-color) 18%, transparent);
+  color: var(--player-color);
+  font-size: 30px;
+}
+
+.ng-timeout-mark {
+  font: 700 30px 'DM Mono', monospace;
+}
+
+.ng-intermission h1 {
+  font-size: clamp(56px, 12vw, 88px);
+}
+
+.ng-solved-number {
+  margin: 26px 0 16px;
+  padding: 18px 24px;
+  border: 1px solid var(--ng-line);
+  border-radius: 10px;
+  font: 700 34px 'DM Mono', monospace;
+  letter-spacing: .2em;
+}
+
+.ng-frozen-timer {
+  width: min(100%, 320px);
+  padding: 17px;
+  border: 1px solid var(--player-color);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--player-color) 10%, transparent);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--player-color) 15%, transparent);
+  animation: ng-timer-highlight .7s ease-in-out 2 alternate;
+}
+
+@keyframes ng-timer-highlight {
+  from { transform: scale(1); }
+  to { transform: scale(1.025); }
+}
+
+.ng-frozen-timer strong {
+  display: block;
+  margin: 5px 0;
+  font: 700 35px 'DM Mono', monospace;
+}
+
+.ng-frozen-timer small {
+  color: var(--ng-muted);
+  font-size: 10px;
+}
+
+.ng-intermission-copy {
+  max-width: 350px;
+  margin: 22px 0;
+  color: var(--ng-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.ng-intermission .ng-primary {
+  max-width: 360px;
+}
+
+.ng-result-times {
+  width: min(100%, 360px);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 24px 0 0;
+}
+
+.ng-result-time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 16px;
+  border: 1px solid var(--ng-line);
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  text-align: left;
+}
+
+.ng-result-time span {
+  color: var(--ng-muted);
+  font: 500 10px 'DM Mono', monospace;
+}
+
+.ng-result-time strong {
+  font: 600 17px 'DM Mono', monospace;
+}
+
+.ng-result-time.winner {
+  border-color: #6fe0a1;
+  background: rgba(111,224,161,.08);
+}
+
+.ng-result-time.winner strong {
+  color: #6fe0a1;
+}
+
+.ng-result-time.timeout {
+  border-color: #ff4057;
+}
+
+.ng-result-time.timeout strong {
+  color: #ff4057;
+  font-size: 12px;
+}
+
+.ng-final-result h1 {
+  font-size: clamp(42px, 9vw, 70px);
+}
+
+.ng-winner-name {
+  margin: 10px 0 0;
+  color: var(--player-color);
+  font: 800 clamp(35px, 8vw, 60px)/.95 'Barlow Condensed', sans-serif;
+}
+
+/* TABLET */
+
+@media (max-width: 760px) {
+  .ng-guess-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-top: 24px;
+  }
+
+  .ng-history {
+    order: 2;
+    min-height: 100px;
+    max-height: 26vh;
+    padding: 12px;
+  }
+
+  .ng-guess-main {
+    order: 1;
+    max-width: 400px;
+  }
+
+  .ng-history-title {
+    padding-bottom: 9px;
+  }
+
+  .ng-history-columns {
+    padding: 9px 0 6px;
+  }
+
+  .ng-empty-history {
+    min-height: 55px;
+  }
+
+  .ng-history-list {
+    gap: 5px;
+  }
+
+  .ng-history-row {
+    padding: 8px 10px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+  .ng-setup {
+    padding: 18px 18px 28px;
+  }
+
+  .ng-back {
+    top: 15px;
+    left: 16px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .ng-brand {
+    margin-top: 9px;
+    font-size: 10px;
+  }
+
+  .ng-setup-content {
+    margin: auto 0;
+  }
+
+  .ng-setup h1 {
+    font-size: clamp(58px, 16vw, 76px);
+  }
+
+  .ng-description {
+    margin: 15px 0 22px;
+    font-size: 11px;
+  }
+
+  .ng-time-panel {
+    padding: 15px;
+  }
+
+  .ng-time-value strong {
+    font-size: 36px;
+  }
+
+  .ng-time-control > button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ng-time-options button {
+    padding: 10px 2px;
+    font-size: 9px;
+  }
+
+  .ng-duplicate-setting strong {
+    font-size: 9px;
+  }
+
+  .ng-duplicate-setting small {
+    max-width: 190px;
+    font-size: 9px;
+  }
+
+  .ng-toggle {
+    min-width: 76px;
+    height: 32px;
+  }
+
+  .ng-play {
+    padding: 15px 14px 22px;
+  }
+
+  .ng-round-label {
+    font-size: 9px;
+  }
+
+  .ng-quit {
+    padding: 7px 10px;
+    font-size: 9px !important;
+  }
+
+  .ng-turn-heading {
+    margin: 25px 0 20px;
+  }
+
+  .ng-turn-heading h1 {
+    font-size: 54px;
+  }
+
+  .ng-code-slots {
+    width: min(100%, 330px);
+    gap: 7px;
+  }
+
+  .ng-code-slot {
+    border-radius: 9px;
+  }
+
+  .ng-keypad {
+    width: min(100%, 330px);
+    gap: 6px;
+  }
+
+  .ng-keypad button {
+    min-height: 49px;
+    border-radius: 8px;
+  }
+
+  .ng-submit {
+    width: min(100%, 330px);
+    min-height: 52px;
+  }
+
+  .ng-guess-layout {
+    padding-top: 20px;
+  }
+
+  .ng-guess-player {
+    margin-bottom: 14px;
+  }
+
+  .ng-guess-player h1 {
+    font-size: 48px;
+  }
+
+  .ng-timer {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+  }
+
+  .ng-timer > strong {
+    font-size: 27px;
+  }
+
+  .ng-guess-slots,
+  .ng-guess-keypad {
+    width: 100%;
+  }
+
+  .ng-guess-keypad button {
+    min-height: 45px;
+    font-size: 17px;
+  }
+
+  .ng-feedback-note {
+    font-size: 8px;
+  }
+
+  .ng-intermission {
+    padding: 28px 18px;
+  }
+
+  .ng-solved-number {
+    font-size: 28px;
+  }
+}
+
+/* SHORT DESKTOP SCREENS */
+
+@media (max-height: 720px) and (min-width: 761px) {
+  .ng-guess-layout {
+    padding-top: 20px;
+  }
+
+  .ng-guess-player {
+    margin-bottom: 10px;
+  }
+
+  .ng-guess-player h1 {
+    font-size: 46px;
+  }
+
+  .ng-timer {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+  }
+
+  .ng-timer > strong {
+    margin: 3px 0 7px;
+    font-size: 25px;
+  }
+
+  .ng-guess-keypad button {
+    min-height: 42px;
+  }
+
+  .ng-guess-keypad {
+    margin-bottom: 9px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .number-game *,
+  .number-game *::before,
+  .number-game *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =========================
+   GUESS FEEDBACK
+========================= */
+
+.ng-code-slot.feedback-wrong {
+  border: 2px solid #ff4057 !important;
+  background: rgba(255, 64, 87, 0.15) !important;
+  box-shadow: 0 0 14px rgba(255, 64, 87, 0.2);
+}
+
+.ng-code-slot.feedback-correct {
+  border: 2px solid #48e58a !important;
+  background: rgba(72, 229, 138, 0.15) !important;
+  box-shadow: 0 0 16px rgba(72, 229, 138, 0.25);
+}
+
+.ng-code-slots.ng-shake {
+  animation: ng-shake .35s ease-in-out;
+}
+
+@keyframes ng-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-7px); }
+  40%, 80% { transform: translateX(7px); }
+}
+
+/* Error message for duplicate digits */
+
+.ng-error {
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 10px auto 12px;
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 64, 87, .5);
+  border-radius: 8px;
+  background: rgba(255, 64, 87, .1);
+  color: #ff7182;
+  font: 600 10px 'DM Mono', monospace;
+  letter-spacing: .04em;
+  text-align: center;
+  animation: ng-error-in .18s ease-out;
+}
+
+@keyframes ng-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Correct guesses in history */
+
+.ng-history-row.history-correct {
+  border: 1px solid rgba(72, 229, 138, .5);
+  background: rgba(72, 229, 138, .08);
+}
+
+.ng-history-row.history-correct b {
+  color: #48e58a;
+}
+
+/* Keep history scrollable and reserve space for new entries */
+
+.ng-history {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #444854 transparent;
+  scroll-behavior: smooth;
+}
+
+.ng-history-list {
+  overflow-anchor: auto;
+}
+
+.ng-history-list > div:last-child {
+  scroll-margin-bottom: 8px;
+}
+
+/* Timeout turn */
+
+.timeout-timer {
+  border-color: #ff4057;
+  background: rgba(255, 64, 87, .08);
+}
+
+.timeout-timer strong {
+  color: #ff4057;
+}
+
+/* Keep feedback visible on smaller screens */
+
+@media (max-width: 480px) {
+  .ng-error {
+    font-size: 9px;
+    padding: 9px 10px;
+  }
+
+  .ng-code-slot.feedback-wrong,
+  .ng-code-slot.feedback-correct {
+    border-width: 2px !important;
+  }
+
+  .ng-history {
+    max-height: 26vh;
+    overflow-y: auto;
+  }
+}

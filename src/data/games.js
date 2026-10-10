@@ -33,14 +33,14 @@ const games = [
   },
 
   {
-    id: "game-04",
-    name: "Coming Soon",
+    id: "NumberGame",
+    name: "Number Game",
     description: "Get ready to play.",
     category: "Fun",
     minPlayers: 2,
-    maxPlayers: 8,
-    status: "coming-soon",
-    path: "#",
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/number-game",
   },
 ];
 

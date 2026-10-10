@@ -11,6 +11,7 @@ import LoopbackGame from "./pages/Loopback/LoopbackGame";
 
 import ColorGuess from "./pages/ColorGuess/ColorGuess";
 
+import NumberGame from "./pages/number-game/NumberGame";
 function App() {
 
     const path = window.location.pathname;
@@ -147,7 +148,9 @@ function App() {
         return <ColorGuess />;
     }
 
-
+    if (path === "/games/number-game") {
+        return <NumberGame />;
+    }
 
     /*
     =====================================================
