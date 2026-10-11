@@ -1,3 +1,4 @@
+
 import "./Home.css";
 import games from "../data/games";
 import GameCard from "../components/GameCard";
@@ -7,30 +8,15 @@ function Home() {
     <main className="home">
 
       {/* NAVIGATION */}
-
       <header className="home-header">
-
         <div className="brand">
           <span>CHICACO</span>
-          <span className="brand-verse">
-            VERSE
-          </span>
+          <span className="brand-verse">VERSE</span>
         </div>
-
-        <button
-          className="menu-button"
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
-
       </header>
 
-
       {/* HERO */}
-
       <section className="hero">
-
         <div className="hero-decoration decoration-one">
           ✦
         </div>
@@ -40,7 +26,6 @@ function Home() {
         </div>
 
         <div className="hero-content">
-
           <p className="hero-small">
             WELCOME TO THE
           </p>
@@ -54,46 +39,41 @@ function Home() {
             Games. Chaos. Endless Fun.
           </p>
 
-          <button className="explore-button">
+          <button
+            className="explore-button"
+            onClick={() => {
+              document.querySelector(".games-preview")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }}
+          >
             EXPLORE GAMES
             <span>↓</span>
           </button>
-
         </div>
 
         <div className="hero-orbit">
           <div className="orbit-dot"></div>
         </div>
-
       </section>
 
-
       {/* GAMES */}
-
       <section className="games-preview">
-
         <div className="section-heading">
-
           <p>THE UNIVERSE</p>
 
-          <h2>
-            CHOOSE YOUR GAME
-          </h2>
-
+          <h2>CHOOSE YOUR GAME</h2>
         </div>
 
-
         <div className="games-grid">
-
           {games.map((game) => (
             <GameCard
               key={game.id}
               game={game}
             />
           ))}
-
         </div>
-
       </section>
 
     </main>

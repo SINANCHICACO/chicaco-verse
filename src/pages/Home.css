@@ -1,32 +1,60 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 /* =========================================================
-   GLOBAL PAGE SCROLL
+   GLOBAL RESET AND HIDDEN SCROLLBARS
+   Scrolling remains enabled.
 ========================================================= */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
-body {
+body,
+#root {
   width: 100%;
   min-height: 100%;
-
   margin: 0;
   padding: 0;
+}
 
-  overflow-x: hidden;
-
-  /* Keep vertical scrolling enabled */
+html {
+  overflow-x: clip;
   overflow-y: auto;
-
-  /* Hide scrollbar */
+  scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
+body {
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-text-size-adjust: 100%;
 }
 
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+button {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
 
 /* =========================================================
    HOME
@@ -35,9 +63,8 @@ body::-webkit-scrollbar {
 .home {
   width: 100%;
   min-height: 100vh;
-
-  /* Allow Home page to scroll */
-  overflow-x: hidden;
+  min-height: 100dvh;
+  overflow-x: clip;
   overflow-y: visible;
 
   background:
@@ -49,19 +76,15 @@ body::-webkit-scrollbar {
     );
 
   color: #ffffff;
+  font-family: 'Manrope', sans-serif;
 
-  /* Hide scrollbar if .home becomes
-     the scrolling element */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .home::-webkit-scrollbar {
-  width: 0;
-  height: 0;
   display: none;
 }
-
 
 /* =========================================================
    HEADER
@@ -69,9 +92,8 @@ body::-webkit-scrollbar {
 
 .home-header {
   width: 100%;
-  height: 80px;
-
-  padding: 0 6%;
+  min-height: 80px;
+  padding: 0 clamp(16px, 6%, 90px);
 
   display: flex;
   align-items: center;
@@ -81,7 +103,6 @@ body::-webkit-scrollbar {
   z-index: 10;
 }
 
-
 /* =========================================================
    BRAND
 ========================================================= */
@@ -89,39 +110,33 @@ body::-webkit-scrollbar {
 .brand {
   display: flex;
   align-items: center;
-
   gap: 7px;
 
   font-size: 20px;
-
   font-weight: 900;
-
   letter-spacing: 2px;
+  white-space: nowrap;
 }
 
 .brand-verse {
   opacity: 0.45;
 }
 
-
 /* =========================================================
    MENU BUTTON
+   Retained for use if your navigation adds it later.
 ========================================================= */
 
 .menu-button {
   width: 45px;
   height: 45px;
+  flex-shrink: 0;
 
   border: 1px solid #444;
-
   border-radius: 50%;
-
   background: transparent;
-
   color: white;
-
   font-size: 20px;
-
   cursor: pointer;
 
   transition:
@@ -132,71 +147,54 @@ body::-webkit-scrollbar {
 
 .menu-button:hover {
   background: white;
-
   color: black;
-
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .menu-button:active {
-  transform:
-    translateY(1px);
+  transform: translateY(1px);
 }
-
 
 /* =========================================================
    HERO
 ========================================================= */
 
 .hero {
-  min-height:
-    calc(
-      100vh - 80px
-    );
+  min-height: calc(100vh - 80px);
+  min-height: calc(100svh - 80px);
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   position: relative;
+  isolation: isolate;
 
+  padding: 50px 20px 100px;
   text-align: center;
 
-  padding:
-    50px
-    20px
-    100px;
-
-  /*
-     Only the HERO clips its decorative elements.
-     It does NOT control page scrolling.
-  */
+  /* Clip decorations without disabling page scrolling. */
   overflow: hidden;
 }
 
 .hero-content {
+  width: 100%;
+  max-width: 1000px;
   position: relative;
-
   z-index: 3;
 }
-
 
 /* =========================================================
    HERO SMALL TEXT
 ========================================================= */
 
 .hero-small {
+  margin: 0 0 20px;
+
   font-size: 12px;
-
   letter-spacing: 6px;
-
   opacity: 0.45;
-
-  margin-bottom: 20px;
 }
-
 
 /* =========================================================
    HERO TITLE
@@ -205,71 +203,56 @@ body::-webkit-scrollbar {
 .hero h1 {
   margin: 0;
 
-  font-size:
-    clamp(
-      65px,
-      12vw,
-      170px
-    );
-
+  font-size: clamp(65px, 12vw, 170px);
   line-height: 0.78;
-
   font-weight: 1000;
-
-  letter-spacing: -7px;
+  letter-spacing: clamp(-7px, -0.5vw, -3px);
 
   text-transform: uppercase;
+  overflow-wrap: normal;
 }
 
 .hero h1 span {
   display: block;
 
-  -webkit-text-stroke:
-    2px white;
-
   color: transparent;
+  -webkit-text-stroke: 2px white;
 
-  letter-spacing: -5px;
+  letter-spacing: clamp(-5px, -0.35vw, -2px);
 }
-
 
 /* =========================================================
    HERO DESCRIPTION
 ========================================================= */
 
 .hero-description {
-  margin-top: 35px;
+  margin: 35px 0 0;
 
   font-size: 17px;
-
   letter-spacing: 3px;
-
+  line-height: 1.7;
   opacity: 0.55;
 }
-
 
 /* =========================================================
    EXPLORE BUTTON
 ========================================================= */
 
 .explore-button {
+  min-height: 48px;
+  max-width: 100%;
+
   margin-top: 40px;
+  padding: 16px 25px;
 
-  padding:
-    16px
-    25px;
-
-  border:
-    1px solid white;
+  border: 1px solid white;
+  border-radius: 0;
 
   background: white;
-
   color: black;
 
   font-size: 12px;
-
   font-weight: 800;
-
   letter-spacing: 2px;
 
   cursor: pointer;
@@ -281,25 +264,20 @@ body::-webkit-scrollbar {
 }
 
 .explore-button span {
+  display: inline-block;
   margin-left: 15px;
-
   font-size: 18px;
 }
 
 .explore-button:hover {
   background: transparent;
-
   color: white;
-
-  transform:
-    translateY(-3px);
+  transform: translateY(-3px);
 }
 
 .explore-button:active {
-  transform:
-    translateY(0);
+  transform: translateY(0);
 }
-
 
 /* =========================================================
    DECORATIONS
@@ -307,38 +285,28 @@ body::-webkit-scrollbar {
 
 .hero-decoration {
   position: absolute;
+  z-index: 1;
 
   font-size: 30px;
-
   opacity: 0.25;
 
   pointer-events: none;
+  user-select: none;
 }
 
 .decoration-one {
   top: 25%;
-
   left: 15%;
 
-  animation:
-    floatOne
-    4s
-    ease-in-out
-    infinite;
+  animation: floatOne 4s ease-in-out infinite;
 }
 
 .decoration-two {
   right: 15%;
-
   bottom: 25%;
 
-  animation:
-    floatTwo
-    5s
-    ease-in-out
-    infinite;
+  animation: floatTwo 5s ease-in-out infinite;
 }
-
 
 /* =========================================================
    DECORATION ANIMATIONS
@@ -347,33 +315,24 @@ body::-webkit-scrollbar {
 @keyframes floatOne {
   0%,
   100% {
-    transform:
-      translateY(0)
-      rotate(0deg);
+    transform: translateY(0) rotate(0deg);
   }
 
   50% {
-    transform:
-      translateY(-20px)
-      rotate(20deg);
+    transform: translateY(-20px) rotate(20deg);
   }
 }
 
 @keyframes floatTwo {
   0%,
   100% {
-    transform:
-      translateY(0)
-      rotate(0deg);
+    transform: translateY(0) rotate(0deg);
   }
 
   50% {
-    transform:
-      translateY(20px)
-      rotate(-20deg);
+    transform: translateY(20px) rotate(-20deg);
   }
 }
-
 
 /* =========================================================
    ORBIT
@@ -381,25 +340,15 @@ body::-webkit-scrollbar {
 
 .hero-orbit {
   position: absolute;
+  z-index: 0;
 
-  width: 600px;
+  width: min(600px, 75vw);
+  height: clamp(120px, 22vw, 180px);
 
-  height: 180px;
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
-
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
 
-  transform:
-    rotate(-15deg);
-
+  transform: rotate(-15deg);
   pointer-events: none;
 }
 
@@ -409,15 +358,12 @@ body::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 
-  background: white;
-
-  border-radius: 50%;
-
   top: -3px;
-
   left: 50%;
-}
 
+  background: white;
+  border-radius: 50%;
+}
 
 /* =========================================================
    GAMES PREVIEW
@@ -425,66 +371,56 @@ body::-webkit-scrollbar {
 
 .games-preview {
   width: 100%;
-
-  padding:
-    100px
-    6%;
-
   min-height: 500px;
 
+  padding: 100px clamp(16px, 6%, 90px);
+
   background: #050505;
-
   text-align: center;
-}
 
+  scroll-margin-top: 0;
+}
 
 /* =========================================================
    SECTION HEADING
 ========================================================= */
 
+.section-heading {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .section-heading p {
+  margin: 0 0 12px;
+
   font-size: 11px;
-
   letter-spacing: 5px;
-
   opacity: 0.4;
-
-  margin-bottom: 12px;
 }
 
 .section-heading h2 {
-  font-size:
-    clamp(
-      30px,
-      5vw,
-      55px
-    );
+  margin: 0;
 
+  font-size: clamp(30px, 5vw, 55px);
+  line-height: 1.1;
   letter-spacing: -2px;
 
-  margin: 0;
+  overflow-wrap: anywhere;
 }
-
 
 /* =========================================================
    COMING SOON
 ========================================================= */
 
 .coming-soon {
-  margin:
-    60px
-    auto
-    0;
-
+  width: 100%;
   max-width: 500px;
 
-  padding:
-    50px
-    30px;
+  margin: 60px auto 0;
+  padding: 50px 30px;
 
-  border:
-    1px solid #292929;
-
+  border: 1px solid #292929;
   background: #0d0d0d;
 }
 
@@ -496,16 +432,13 @@ body::-webkit-scrollbar {
   margin-top: 20px;
 
   font-size: 18px;
-
   letter-spacing: 2px;
 }
 
 .coming-soon p {
   margin-top: 10px;
-
   opacity: 0.4;
 }
-
 
 /* =========================================================
    GAME GRID
@@ -513,113 +446,70 @@ body::-webkit-scrollbar {
 
 .games-grid {
   width: 100%;
-
   max-width: 1200px;
 
-  margin:
-    60px
-    auto
-    0;
+  margin: 60px auto 0;
 
   display: grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(
-        0,
-        1fr
-      )
-    );
-
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 
   text-align: left;
+  align-items: stretch;
 }
 
+/* Prevent wide content inside a game card from
+   forcing the grid beyond the viewport. */
+
+.games-grid > * {
+  min-width: 0;
+  max-width: 100%;
+}
 
 /* =========================================================
-   DESKTOP GAME GRID
+   LARGE LAPTOPS AND DESKTOPS
 ========================================================= */
 
 @media (min-width: 1000px) {
-
   .games-grid {
-    grid-template-columns:
-      repeat(
-        3,
-        minmax(
-          0,
-          1fr
-        )
-      );
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
-
 }
 
-
 /* =========================================================
-   MOBILE
+   TABLETS
 ========================================================= */
 
-@media (max-width: 600px) {
-
+@media (min-width: 601px) and (max-width: 999px) {
   .home-header {
-    height: 70px;
-
-    padding:
-      0
-      20px;
-  }
-
-  .brand {
-    font-size: 16px;
+    min-height: 76px;
+    padding-right: 5%;
+    padding-left: 5%;
   }
 
   .hero {
-    min-height:
-      calc(
-        100vh - 70px
-      );
-
-    padding:
-      50px
-      20px
-      80px;
-
-    /*
-       Decorations stay inside
-       the hero.
-    */
-    overflow: hidden;
+    min-height: calc(100svh - 76px);
+    padding: 50px 28px 85px;
   }
 
   .hero h1 {
-    font-size: 62px;
-
-    letter-spacing: -4px;
+    font-size: clamp(76px, 12vw, 120px);
+    letter-spacing: -5px;
   }
 
   .hero h1 span {
-    letter-spacing: -3px;
+    letter-spacing: -4px;
   }
 
   .hero-small {
-    font-size: 9px;
-
-    letter-spacing: 4px;
+    font-size: 11px;
+    letter-spacing: 5px;
   }
 
   .hero-description {
-    font-size: 13px;
-
-    letter-spacing: 2px;
-  }
-
-  .hero-orbit {
-    width: 350px;
-
-    height: 120px;
+    font-size: 15px;
+    letter-spacing: 2.5px;
   }
 
   .decoration-one {
@@ -631,95 +521,270 @@ body::-webkit-scrollbar {
   }
 
   .games-preview {
-    padding:
-      80px
-      20px;
+    padding: 85px 5%;
   }
-
-}
-
-
-/* =========================================================
-   MOBILE GAME GRID
-========================================================= */
-
-@media (max-width: 650px) {
 
   .games-grid {
-    grid-template-columns: 1fr;
-
-    gap: 15px;
+    gap: 18px;
   }
-
 }
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .home-header {
+    min-height: 70px;
+    padding: 0 20px;
+  }
+
+  .brand {
+    gap: 6px;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+  }
+
+  .hero {
+    min-height: calc(100svh - 70px);
+
+    padding: 50px 20px 80px;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    font-size: clamp(52px, 11.8vw, 72px);
+    line-height: 0.86;
+    letter-spacing: -3px;
+  }
+
+  .hero h1 span {
+    -webkit-text-stroke-width: 1.5px;
+    letter-spacing: -2.5px;
+  }
+
+  .hero-small {
+    margin-bottom: 18px;
+
+    font-size: 9px;
+    letter-spacing: 4px;
+  }
+
+  .hero-description {
+    margin-top: 26px;
+
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    line-height: 1.8;
+  }
+
+  .explore-button {
+    min-height: 46px;
+
+    margin-top: 30px;
+    padding: 14px 20px;
+
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .explore-button span {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+
+  .hero-orbit {
+    width: min(350px, 90vw);
+    height: 120px;
+  }
+
+  .hero-decoration {
+    font-size: 23px;
+  }
+
+  .decoration-one {
+    top: 20%;
+    left: 7%;
+  }
+
+  .decoration-two {
+    right: 7%;
+    bottom: 20%;
+  }
+
+  .games-preview {
+    padding: 75px 20px 65px;
+  }
+
+  .section-heading p {
+    font-size: 9px;
+    letter-spacing: 4px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(27px, 6.5vw, 38px);
+    letter-spacing: -1px;
+  }
+
+  .games-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+
+    margin-top: 40px;
+  }
+
+  .coming-soon {
+    margin-top: 40px;
+    padding: 35px 20px;
+  }
+}
 
 /* =========================================================
    SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 380px) {
-
   .home-header {
-    padding:
-      0
-      15px;
+    min-height: 64px;
+    padding: 0 15px;
   }
 
   .brand {
+    gap: 5px;
     font-size: 14px;
-
-    letter-spacing: 1.5px;
-  }
-
-  .menu-button {
-    width: 40px;
-    height: 40px;
-
-    font-size: 18px;
+    letter-spacing: 1.2px;
   }
 
   .hero {
-    padding:
-      40px
-      15px
-      70px;
+    min-height: calc(100svh - 64px);
+    padding: 40px 15px 65px;
   }
 
   .hero h1 {
-    font-size: 52px;
+    font-size: clamp(45px, 12vw, 54px);
+    letter-spacing: -2.5px;
+  }
 
-    letter-spacing: -3px;
+  .hero h1 span {
+    letter-spacing: -2px;
+  }
+
+  .hero-small {
+    font-size: 8px;
+    letter-spacing: 3px;
   }
 
   .hero-description {
+    margin-top: 22px;
     font-size: 11px;
-
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
   }
 
   .explore-button {
-    padding:
-      14px
-      20px;
+    margin-top: 26px;
+    padding: 13px 16px;
 
-    font-size: 10px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .hero-orbit {
+    width: 290px;
+    height: 105px;
+  }
+
+  .hero-decoration {
+    font-size: 20px;
   }
 
   .games-preview {
-    padding:
-      65px
-      15px;
+    padding: 60px 15px 50px;
   }
 
+  .section-heading h2 {
+    font-size: 26px;
+  }
+
+  .games-grid {
+    gap: 14px;
+    margin-top: 32px;
+  }
 }
 
+/* =========================================================
+   VERY SHORT MOBILE SCREENS
+========================================================= */
+
+@media (max-height: 600px) and (max-width: 600px) {
+  .hero {
+    min-height: 440px;
+    padding-top: 45px;
+    padding-bottom: 55px;
+  }
+
+  .hero-small {
+    margin-bottom: 14px;
+  }
+
+  .hero-description {
+    margin-top: 20px;
+  }
+
+  .explore-button {
+    margin-top: 22px;
+  }
+}
+
+/* =========================================================
+   LANDSCAPE PHONES
+========================================================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .home-header {
+    min-height: 58px;
+  }
+
+  .hero {
+    min-height: 430px;
+    padding-top: 45px;
+    padding-bottom: 50px;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 10vw, 78px);
+    line-height: 0.85;
+  }
+
+  .hero-small {
+    margin-bottom: 14px;
+  }
+
+  .hero-description {
+    margin-top: 18px;
+  }
+
+  .explore-button {
+    margin-top: 20px;
+  }
+
+  .games-preview {
+    padding-top: 55px;
+    padding-bottom: 45px;
+  }
+}
 
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
   .decoration-one,
   .decoration-two {
@@ -730,5 +795,4 @@ body::-webkit-scrollbar {
   .explore-button {
     transition: none;
   }
-
 }

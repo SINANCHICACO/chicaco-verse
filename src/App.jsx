@@ -11,6 +11,7 @@ import LoopbackGame from "./pages/Loopback/LoopbackGame";
 
 import ColorGuess from "./pages/ColorGuess/ColorGuess";
 
+import ReverseVoice from "./pages/ReverseVoice/ReverseVoice";
 import NumberGame from "./pages/number-game/NumberGame";
 function App() {
 
@@ -150,6 +151,10 @@ function App() {
 
     if (path === "/games/number-game") {
         return <NumberGame />;
+    }
+
+    if (path === "/games/reverse-voice") {
+        return <ReverseVoice />;
     }
 
     /*

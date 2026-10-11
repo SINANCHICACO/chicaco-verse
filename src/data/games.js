@@ -11,6 +11,17 @@ const games = [
   },
 
   {
+    id: "NumberGame",
+    name: "Number Game",
+    description: "Get ready to play.",
+    category: "Fun",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/number-game",
+  },
+
+  {
     id: "loopback",
     name: "LOOPBACK",
     description: "Draw. Move. Get pushed back. Reach the finish.",
@@ -33,15 +44,17 @@ const games = [
   },
 
   {
-    id: "NumberGame",
-    name: "Number Game",
-    description: "Get ready to play.",
-    category: "Fun",
+    id: "reverse-voice",
+    name: "Reverse Voice",
+    description: "Reverse your voice and challenge a friend to imitate it.",
+    category: "Party Game",
     minPlayers: 2,
     maxPlayers: 2,
     status: "available",
-    path: "/games/number-game",
+    path: "/games/reverse-voice",
   },
+
+
 ];
 
 export default games;
