@@ -18,6 +18,7 @@ export default function ReverseVoice() {
     const [originalUrl, setOriginalUrl] = useState("");
     const [reversedUrl, setReversedUrl] = useState("");
     const [imitationUrl, setImitationUrl] = useState("");
+    const [imitationReversedUrl, setImitationReversedUrl] = useState("");
 
     const recorderRef = useRef(null);
     const streamRef = useRef(null);
@@ -76,6 +77,7 @@ export default function ReverseVoice() {
             audioRef.current.currentTime = 0;
             audioRef.current = null;
         }
+
         setPlaying("");
     }, []);
 
@@ -178,11 +180,13 @@ export default function ReverseVoice() {
         for (let i = 0; i < frames; i++) {
             for (let channel = 0; channel < channels; channel++) {
                 const sample = Math.max(-1, Math.min(1, channelData[channel][i]));
+
                 view.setInt16(
                     offset,
                     sample < 0 ? sample * 0x8000 : sample * 0x7fff,
                     true
                 );
+
                 offset += 2;
             }
         }
@@ -209,6 +213,7 @@ export default function ReverseVoice() {
         }
 
         const decoded = await context.decodeAudioData(await blob.arrayBuffer());
+
         const reversed = context.createBuffer(
             decoded.numberOfChannels,
             decoded.length,
@@ -234,7 +239,9 @@ export default function ReverseVoice() {
         stopPlayback();
 
         if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-            setError("Microphone access requires a supported browser and localhost or HTTPS.");
+            setError(
+                "Microphone access requires a supported browser and localhost or HTTPS."
+            );
             return;
         }
 
@@ -255,6 +262,7 @@ export default function ReverseVoice() {
             chunksRef.current = [];
 
             let mimeType = "";
+
             if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
                 mimeType = "audio/webm;codecs=opus";
             } else if (MediaRecorder.isTypeSupported("audio/webm")) {
@@ -270,7 +278,9 @@ export default function ReverseVoice() {
             setSeconds(0);
 
             recorder.ondataavailable = (event) => {
-                if (event.data?.size > 0) chunksRef.current.push(event.data);
+                if (event.data?.size > 0) {
+                    chunksRef.current.push(event.data);
+                }
             };
 
             recorder.onerror = () => {
@@ -301,7 +311,9 @@ export default function ReverseVoice() {
                 setProcessing(true);
 
                 try {
+                    // Reverse both Player 1's original recording and Player 2's imitation.
                     const reversedBlob = await reverseAudio(blob);
+
                     if (token !== tokenRef.current) return;
 
                     const recorded = saveUrl(blob);
@@ -314,15 +326,20 @@ export default function ReverseVoice() {
                         phaseRef.current = 2;
                     } else if (phaseRef.current === 3) {
                         setImitationUrl(recorded);
+                        setImitationReversedUrl(reversed);
                         setPhase(4);
                         phaseRef.current = 4;
                     }
                 } catch (err) {
                     if (token === tokenRef.current) {
-                        setError(err?.message || "Could not process audio. Please try again.");
+                        setError(
+                            err?.message || "Could not process audio. Please try again."
+                        );
                     }
                 } finally {
-                    if (token === tokenRef.current) setProcessing(false);
+                    if (token === tokenRef.current) {
+                        setProcessing(false);
+                    }
                 }
             };
 
@@ -334,7 +351,9 @@ export default function ReverseVoice() {
                 secondsRef.current += 1;
                 setSeconds(secondsRef.current);
 
-                if (secondsRef.current >= MAX_SECONDS) stopRecording();
+                if (secondsRef.current >= MAX_SECONDS) {
+                    stopRecording();
+                }
             }, 1000);
         } catch (err) {
             stream?.getTracks().forEach((track) => track.stop());
@@ -344,11 +363,15 @@ export default function ReverseVoice() {
                 setProcessing(false);
 
                 if (err?.name === "NotAllowedError") {
-                    setError("Microphone permission denied. Allow microphone access and retry.");
+                    setError(
+                        "Microphone permission denied. Allow microphone access and retry."
+                    );
                 } else if (err?.name === "NotFoundError") {
                     setError("No microphone was found on this device.");
                 } else {
-                    setError("Could not access your microphone. Check browser permissions.");
+                    setError(
+                        "Could not access your microphone. Check browser permissions."
+                    );
                 }
             }
         }
@@ -356,6 +379,7 @@ export default function ReverseVoice() {
 
     function stopRecording() {
         stopTimer();
+
         if (recorderRef.current?.state === "recording") {
             recorderRef.current.stop();
         }
@@ -363,6 +387,7 @@ export default function ReverseVoice() {
 
     function resetGame() {
         tokenRef.current += 1;
+
         stopPlayback();
         stopTimer();
         stopStream();
@@ -386,9 +411,11 @@ export default function ReverseVoice() {
         setSeconds(0);
         secondsRef.current = 0;
         setError("");
+
         setOriginalUrl("");
         setReversedUrl("");
         setImitationUrl("");
+        setImitationReversedUrl("");
     }
 
     function goHome() {
@@ -403,15 +430,18 @@ export default function ReverseVoice() {
                     role="status"
                 >
                     <div className="rv-intro-kicker">THE AUDIO GAME</div>
+
                     <h1>
                         REVERSE
                         <span>VOICE</span>
                     </h1>
+
                     <p>
                         One voice goes backwards.
                         <br />
                         Can another player bring it back?
                     </p>
+
                     <div className="rv-intro-line" />
                 </div>
             )}
@@ -430,7 +460,11 @@ export default function ReverseVoice() {
                     CHICACO <span>VERSE</span>
                 </div>
 
-                <button className="rv-exit-button" type="button" onClick={goHome}>
+                <button
+                    className="rv-exit-button"
+                    type="button"
+                    onClick={goHome}
+                >
                     EXIT 
                 </button>
             </header>
@@ -438,6 +472,7 @@ export default function ReverseVoice() {
             <section className="rv-game">
                 <div className="rv-player-label">
                     <span className="rv-player-dot" />
+
                     {phase === 1
                         ? `PLAYER ${startingPlayer} · YOUR TURN`
                         : phase === 2
@@ -449,10 +484,17 @@ export default function ReverseVoice() {
 
                 <div className="rv-card" key={phase}>
                     <div className="rv-card-topline">
-                        <span>{phase === 4 ? "THE SOUND REVEAL" : `ROUND 0${phase}`}</span>
+                        <span>
+                            {phase === 4 ? "THE SOUND REVEAL" : `ROUND 0${phase}`}
+                        </span>
+
                         <span className="rv-status">
                             <i />
-                            {recording ? "RECORDING" : processing ? "PROCESSING" : "READY"}
+                            {recording
+                                ? "RECORDING"
+                                : processing
+                                    ? "PROCESSING"
+                                    : "READY"}
                         </span>
                     </div>
 
@@ -461,7 +503,9 @@ export default function ReverseVoice() {
                             <div className="rv-phase-label">
                                 PLAYER {startingPlayer} / RECORD
                             </div>
+
                             <h2>Say anything.</h2>
+
                             <p className="rv-instructions">
                                 Record a phrase, a word, a laugh, or a random sound.
                                 Keep it secret from Player {listenerPlayer}. Maximum 20 seconds.
@@ -479,10 +523,16 @@ export default function ReverseVoice() {
                                     disabled={processing}
                                     type="button"
                                 >
-                                    {processing ? "PREPARING MICROPHONE..." : "● START RECORDING"}
+                                    {processing
+                                        ? "PREPARING MICROPHONE..."
+                                        : "● START RECORDING"}
                                 </button>
                             ) : (
-                                <button className="rv-stop-button" onClick={stopRecording} type="button">
+                                <button
+                                    className="rv-stop-button"
+                                    onClick={stopRecording}
+                                    type="button"
+                                >
                                     ■ STOP RECORDING
                                 </button>
                             )}
@@ -498,7 +548,9 @@ export default function ReverseVoice() {
                             <div className="rv-phase-label">
                                 PLAYER {listenerPlayer} / LISTEN
                             </div>
+
                             <h2>That sounds weird, right?</h2>
+
                             <p className="rv-instructions">
                                 Listen closely to Player {startingPlayer}'s reversed recording.
                                 Remember the sound. You will imitate it next.
@@ -507,6 +559,7 @@ export default function ReverseVoice() {
                             <div className="rv-mic-orb rv-listen-orb">
                                 <div className="rv-orb-ring rv-ring-one" />
                                 <div className="rv-orb-ring rv-ring-two" />
+
                                 <div className="rv-orb-core">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M3 12h3l3-7 4 14 3-7h5" />
@@ -516,10 +569,14 @@ export default function ReverseVoice() {
 
                             <div className="rv-audio-row rv-highlight-row">
                                 <div className="rv-audio-icon">↶</div>
+
                                 <div className="rv-audio-info">
                                     <strong>REVERSED RECORDING</strong>
-                                    <small>Player {startingPlayer} · Backwards audio</small>
+                                    <small>
+                                        Player {startingPlayer} · Backwards audio
+                                    </small>
                                 </div>
+
                                 <button
                                     className="rv-play-button"
                                     onClick={() => playAudio(reversedUrl, "reversed")}
@@ -556,7 +613,9 @@ export default function ReverseVoice() {
                             <div className="rv-phase-label">
                                 PLAYER {listenerPlayer} / IMITATE
                             </div>
+
                             <h2>Copy that sound.</h2>
+
                             <p className="rv-instructions">
                                 Player {listenerPlayer}, imitate the strange reversed sound.
                                 Don't try to figure out the original words. Just copy the sound!
@@ -574,10 +633,16 @@ export default function ReverseVoice() {
                                     disabled={processing}
                                     type="button"
                                 >
-                                    {processing ? "PREPARING MICROPHONE..." : "● RECORD IMITATION"}
+                                    {processing
+                                        ? "PREPARING MICROPHONE..."
+                                        : "● RECORD IMITATION"}
                                 </button>
                             ) : (
-                                <button className="rv-stop-button" onClick={stopRecording} type="button">
+                                <button
+                                    className="rv-stop-button"
+                                    onClick={stopRecording}
+                                    type="button"
+                                >
                                     ■ STOP RECORDING
                                 </button>
                             )}
@@ -590,36 +655,46 @@ export default function ReverseVoice() {
 
                     {phase === 4 && (
                         <>
-                            <div className="rv-phase-label">THE FINAL REVEAL</div>
-                            <h2>How close did you get?</h2>
+                            <div className="rv-phase-label">
+                                THE FINAL REVEAL
+                            </div>
+
+                            <h2>Do the sounds match?</h2>
+
                             <p className="rv-instructions">
-                                Listen to the reversed original and Player {listenerPlayer}'s guess.
-                                Compare the sounds and enjoy the chaos.
+                                Play both reversed recordings and decide for yourselves
+                                how closely Player {listenerPlayer} matched Player {startingPlayer}.
                             </p>
 
                             <div className="rv-reveal-list">
                                 <AudioRow
                                     number="01"
-                                    title={`Player ${listenerPlayer}'s guess`}
-                                    subtitle="The sound they tried to imitate"
-                                    playing={playing === "imitation"}
-                                    onClick={() => playAudio(imitationUrl, "imitation")}
-                                />
-                                <AudioRow
-                                    number="02"
-                                    title="Reversed original"
-                                    subtitle={`Player ${startingPlayer}'s voice played backwards`}
+                                    title={`Player ${startingPlayer}'s reversed voice`}
+                                    subtitle="The original voice played backwards"
                                     playing={playing === "reversed"}
                                     onClick={() => playAudio(reversedUrl, "reversed")}
                                 />
-                            </div>
 
-                            <div className="rv-end-note">
-                                NO SCORES. NO WINNERS. JUST CHAOS.
+                                <AudioRow
+                                    number="02"
+                                    title={`Player ${listenerPlayer}'s reversed guess`}
+                                    subtitle="The imitation played backwards"
+                                    playing={playing === "imitation-reversed"}
+                                    onClick={() =>
+                                        playAudio(
+                                            imitationReversedUrl,
+                                            "imitation-reversed"
+                                        )
+                                    }
+                                />
                             </div>
 
                             <div className="rv-finish-actions">
-                                <button className="rv-primary-button" onClick={resetGame} type="button">
+                                <button
+                                    className="rv-primary-button"
+                                    onClick={resetGame}
+                                    type="button"
+                                >
                                     ↻ PLAY AGAIN
                                 </button>
                             </div>
@@ -636,7 +711,12 @@ export default function ReverseVoice() {
                     {error && (
                         <div className="rv-error" role="alert">
                             <span>{error}</span>
-                            <button type="button" onClick={() => setError("")} aria-label="Dismiss error">
+
+                            <button
+                                type="button"
+                                onClick={() => setError("")}
+                                aria-label="Dismiss error"
+                            >
                                 ×
                             </button>
                         </div>
@@ -658,6 +738,7 @@ function MicOrb({ recording }) {
         <div className={`rv-mic-orb ${recording ? "rv-recording" : ""}`}>
             <div className="rv-orb-ring rv-ring-one" />
             <div className="rv-orb-ring rv-ring-two" />
+
             <div className="rv-orb-core">
                 {recording ? (
                     <span className="rv-record-dot" />
@@ -676,12 +757,19 @@ function AudioRow({ number, title, subtitle, playing, onClick }) {
     return (
         <div className="rv-audio-row">
             <div className="rv-audio-icon">{number}</div>
+
             <div className="rv-audio-info">
                 <strong>{title}</strong>
                 <small>{subtitle}</small>
             </div>
-            <button className="rv-play-button" onClick={onClick} type="button">
-                {playing ? "Ⅱ" : "▶"}
+
+            <button
+                className="rv-play-button"
+                onClick={onClick}
+                type="button"
+                aria-label={`Play ${title}`}
+            >
+                {playing ? "❚❚" : "▷"}
             </button>
         </div>
     );
@@ -689,7 +777,10 @@ function AudioRow({ number, title, subtitle, playing, onClick }) {
 
 function Waveform({ active }) {
     return (
-        <div className={`rv-waveform ${active ? "rv-waveform-active" : ""}`} aria-hidden="true">
+        <div
+            className={`rv-waveform ${active ? "rv-waveform-active" : ""}`}
+            aria-hidden="true"
+        >
             {Array.from({ length: 31 }, (_, i) => (
                 <span
                     key={i}
