@@ -583,7 +583,7 @@ export default function ReverseVoice() {
                                     type="button"
                                     aria-label="Play reversed recording"
                                 >
-                                    {playing === "reversed" ? "Ⅱ" : "▶"}
+                                    {playing === "reversed" ? "❚❚" : "▷"}
                                 </button>
                             </div>
 
