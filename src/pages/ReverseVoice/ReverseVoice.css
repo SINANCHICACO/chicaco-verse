@@ -132,32 +132,15 @@
   width: min(100%, 480px);
   min-height: 45px;
   margin: 0 auto 34px;
-  display: grid;
-  grid-template-columns: 42px 1fr 60px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
-}
-
-.rv-back-button {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--rv-border);
-  border-radius: 10px;
-  background: #17181e;
-  color: white;
-  font-size: 22px !important;
-  cursor: pointer;
-}
-
-.rv-back-button:hover,
-.rv-exit-button:hover {
-  border-color: var(--rv-accent);
+  box-sizing: border-box;
 }
 
 .rv-brand {
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   font-size: 10px;
   font-weight: 700;
@@ -170,7 +153,9 @@
 }
 
 .rv-exit-button {
-  padding: 10px 5px;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 10px 12px;
   border: 1px solid var(--rv-border);
   border-radius: 9px;
   background: transparent;
@@ -178,6 +163,12 @@
   font-family: "DM Mono", monospace;
   font-size: 9px !important;
   cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.rv-exit-button:hover {
+  border-color: var(--rv-accent);
+  color: var(--rv-accent);
 }
 
 /* Game layout */

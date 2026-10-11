@@ -447,14 +447,6 @@ export default function ReverseVoice() {
             )}
 
             <header className="rv-topbar">
-                <button
-                    className="rv-back-button"
-                    type="button"
-                    onClick={goHome}
-                    aria-label="Back to games"
-                >
-                    ←
-                </button>
 
                 <div className="rv-brand">
                     CHICACO <span>VERSE</span>
