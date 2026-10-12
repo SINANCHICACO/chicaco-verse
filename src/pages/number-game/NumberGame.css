@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 .number-game,
@@ -524,24 +523,21 @@
   left: 50%;
   width: max-content;
   max-width: calc(100vw - 36px);
-  padding: 15px 20px;
-  transform: translate(-50%, -50%);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 8px;
-  background: rgba(8,9,13,.94);
-  box-shadow: 0 20px 80px rgba(0,0,0,.35);
-  color: #fff;
-  text-align: center;
+  padding: 14px 20px;
+  border: 1px solid var(--ng-line);
+  border-radius: 12px;
+  background: #171922;
+  color: var(--ng-text);
   font: 600 11px 'DM Mono', monospace;
-  letter-spacing: .13em;
+  text-align: center;
+  transform: translate(-50%, -50%);
   animation: ng-toast-in .2s ease-out;
-  pointer-events: none;
 }
 
 @keyframes ng-toast-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -46%);
+    transform: translate(-50%, calc(-50% + 8px));
   }
   to {
     opacity: 1;
@@ -549,65 +545,140 @@
   }
 }
 
-/* GUESSING LAYOUT */
+/* GUESS LAYOUT */
 
 .ng-guess-layout {
-  flex: 1;
   display: grid;
-  grid-template-columns: minmax(230px, .8fr) minmax(300px, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(250px, .8fr);
+  gap: 28px;
+  padding-top: 34px;
   align-items: start;
-  gap: clamp(20px, 5vw, 64px);
-  padding: clamp(24px, 5vh, 50px) 0 20px;
 }
 
+.ng-guess-main {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.ng-guess-player {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.ng-guess-player h1 {
+  font-size: clamp(42px, 7vw, 64px);
+}
+
+.ng-timer {
+  width: min(100%, 340px);
+  margin: 0 auto 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--ng-line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.035);
+  text-align: center;
+}
+
+.ng-timer > span {
+  display: block;
+  color: var(--ng-muted);
+  font: 500 9px 'DM Mono', monospace;
+  letter-spacing: .15em;
+}
+
+.ng-timer > strong {
+  display: block;
+  margin: 5px 0 8px;
+  font: 700 30px 'DM Mono', monospace;
+}
+
+.ng-timer > div {
+  height: 3px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: rgba(255,255,255,.1);
+}
+
+.ng-timer > div > span {
+  display: block;
+  height: 100%;
+  width: var(--timer-progress, 100%);
+  background: var(--player-color);
+  transition: width .3s linear;
+}
+
+.ng-timer.warning {
+  border-color: #ff4057;
+}
+
+.ng-timer.warning > strong {
+  color: #ff4057;
+}
+
+.ng-guess-slots {
+  width: min(100%, 340px);
+  margin-bottom: 14px;
+}
+
+.ng-guess-keypad {
+  width: min(100%, 340px);
+}
+
+.ng-guess-keypad button {
+  min-height: 48px;
+}
+
+.ng-feedback-note {
+  min-height: 22px;
+  margin: 0 auto 12px;
+  color: var(--ng-muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+/* HISTORY */
+
 .ng-history {
-  min-height: 230px;
-  max-height: min(65vh, 620px);
+  width: 100%;
+  min-width: 0;
+  max-height: 520px;
   padding: 16px;
-  overflow-y: auto;
   border: 1px solid var(--ng-line);
   border-radius: 14px;
   background: rgba(255,255,255,.025);
-}
-
-.ng-history-title,
-.ng-history-columns,
-.ng-history-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
+  overflow-y: auto;
 }
 
 .ng-history-title {
-  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--ng-line);
-  font: 600 11px 'DM Mono', monospace;
+}
+
+.ng-history-title h2 {
+  margin: 0;
+  font: 700 12px 'DM Mono', monospace;
   letter-spacing: .08em;
 }
 
-.ng-history-title strong {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: rgba(255,255,255,.08);
+.ng-history-title span {
+  color: var(--ng-muted);
+  font: 500 10px 'DM Mono', monospace;
 }
 
 .ng-history-columns {
-  padding: 14px 0 8px;
-  color: #7f8593;
-  font: 500 9px 'DM Mono', monospace;
-}
-
-.ng-empty-history {
-  min-height: 135px;
   display: grid;
-  place-content: center;
-  color: #777d8a;
-  font-size: 11px;
-  line-height: 1.8;
-  text-align: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 12px 0 8px;
+  color: var(--ng-muted);
+  font: 500 9px 'DM Mono', monospace;
+  letter-spacing: .1em;
 }
 
 .ng-history-list {
@@ -617,147 +688,59 @@
 }
 
 .ng-history-row {
-  grid-template-columns: 28px 1fr auto;
-  gap: 8px;
-  padding: 11px 10px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,.07);
   border-radius: 8px;
-  background: rgba(255,255,255,.045);
-  font-family: 'DM Mono', monospace;
+  background: rgba(255,255,255,.025);
 }
 
-.ng-history-index {
-  color: #777d8a;
-  font-size: 10px;
+.ng-history-row > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.ng-history-row small {
+  color: var(--ng-muted);
+  font: 500 9px 'DM Mono', monospace;
 }
 
 .ng-history-row strong {
-  font-size: 16px;
+  font: 600 15px 'DM Mono', monospace;
   letter-spacing: .08em;
 }
 
 .ng-history-row b {
-  color: var(--player-color);
-  font-size: 12px;
-}
-
-/* GUESS TIMER */
-
-.ng-guess-main {
-  width: 100%;
-  max-width: 410px;
-  margin: 0 auto;
-}
-
-.ng-guess-player {
-  margin-bottom: 18px;
-  text-align: center;
-}
-
-.ng-guess-player h1 {
-  font-size: clamp(40px, 6vw, 62px);
-}
-
-.ng-timer {
-  margin-bottom: 20px;
-  padding: 12px 15px;
-  border: 1px solid var(--ng-line);
-  border-radius: 12px;
-  background: rgba(255,255,255,.035);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.ng-timer > span,
-.ng-frozen-timer > span {
-  display: block;
   color: var(--ng-muted);
-  font: 500 9px 'DM Mono', monospace;
-  letter-spacing: .13em;
+  font: 600 10px 'DM Mono', monospace;
+  white-space: nowrap;
 }
 
-.ng-timer > strong {
-  display: block;
-  margin: 4px 0 10px;
-  font: 700 30px 'DM Mono', monospace;
-  letter-spacing: -.05em;
-}
-
-.ng-timer-track {
-  height: 3px;
-  overflow: hidden;
-  border-radius: 10px;
-  background: rgba(255,255,255,.1);
-}
-
-.ng-timer-track i {
-  height: 100%;
-  display: block;
-  background: var(--player-color);
-  transition: width .1s linear;
-}
-
-.ng-timer.urgent {
-  border-color: var(--player-color);
-  box-shadow: 0 0 28px color-mix(in srgb, var(--player-color) 18%, transparent);
-  animation: ng-pulse .8s infinite alternate;
-}
-
-.ng-timer.urgent > strong {
-  color: var(--player-color);
-}
-
-@keyframes ng-pulse {
-  from { box-shadow: 0 0 0 transparent; }
-  to {
-    box-shadow: 0 0 25px color-mix(in srgb, var(--player-color) 22%, transparent);
-  }
-}
-
-.ng-guess-slots {
-  width: 100%;
-  gap: 8px;
-}
-
-.ng-guess-slots .ng-code-slot {
-  aspect-ratio: 1.05;
-}
-
-.ng-guess-keypad {
-  width: 100%;
-  gap: 7px;
-  margin-bottom: 12px;
-}
-
-.ng-guess-keypad button {
-  min-height: 48px;
-}
-
-.ng-feedback-note {
-  margin-top: 12px;
-  color: #777d8a;
-  font: 500 9px 'DM Mono', monospace;
-  letter-spacing: .1em;
+.ng-empty-history {
+  min-height: 100px;
+  display: grid;
+  place-items: center;
+  color: var(--ng-muted);
+  font-size: 11px;
   text-align: center;
 }
 
-/* SOLVED AND RESULT SCREENS */
+/* INTERMISSION / RESULTS */
 
 .ng-intermission {
-  width: min(100%, 540px);
   min-height: 100vh;
   min-height: 100dvh;
-  margin: 0 auto;
-  padding: 36px 24px;
+  padding: 35px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  animation: ng-rise-in .45s cubic-bezier(.2,.75,.25,1) both;
-}
-
-@keyframes ng-rise-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .ng-solved-mark,
@@ -1128,7 +1111,6 @@
   }
 }
 
-
 /* =========================
    GUESS FEEDBACK
 ========================= */
@@ -1177,6 +1159,7 @@
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1185,12 +1168,12 @@
 
 /* Correct guesses in history */
 
-.ng-history-row.history-correct {
+.ng-history-row\.history-correct {
   border: 1px solid rgba(72, 229, 138, .5);
   background: rgba(72, 229, 138, .08);
 }
 
-.ng-history-row.history-correct b {
+.ng-history-row\.history-correct b {
   color: #48e58a;
 }
 
@@ -1239,5 +1222,110 @@
   .ng-history {
     max-height: 26vh;
     overflow-y: auto;
+  }
+}
+
+/* MOBILE STABILITY FIX: prevent the page jumping when tapping controls */
+
+html {
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
+
+body {
+  overflow-anchor: none;
+}
+
+.number-game,
+.number-game * {
+  overflow-anchor: none;
+}
+
+.number-game {
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+.ng-play {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-anchor: none;
+}
+
+.ng-history {
+  scroll-behavior: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ng-history-list {
+  overflow-anchor: none;
+}
+
+.ng-code-slots,
+.ng-keypad,
+.ng-submit,
+.ng-error,
+.ng-feedback-note {
+  flex-shrink: 0;
+}
+
+.number-game button {
+  touch-action: manipulation;
+}
+
+@media (max-width: 760px) {
+  .ng-play {
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+
+  .ng-guess-layout {
+    align-content: start;
+    padding-bottom: 12px;
+  }
+
+  .ng-guess-main {
+    min-width: 0;
+  }
+
+  .ng-code-slots,
+  .ng-keypad,
+  .ng-submit {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ng-error {
+    min-height: 34px;
+  }
+
+  .ng-history {
+    scroll-behavior: auto !important;
+    overflow-anchor: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ng-play {
+    padding-top: max(15px, env(safe-area-inset-top));
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+  }
+
+  .ng-turn-heading {
+    margin-top: 20px;
+  }
+
+  .ng-code-slots {
+    scroll-margin: 0;
+  }
+
+  .ng-keypad button {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
   }
 }
