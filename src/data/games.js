@@ -54,6 +54,16 @@ const games = [
     path: "/games/reverse-voice",
   },
 
+  {
+    id: "stop-timer",
+    name: "Stop Timer",
+    description: "Test your reflexes with this fast-paced timer challenge.",
+    category: "Action",
+    minPlayers: 2,
+    maxPlayers: 10,
+    status: "available",
+    path: "/games/stop-timer",
+  }
 
 ];
 
