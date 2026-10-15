@@ -9,7 +9,9 @@ function getAudioContext() {
 
   if (!AudioContextClass) return null;
 
-  if (!audioContext) audioContext = new AudioContextClass();
+  if (!audioContext) {
+    audioContext = new AudioContextClass();
+  }
 
   if (audioContext.state === "suspended") {
     audioContext.resume().catch(() => {});
@@ -19,26 +21,84 @@ function getAudioContext() {
 }
 
 function createNoise(ctx, duration) {
-  const buffer = ctx.createBuffer(
-    1,
-    Math.ceil(ctx.sampleRate * duration),
-    ctx.sampleRate
-  );
-
+  const length = Math.ceil(ctx.sampleRate * duration);
+  const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
   const data = buffer.getChannelData(0);
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < length; i++) {
     data[i] = Math.random() * 2 - 1;
   }
 
   return buffer;
 }
 
-function playScrape(duration, volume, frequency = 1800) {
+/* A short, sharp pencil contact with paper. */
+export function playPencilMark() {
   const ctx = getAudioContext();
   if (!ctx) return;
 
   const now = ctx.currentTime;
+
+  // Crisp initial pencil tap.
+  const tap = ctx.createOscillator();
+  const tapGain = ctx.createGain();
+
+  tap.type = "triangle";
+  tap.frequency.setValueAtTime(1250, now);
+  tap.frequency.exponentialRampToValueAtTime(480, now + 0.045);
+
+  tapGain.gain.setValueAtTime(0.001, now);
+  tapGain.gain.linearRampToValueAtTime(0.075, now + 0.004);
+  tapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+
+  tap.connect(tapGain);
+  tapGain.connect(ctx.destination);
+
+  tap.start(now);
+  tap.stop(now + 0.06);
+
+  // Tiny, dry graphite scratch immediately after the tap.
+  const duration = 0.075;
+  const source = ctx.createBufferSource();
+  const filter = ctx.createBiquadFilter();
+  const scratchGain = ctx.createGain();
+
+  source.buffer = createNoise(ctx, duration);
+
+  filter.type = "bandpass";
+  filter.frequency.setValueAtTime(3200, now + 0.018);
+  filter.frequency.exponentialRampToValueAtTime(
+    1700,
+    now + duration + 0.018
+  );
+  filter.Q.value = 1.8;
+
+  scratchGain.gain.setValueAtTime(0.001, now + 0.018);
+  scratchGain.gain.linearRampToValueAtTime(
+    0.045,
+    now + 0.03
+  );
+  scratchGain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + duration + 0.018
+  );
+
+  source.connect(filter);
+  filter.connect(scratchGain);
+  scratchGain.connect(ctx.destination);
+
+  source.start(now + 0.018);
+  source.stop(now + duration + 0.02);
+}
+
+/* A longer, textured graphite stroke for a winning line. */
+export function playPencilStrike() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const duration = 0.62;
+
   const source = ctx.createBufferSource();
   const filter = ctx.createBiquadFilter();
   const gain = ctx.createGain();
@@ -46,15 +106,28 @@ function playScrape(duration, volume, frequency = 1800) {
   source.buffer = createNoise(ctx, duration);
 
   filter.type = "bandpass";
-  filter.frequency.setValueAtTime(frequency, now);
-  filter.frequency.exponentialRampToValueAtTime(
-    Math.max(400, frequency * 0.5),
+  filter.frequency.setValueAtTime(1150, now);
+  filter.frequency.linearRampToValueAtTime(
+    2600,
+    now + duration * 0.42
+  );
+  filter.frequency.linearRampToValueAtTime(
+    1500,
     now + duration
   );
-  filter.Q.value = 1.1;
+  filter.Q.value = 0.85;
 
+  // Soft start, textured middle, gentle finish.
   gain.gain.setValueAtTime(0.001, now);
-  gain.gain.linearRampToValueAtTime(volume, now + 0.015);
+  gain.gain.linearRampToValueAtTime(0.045, now + 0.06);
+  gain.gain.linearRampToValueAtTime(
+    0.085,
+    now + duration * 0.38
+  );
+  gain.gain.linearRampToValueAtTime(
+    0.035,
+    now + duration * 0.78
+  );
   gain.gain.exponentialRampToValueAtTime(
     0.001,
     now + duration
@@ -68,16 +141,7 @@ function playScrape(duration, volume, frequency = 1800) {
   source.stop(now + duration);
 }
 
-export function playPencilMark() {
-  // Short pencil tap and scratch.
-  playScrape(0.11, 0.12, 2400);
-}
-
-export function playPencilStrike() {
-  // Longer scratch for a winning line.
-  playScrape(0.55, 0.15, 2100);
-}
-
+/* Keep the existing victory sound unchanged. */
 export function playVictory() {
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -108,6 +172,38 @@ export function playVictory() {
   });
 }
 
+/* Keep the restart sound subtle. */
 export function playRestart() {
-  playScrape(0.2, 0.07, 1200);
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const duration = 0.16;
+
+  const source = ctx.createBufferSource();
+  const filter = ctx.createBiquadFilter();
+  const gain = ctx.createGain();
+
+  source.buffer = createNoise(ctx, duration);
+
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(1300, now);
+  filter.frequency.exponentialRampToValueAtTime(
+    400,
+    now + duration
+  );
+
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.linearRampToValueAtTime(0.045, now + 0.025);
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + duration
+  );
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  source.start(now);
+  source.stop(now + duration);
 }

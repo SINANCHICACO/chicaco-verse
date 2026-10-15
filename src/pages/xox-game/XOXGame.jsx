@@ -276,7 +276,7 @@ export default function XOXGame({ onExit }) {
         onClick={handleExit}
         aria-label="Exit game"
       >
-        ↗ EXIT
+         EXIT
       </button>
 
       <section className="xox-board-area">
