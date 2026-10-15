@@ -106,8 +106,15 @@ button {
 }
 
 @keyframes board-enter {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .xox-mini-board {
@@ -219,9 +226,20 @@ button {
 }
 
 @keyframes mark-pop {
-  0% { opacity: 0; transform: scale(0.25); }
-  70% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Only the outer edge of the playable board blinks. */
@@ -240,13 +258,25 @@ button {
 }
 
 @keyframes target-outline-blink {
-  0%, 100% { outline-color: var(--xox-player); }
-  50% { outline-color: transparent; }
+  0%,
+  100% {
+    outline-color: var(--xox-player);
+  }
+
+  50% {
+    outline-color: transparent;
+  }
 }
 
 @keyframes free-outline-blink {
-  0%, 100% { outline-color: var(--xox-player); }
-  50% { outline-color: transparent; }
+  0%,
+  100% {
+    outline-color: var(--xox-player);
+  }
+
+  50% {
+    outline-color: transparent;
+  }
 }
 
 .xox-mini-board.mini-won-x {
@@ -292,8 +322,15 @@ button {
 }
 
 @keyframes winner-mark-appear {
-  from { opacity: 0; transform: scale(0.2); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Mini-board strike sits behind the large winning mark. */
@@ -326,8 +363,13 @@ button {
 }
 
 @keyframes mini-strike-row {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .xox-mini-strike.line-3,
@@ -342,42 +384,64 @@ button {
   animation-name: mini-strike-column;
 }
 
-.xox-mini-strike.line-4 { left: 50%; }
-.xox-mini-strike.line-5 { left: 83.3333%; }
-
-@keyframes mini-strike-column {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+.xox-mini-strike.line-4 {
+  left: 50%;
 }
 
+.xox-mini-strike.line-5 {
+  left: 83.3333%;
+}
+
+@keyframes mini-strike-column {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* FIX: diagonal mini-board winning strikes. */
 .xox-mini-strike.line-6,
 .xox-mini-strike.line-7 {
-  top: 50%;
-  left: -20%;
-  width: 140%;
+  left: 0;
+  width: 141.42%;
   height: 4px;
 }
 
 .xox-mini-strike.line-6 {
+  top: 0;
   transform: rotate(45deg) scaleX(0);
   transform-origin: left center;
   animation-name: mini-strike-diagonal-down;
 }
 
 .xox-mini-strike.line-7 {
+  top: 100%;
   transform: rotate(-45deg) scaleX(0);
   transform-origin: left center;
   animation-name: mini-strike-diagonal-up;
 }
 
 @keyframes mini-strike-diagonal-down {
-  from { transform: rotate(45deg) scaleX(0); }
-  to { transform: rotate(45deg) scaleX(1); }
+  from {
+    transform: rotate(45deg) scaleX(0);
+  }
+
+  to {
+    transform: rotate(45deg) scaleX(1);
+  }
 }
 
 @keyframes mini-strike-diagonal-up {
-  from { transform: rotate(-45deg) scaleX(0); }
-  to { transform: rotate(-45deg) scaleX(1); }
+  from {
+    transform: rotate(-45deg) scaleX(0);
+  }
+
+  to {
+    transform: rotate(-45deg) scaleX(1);
+  }
 }
 
 /* Overall winning strike. */
@@ -410,8 +474,13 @@ button {
 }
 
 @keyframes game-strike-row {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .xox-game-strike.line-3,
@@ -426,42 +495,64 @@ button {
   animation-name: game-strike-column;
 }
 
-.xox-game-strike.line-4 { left: 50%; }
-.xox-game-strike.line-5 { left: 83.3333%; }
-
-@keyframes game-strike-column {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+.xox-game-strike.line-4 {
+  left: 50%;
 }
 
+.xox-game-strike.line-5 {
+  left: 83.3333%;
+}
+
+@keyframes game-strike-column {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* FIX: diagonal overall-game winning strikes. */
 .xox-game-strike.line-6,
 .xox-game-strike.line-7 {
-  top: 50%;
-  left: -20%;
-  width: 140%;
+  left: 0;
+  width: 141.42%;
   height: 6px;
 }
 
 .xox-game-strike.line-6 {
+  top: 0;
   transform: rotate(45deg) scaleX(0);
   transform-origin: left center;
   animation-name: game-strike-diagonal-down;
 }
 
 .xox-game-strike.line-7 {
+  top: 100%;
   transform: rotate(-45deg) scaleX(0);
   transform-origin: left center;
   animation-name: game-strike-diagonal-up;
 }
 
 @keyframes game-strike-diagonal-down {
-  from { transform: rotate(45deg) scaleX(0); }
-  to { transform: rotate(45deg) scaleX(1); }
+  from {
+    transform: rotate(45deg) scaleX(0);
+  }
+
+  to {
+    transform: rotate(45deg) scaleX(1);
+  }
 }
 
 @keyframes game-strike-diagonal-up {
-  from { transform: rotate(-45deg) scaleX(0); }
-  to { transform: rotate(-45deg) scaleX(1); }
+  from {
+    transform: rotate(-45deg) scaleX(0);
+  }
+
+  to {
+    transform: rotate(-45deg) scaleX(1);
+  }
 }
 
 .xox-mini-board.mini-draw {
@@ -540,8 +631,13 @@ button {
 }
 
 @keyframes result-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .xox-winner-content {
@@ -555,8 +651,15 @@ button {
 }
 
 @keyframes result-content-in {
-  from { opacity: 0; transform: translateY(24px) scale(0.92); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .xox-winner-kicker {
@@ -577,8 +680,14 @@ button {
 }
 
 @keyframes result-title-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.035); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
 }
 
 .xox-winner-mark {
