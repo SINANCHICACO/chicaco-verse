@@ -13,6 +13,7 @@ import ColorGuess from "./pages/ColorGuess/ColorGuess";
 
 import ReverseVoice from "./pages/ReverseVoice/ReverseVoice";
 import NumberGame from "./pages/number-game/NumberGame";
+import XOXGame from "./pages/xox-game/XOXGame";
 
 import StopTimer from "./pages/StopTimer/StopTimer";
 
@@ -162,6 +163,10 @@ function App() {
 
     if (path === "/games/stop-timer") {
         return <StopTimer />;
+    }
+
+    if (path === "/games/xox-game") {
+        return <XOXGame />;
     }
 
     /*

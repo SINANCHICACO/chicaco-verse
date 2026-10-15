@@ -63,7 +63,18 @@ const games = [
     maxPlayers: 10,
     status: "available",
     path: "/games/stop-timer",
-  }
+  },
+
+  {
+    id: "xox-game",
+    name: "XOX Game",
+    description: "Classic Tic-Tac-Toe game for two players.",
+    category: "Strategy",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/xox-game",
+  } 
 
 ];
 
