@@ -1,0 +1,744 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&display=swap");
+
+:root {
+  --db-blue-bg: #65adca;
+  --db-red-bg: #fa987c;
+  --db-blue: #00c9e9;
+  --db-red: #ff626b;
+  --db-black: #050505;
+  --db-white: #ffffff;
+  --db-board: #eaf5fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.db-game {
+  --db-bg: var(--db-blue-bg);
+  --db-player: var(--db-blue);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  overflow: hidden;
+  background: var(--db-bg);
+  color: var(--db-black);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  transition: background-color 400ms ease;
+}
+
+.db-game.turn-blue {
+  --db-bg: var(--db-blue-bg);
+  --db-player: var(--db-blue);
+}
+
+.db-game.turn-red {
+  --db-bg: var(--db-red-bg);
+  --db-player: var(--db-red);
+}
+
+.db-header {
+  display: grid;
+  grid-template-columns: minmax(90px, 150px) 1fr minmax(90px, 150px);
+  align-items: center;
+  gap: 20px;
+  width: min(100%, 1050px);
+  margin: 0 auto;
+}
+
+.db-player-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 100px;
+  padding: 12px;
+  background: var(--db-white);
+  border: 3px solid var(--db-black);
+}
+
+.db-player-label {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.blue-card .db-player-label,
+.blue-card .db-player-score {
+  color: #009bb8;
+}
+
+.red-card .db-player-label,
+.red-card .db-player-score {
+  color: #ef4c58;
+}
+
+.db-player-score {
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.db-player-caption {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.db-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+}
+
+.db-eyebrow {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.db-heading h1 {
+  margin: 0;
+  font-size: clamp(27px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.db-turn {
+  margin-top: 5px;
+  padding: 5px 13px;
+  border: 2px solid var(--db-black);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.db-main {
+  display: grid;
+  grid-template-columns: minmax(80px, 140px) minmax(0, 600px) minmax(80px, 140px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 40px);
+  width: 100%;
+  margin: auto;
+}
+
+.db-side-score {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 170px;
+  padding: 16px 8px;
+  background: var(--db-white);
+  border: 3px solid var(--db-black);
+  text-align: center;
+}
+
+.db-side-name {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.blue-side .db-side-name,
+.blue-side .db-side-points {
+  color: #009bb8;
+}
+
+.red-side .db-side-name,
+.red-side .db-side-points {
+  color: #ef4c58;
+}
+
+.db-side-points {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.db-side-caption {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.db-turn-indicator {
+  width: 12px;
+  height: 12px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--db-player);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--db-player) 20%, transparent);
+  animation: db-turn-pulse 1s ease-in-out infinite;
+}
+
+@keyframes db-turn-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.db-board-wrap {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  border-radius: 24px;
+  background: var(--db-board);
+  box-shadow: 0 7px 0 rgba(0, 0, 0, 0.07);
+}
+
+.db-board {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: manipulation;
+}
+
+.db-box {
+  fill: transparent;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 220ms ease;
+  pointer-events: none;
+}
+
+.db-box.box-blue {
+  fill: rgba(0, 201, 233, 0.4);
+}
+
+.db-box.box-red {
+  fill: rgba(255, 98, 107, 0.4);
+}
+
+/* Newly captured boxes pop and fill with the player's color. */
+.db-box.box-newly-captured {
+  animation: db-box-capture 520ms cubic-bezier(0.18, 1.4, 0.35, 1) both;
+}
+
+.db-box.box-blue.box-newly-captured {
+  animation-name: db-box-capture-blue;
+}
+
+.db-box.box-red.box-newly-captured {
+  animation-name: db-box-capture-red;
+}
+
+@keyframes db-box-capture-blue {
+  0% {
+    fill: rgba(0, 201, 233, 0);
+    transform: scale(0.55);
+    opacity: 0.5;
+  }
+  55% {
+    fill: rgba(0, 201, 233, 0.75);
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    fill: rgba(0, 201, 233, 0.4);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes db-box-capture-red {
+  0% {
+    fill: rgba(255, 98, 107, 0);
+    transform: scale(0.55);
+    opacity: 0.5;
+  }
+  55% {
+    fill: rgba(255, 98, 107, 0.8);
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    fill: rgba(255, 98, 107, 0.4);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.db-grid-line {
+  stroke: #ffffff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+/* All available lines remain visible. */
+.db-edge {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  pointer-events: none;
+  transition: stroke 180ms ease;
+}
+
+.db-edge.edge-available {
+  stroke: #ffffff;
+}
+
+.db-edge.edge-blue {
+  stroke: var(--db-blue);
+}
+
+.db-edge.edge-red {
+  stroke: var(--db-red);
+}
+
+.db-edge.edge-last {
+  stroke-width: 10;
+  animation: db-edge-appear 220ms ease-out both;
+}
+
+@keyframes db-edge-appear {
+  from {
+    opacity: 0.5;
+    stroke-width: 5;
+  }
+  to {
+    opacity: 1;
+    stroke-width: 10;
+  }
+}
+
+/* Large invisible hit areas for accurate tapping. */
+.db-edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 32;
+  stroke-linecap: round;
+  cursor: pointer;
+  pointer-events: stroke;
+  outline: none;
+}
+
+.db-edge-hit:focus-visible {
+  stroke: rgba(0, 0, 0, 0.2);
+  stroke-width: 18;
+}
+
+.db-dot {
+  fill: var(--db-black);
+  pointer-events: none;
+}
+
+.db-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: min(100%, 1050px);
+  margin: 0 auto;
+}
+
+.db-footer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.db-current-dot {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.db-current-dot.blue {
+  background: var(--db-blue);
+}
+
+.db-current-dot.red {
+  background: var(--db-red);
+}
+
+.db-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.db-restart,
+.db-exit {
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 2px solid var(--db-black);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.db-restart {
+  background: var(--db-black);
+  color: var(--db-white);
+}
+
+.db-restart:hover {
+  background: transparent;
+  color: var(--db-black);
+}
+
+.db-exit {
+  background: var(--db-white);
+  color: var(--db-black);
+}
+
+.db-exit:hover {
+  background: var(--db-black);
+  color: var(--db-white);
+}
+
+/* Winner screen */
+.db-result {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(5, 5, 5, 0.92);
+  color: var(--db-white);
+  animation: db-result-fade 400ms ease both;
+}
+
+.db-result.result-blue {
+  --db-result-color: var(--db-blue);
+}
+
+.db-result.result-red {
+  --db-result-color: var(--db-red);
+}
+
+.db-result.result-draw {
+  --db-result-color: #ffffff;
+}
+
+@keyframes db-result-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.db-result-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  animation: db-result-enter 500ms cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+
+@keyframes db-result-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.db-result-kicker {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.db-trophy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 82px;
+  margin-top: 22px;
+  border: 3px solid var(--db-result-color);
+  border-radius: 50%;
+  color: var(--db-result-color);
+  font-size: 48px;
+}
+
+.db-result h2 {
+  margin: 25px 0 10px;
+  color: var(--db-result-color);
+  font-size: clamp(48px, 11vw, 82px);
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.db-result-summary {
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.db-result-message {
+  margin: 0 0 28px;
+  color: #d5d5d5;
+  font-size: 16px;
+}
+
+.db-play-again {
+  min-width: 180px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 2px solid var(--db-result-color);
+  background: var(--db-result-color);
+  color: var(--db-black);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.db-play-again:hover {
+  background: transparent;
+  color: var(--db-white);
+}
+
+.db-result-exit {
+  margin-top: 14px;
+  padding: 10px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--db-white);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  .db-game {
+    padding: 18px;
+    gap: 20px;
+  }
+
+  .db-header {
+    grid-template-columns: 90px minmax(0, 1fr) 90px;
+    gap: 10px;
+  }
+
+  .db-player-card {
+    min-height: 82px;
+    padding: 8px 4px;
+    border-width: 2px;
+  }
+
+  .db-player-label {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .db-player-score {
+    font-size: 30px;
+  }
+
+  .db-player-caption {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .db-main {
+    grid-template-columns: 78px minmax(0, 1fr) 78px;
+    gap: 12px;
+  }
+
+  .db-side-score {
+    min-height: 130px;
+    border-width: 2px;
+  }
+
+  .db-side-name {
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+
+  .db-side-caption {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .db-board-wrap {
+    padding: 7px;
+    border-radius: 17px;
+  }
+
+  .db-footer-info {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 560px) {
+  .db-game {
+    padding: 16px 12px;
+    gap: 18px;
+  }
+
+  .db-header {
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 7px;
+  }
+
+  .db-player-card {
+    min-height: 70px;
+  }
+
+  .db-player-score {
+    font-size: 27px;
+  }
+
+  .db-heading h1 {
+    font-size: clamp(22px, 5.8vw, 34px);
+  }
+
+  .db-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .db-turn {
+    padding: 4px 7px;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .db-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin: auto 0;
+  }
+
+  .db-side-score {
+    display: none;
+  }
+
+  .db-board-wrap {
+    width: 100%;
+    max-width: 470px;
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .db-grid-line,
+  .db-edge {
+    stroke-width: 8;
+  }
+
+  .db-edge.edge-last {
+    stroke-width: 10;
+  }
+
+  .db-edge-hit {
+    stroke-width: 32;
+  }
+
+  .db-footer {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .db-footer-info {
+    gap: 7px;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  .db-footer-actions {
+    gap: 7px;
+  }
+
+  .db-restart,
+  .db-exit {
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .db-result-summary {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 360px) {
+  .db-game {
+    padding: 12px 8px;
+  }
+
+  .db-header {
+    grid-template-columns: 65px minmax(0, 1fr) 65px;
+    gap: 5px;
+  }
+
+  .db-player-card {
+    min-height: 62px;
+  }
+
+  .db-player-score {
+    font-size: 23px;
+  }
+
+  .db-heading h1 {
+    font-size: 21px;
+  }
+
+  .db-footer-info {
+    font-size: 11px;
+  }
+
+  .db-restart,
+  .db-exit {
+    padding: 7px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .db-game *,
+  .db-game *::before,
+  .db-game *::after,
+  .db-result *,
+  .db-result *::before,
+  .db-result *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

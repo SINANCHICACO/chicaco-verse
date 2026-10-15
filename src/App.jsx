@@ -15,6 +15,8 @@ import ReverseVoice from "./pages/ReverseVoice/ReverseVoice";
 import NumberGame from "./pages/number-game/NumberGame";
 import XOXGame from "./pages/xox-game/XOXGame";
 
+import DotsAndBoxes from "./pages/DotsAndBoxes/DotsAndBoxes";
+
 import StopTimer from "./pages/StopTimer/StopTimer";
 
 function App() {
@@ -167,6 +169,10 @@ function App() {
 
     if (path === "/games/xox-game") {
         return <XOXGame />;
+    }
+
+    if (path === "/games/DotsAndBoxes") {
+        return <DotsAndBoxes />;
     }
 
     /*

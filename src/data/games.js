@@ -74,6 +74,17 @@ const games = [
     maxPlayers: 2,
     status: "available",
     path: "/games/xox-game",
+  },
+  
+  {
+    id: "DotsAndBoxes",
+    name: "Dots And Boxes",
+    description: "Classic Tic-Tac-Toe game for two players.",
+    category: "Strategy",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/DotsAndBoxes",
   } 
 
 ];
