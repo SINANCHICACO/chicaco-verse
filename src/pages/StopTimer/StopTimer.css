@@ -82,20 +82,22 @@
 }
 
 .st-home {
-  min-height: 40px;
-  padding: 0 8px;
+  min-height: auto;
+  padding: 8px 12px;
 
-  border: 0;
+  border: 1px solid var(--border);
+  border-radius: 100px;
   background: transparent;
   color: #b4b5be;
 
-  font: 500 10px "DM Mono", monospace;
-  letter-spacing: 1px;
+  font: 500 10px "DM Mono", monospace !important;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .st-home:hover {
   color: #ffffff;
+  border-color: #555660;
 }
 
 .st-brand {

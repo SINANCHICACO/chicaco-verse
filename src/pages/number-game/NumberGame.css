@@ -29,10 +29,8 @@
   z-index: -1;
   pointer-events: none;
   opacity: .15;
-  background-image: radial-gradient(
-    rgba(255,255,255,.28) .6px,
-    transparent .6px
-  );
+  background-image: radial-gradient(rgba(255, 255, 255, .28) .6px,
+      transparent .6px);
   background-size: 5px 5px;
 }
 
@@ -75,15 +73,14 @@
 .ng-back {
   position: absolute;
   top: 22px;
-  left: clamp(20px, 5vw, 72px);
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
+  right: clamp(20px, 5vw, 72px);
+  left: auto;
+
+  padding: 8px 12px;
   border: 1px solid var(--ng-line);
+  border-radius: 100px;
   background: transparent;
-  border-radius: 50%;
-  font-size: 24px !important;
+  font: 500 10px 'DM Mono', monospace !important;
   cursor: pointer;
 }
 
@@ -138,7 +135,7 @@
   padding: 20px;
   border: 1px solid var(--ng-line);
   border-radius: 18px;
-  background: rgba(255,255,255,.035);
+  background: rgba(255, 255, 255, .035);
   text-align: left;
 }
 
@@ -157,7 +154,7 @@
   margin: 15px 0 18px;
 }
 
-.ng-time-control > button {
+.ng-time-control>button {
   width: 44px;
   height: 44px;
   border: 1px solid var(--ng-line);
@@ -216,7 +213,7 @@
   gap: 12px;
 }
 
-.ng-duplicate-setting > div {
+.ng-duplicate-setting>div {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -414,15 +411,15 @@
   aspect-ratio: .86;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255,255,255,.2);
+  border: 1px solid rgba(255, 255, 255, .2);
   border-radius: 12px;
-  background: rgba(0,0,0,.23);
+  background: rgba(0, 0, 0, .23);
   font: 700 clamp(28px, 6vw, 42px) 'DM Mono', monospace;
   transition: background .15s ease, border-color .15s ease;
 }
 
-.ng-code-slot > span {
-  color: rgba(255,255,255,.2);
+.ng-code-slot>span {
+  color: rgba(255, 255, 255, .2);
 }
 
 .ng-code-slot.filled {
@@ -432,8 +429,13 @@
 }
 
 @keyframes ng-slot-in {
-  from { transform: scale(.92); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(.92);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 .ng-helper {
@@ -458,14 +460,14 @@
   min-height: 54px;
   border: 1px solid var(--ng-line);
   border-radius: 10px;
-  background: rgba(255,255,255,.055);
+  background: rgba(255, 255, 255, .055);
   font: 600 19px 'DM Mono', monospace;
   cursor: pointer;
   transition: background .15s ease, transform .15s ease;
 }
 
 .ng-keypad button:hover:not(:disabled) {
-  background: rgba(255,255,255,.13);
+  background: rgba(255, 255, 255, .13);
 }
 
 .ng-keypad button:active:not(:disabled) {
@@ -489,9 +491,9 @@
   max-width: calc(100% - 24px);
   margin: 10px auto 12px;
   padding: 10px 13px;
-  border: 1px solid rgba(255,64,87,.5);
+  border: 1px solid rgba(255, 64, 87, .5);
   border-radius: 8px;
-  background: rgba(255,64,87,.1);
+  background: rgba(255, 64, 87, .1);
   color: #ff7182;
   font: 600 10px 'DM Mono', monospace;
   letter-spacing: .04em;
@@ -504,14 +506,33 @@
 }
 
 @keyframes ng-shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-7px); }
-  40%, 80% { transform: translateX(7px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-7px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(7px);
+  }
 }
 
 @keyframes ng-error-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* INTRO MESSAGE */
@@ -539,6 +560,7 @@
     opacity: 0;
     transform: translate(-50%, calc(-50% + 8px));
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%);
@@ -577,31 +599,31 @@
   padding: 12px 16px;
   border: 1px solid var(--ng-line);
   border-radius: 12px;
-  background: rgba(255,255,255,.035);
+  background: rgba(255, 255, 255, .035);
   text-align: center;
 }
 
-.ng-timer > span {
+.ng-timer>span {
   display: block;
   color: var(--ng-muted);
   font: 500 9px 'DM Mono', monospace;
   letter-spacing: .15em;
 }
 
-.ng-timer > strong {
+.ng-timer>strong {
   display: block;
   margin: 5px 0 8px;
   font: 700 30px 'DM Mono', monospace;
 }
 
-.ng-timer > div {
+.ng-timer>div {
   height: 3px;
   overflow: hidden;
   border-radius: 5px;
-  background: rgba(255,255,255,.1);
+  background: rgba(255, 255, 255, .1);
 }
 
-.ng-timer > div > span {
+.ng-timer>div>span {
   display: block;
   height: 100%;
   width: var(--timer-progress, 100%);
@@ -613,7 +635,7 @@
   border-color: #ff4057;
 }
 
-.ng-timer.warning > strong {
+.ng-timer.warning>strong {
   color: #ff4057;
 }
 
@@ -647,7 +669,7 @@
   padding: 16px;
   border: 1px solid var(--ng-line);
   border-radius: 14px;
-  background: rgba(255,255,255,.025);
+  background: rgba(255, 255, 255, .025);
   overflow-y: auto;
 }
 
@@ -693,12 +715,12 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  border: 1px solid rgba(255,255,255,.07);
+  border: 1px solid rgba(255, 255, 255, .07);
   border-radius: 8px;
-  background: rgba(255,255,255,.025);
+  background: rgba(255, 255, 255, .025);
 }
 
-.ng-history-row > div:first-child {
+.ng-history-row>div:first-child {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -785,8 +807,13 @@
 }
 
 @keyframes ng-timer-highlight {
-  from { transform: scale(1); }
-  to { transform: scale(1.025); }
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.025);
+  }
 }
 
 .ng-frozen-timer strong {
@@ -828,7 +855,7 @@
   padding: 16px;
   border: 1px solid var(--ng-line);
   border-radius: 10px;
-  background: rgba(255,255,255,.035);
+  background: rgba(255, 255, 255, .035);
   text-align: left;
 }
 
@@ -843,7 +870,7 @@
 
 .ng-result-time.winner {
   border-color: #6fe0a1;
-  background: rgba(111,224,161,.08);
+  background: rgba(111, 224, 161, .08);
 }
 
 .ng-result-time.winner strong {
@@ -920,9 +947,16 @@
 
   .ng-back {
     top: 15px;
-    left: 16px;
-    width: 38px;
-    height: 38px;
+    right: 16px;
+    left: auto;
+    width: auto;
+    height: auto;
+    padding: 8px 12px;
+    border: 1px solid var(--ng-line);
+    border-radius: 100px;
+    background: transparent;
+    font: 500 10px 'DM Mono', monospace !important;
+    cursor: pointer;
   }
 
   .ng-brand {
@@ -951,7 +985,7 @@
     font-size: 36px;
   }
 
-  .ng-time-control > button {
+  .ng-time-control>button {
     width: 40px;
     height: 40px;
   }
@@ -1037,7 +1071,7 @@
     padding: 10px 12px;
   }
 
-  .ng-timer > strong {
+  .ng-timer>strong {
     font-size: 27px;
   }
 
@@ -1084,7 +1118,7 @@
     padding: 8px 12px;
   }
 
-  .ng-timer > strong {
+  .ng-timer>strong {
     margin: 3px 0 7px;
     font-size: 25px;
   }
@@ -1101,6 +1135,7 @@
 /* ACCESSIBILITY */
 
 @media (prefers-reduced-motion: reduce) {
+
   .number-game *,
   .number-game *::before,
   .number-game *::after {
@@ -1132,9 +1167,21 @@
 }
 
 @keyframes ng-shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-7px); }
-  40%, 80% { transform: translateX(7px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-7px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(7px);
+  }
 }
 
 /* Error message for duplicate digits */
@@ -1191,7 +1238,7 @@
   overflow-anchor: auto;
 }
 
-.ng-history-list > div:last-child {
+.ng-history-list>div:last-child {
   scroll-margin-bottom: 8px;
 }
 

@@ -457,7 +457,7 @@ export default function ReverseVoice() {
                     type="button"
                     onClick={goHome}
                 >
-                    EXIT 
+                    EXIT  x
                 </button>
             </header>
 

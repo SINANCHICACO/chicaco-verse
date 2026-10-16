@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import "./NumberGame.css";
 
@@ -73,6 +72,11 @@ export default function NumberGame() {
   const screenRef = useRef("setup");
   const resultsRef = useRef([]);
 
+  // Sound-related refs
+  const audioContextRef = useRef(null);
+  const lastCountdownSecondRef = useRef(null);
+  const resultSoundPlayedRef = useRef(false);
+
   const guesserId = giverId === "p1" ? "p2" : "p1";
   const giver = PLAYERS[giverId];
   const guesser = PLAYERS[guesserId];
@@ -118,6 +122,119 @@ export default function NumberGame() {
       window.clearTimeout(feedbackRef.current);
     };
   }, []);
+
+  // Create or resume the browser audio context.
+  // No external sound files are needed.
+  function getAudioContext() {
+    if (typeof window === "undefined") return null;
+
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return null;
+
+    if (!audioContextRef.current) {
+      audioContextRef.current = new AudioContextClass();
+    }
+
+    if (audioContextRef.current.state === "suspended") {
+      audioContextRef.current.resume().catch(() => { });
+    }
+
+    return audioContextRef.current;
+  }
+
+  // Play a synthesized tone.
+  function playTone({
+    frequency = 800,
+    duration = 0.09,
+    type = "sine",
+    volume = 0.045,
+    delay = 0,
+  } = {}) {
+    const context = getAudioContext();
+    if (!context) return;
+
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    const startAt = context.currentTime + delay;
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, startAt);
+
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(
+      volume,
+      startAt + 0.012
+    );
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      startAt + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start(startAt);
+    oscillator.stop(startAt + duration + 0.02);
+  }
+
+  // Countdown sound for 5, 4, 3, 2, and 1 seconds.
+  function playCountdownSound(second) {
+    playTone({
+      frequency:
+        second <= 2 ? 1080 : second === 3 ? 920 : 780,
+      duration: second === 1 ? 0.16 : 0.085,
+      type: "sine",
+      volume: second === 1 ? 0.065 : 0.045,
+    });
+  }
+
+  // Winner announcement sound, with a separate sound for a draw.
+  function playWinnerSound(isTie = false) {
+    if (isTie) {
+      playTone({
+        frequency: 520,
+        duration: 0.18,
+        type: "triangle",
+        volume: 0.05,
+      });
+
+      playTone({
+        frequency: 440,
+        duration: 0.24,
+        type: "triangle",
+        volume: 0.05,
+        delay: 0.2,
+      });
+
+      return;
+    }
+
+    // Three-note victory fanfare.
+    playTone({
+      frequency: 660,
+      duration: 0.16,
+      type: "triangle",
+      volume: 0.055,
+    });
+
+    playTone({
+      frequency: 830,
+      duration: 0.18,
+      type: "triangle",
+      volume: 0.055,
+      delay: 0.16,
+    });
+
+    playTone({
+      frequency: 990,
+      duration: 0.32,
+      type: "triangle",
+      volume: 0.06,
+      delay: 0.34,
+    });
+  }
 
   function clearClock() {
     window.clearInterval(clockRef.current);
@@ -172,6 +289,9 @@ export default function NumberGame() {
 
     const start = Date.now();
 
+    // Reset the countdown sound tracker for this turn.
+    lastCountdownSecondRef.current = null;
+
     startedAtRef.current = start;
     setStartedAt(start);
 
@@ -193,8 +313,21 @@ export default function NumberGame() {
       remainingRef.current = left;
       setRemaining(left);
 
+      // Play each countdown sound only once per second.
+      const wholeSecondsLeft = Math.ceil(left);
+
+      if (
+        wholeSecondsLeft >= 1 &&
+        wholeSecondsLeft <= 5 &&
+        lastCountdownSecondRef.current !== wholeSecondsLeft
+      ) {
+        lastCountdownSecondRef.current = wholeSecondsLeft;
+        playCountdownSound(wholeSecondsLeft);
+      }
+
       if (left <= 0) {
         clearClock();
+
         recordTurn({
           solved: false,
           guessedNumber: null,
@@ -206,22 +339,31 @@ export default function NumberGame() {
   function startGame() {
     clearTimers();
 
-    const firstPlayer = Math.random() < 0.5 ? "p1" : "p2";
+    // Initialize audio from a user click so browser playback is permitted.
+    getAudioContext();
+
+    resultSoundPlayedRef.current = false;
+
+    const firstPlayer =
+      Math.random() < 0.5 ? "p1" : "p2";
 
     setGiverId(firstPlayer);
     setSecret("");
     setGuess("");
     setHistory([]);
     setResults([]);
+
     resultsRef.current = [];
 
     setLastResult(null);
     setWinner(null);
+
     setRemaining(timeLimit);
     remainingRef.current = timeLimit;
 
     setStartedAt(null);
     startedAtRef.current = null;
+
     setError("");
     setFeedbackState("");
 
@@ -310,6 +452,7 @@ export default function NumberGame() {
     setHistory([]);
     setError("");
     setFeedbackState("");
+
     setRemaining(timeLimit);
     remainingRef.current = timeLimit;
 
@@ -322,7 +465,7 @@ export default function NumberGame() {
     screenRef.current = "guessing";
     setScreen("guessing");
 
-    // Start only after the intro message disappears.
+    // Start the clock only after the intro message disappears.
     showMessage(() => {
       if (roundEndedRef.current) return;
       startClock();
@@ -341,7 +484,10 @@ export default function NumberGame() {
     const elapsed =
       start === null
         ? 0
-        : Math.min(timeLimit, Math.max(0, (Date.now() - start) / 1000));
+        : Math.min(
+          timeLimit,
+          Math.max(0, (Date.now() - start) / 1000)
+        );
 
     const recordedTime = solved ? elapsed : timeLimit;
 
@@ -362,7 +508,10 @@ export default function NumberGame() {
     setResults(nextResults);
     setLastResult(result);
 
-    remainingRef.current = solved ? Math.max(0, timeLimit - elapsed) : 0;
+    remainingRef.current = solved
+      ? Math.max(0, timeLimit - elapsed)
+      : 0;
+
     setRemaining(remainingRef.current);
     setGuess("");
 
@@ -375,17 +524,27 @@ export default function NumberGame() {
     if (nextResults.length >= 2) {
       const first = nextResults[0];
       const second = nextResults[1];
+      const isTie = first.time === second.time;
 
-      if (first.time === second.time) {
+      if (isTie) {
         setWinner({ tie: true });
       } else {
         setWinner(first.time < second.time ? first : second);
       }
 
+      // Play the final result sound only once.
+      if (!resultSoundPlayedRef.current) {
+        resultSoundPlayedRef.current = true;
+        playWinnerSound(isTie);
+      }
+
       screenRef.current = "result";
       setScreen("result");
     } else {
-      screenRef.current = solved ? "solved" : "round-timeout";
+      screenRef.current = solved
+        ? "solved"
+        : "round-timeout";
+
       setScreen(solved ? "solved" : "round-timeout");
     }
   }
@@ -403,6 +562,7 @@ export default function NumberGame() {
     if (noDuplicates && hasDuplicate(value)) {
       submitLockRef.current = false;
       setGuess("");
+
       flashError("DUPLICATE DIGITS ARE NOT ALLOWED");
       showFeedback("wrong");
       return;
@@ -471,10 +631,13 @@ export default function NumberGame() {
   function playAgain() {
     clearTimers();
 
+    resultSoundPlayedRef.current = false;
+
     setSecret("");
     setGuess("");
     setHistory([]);
     setResults([]);
+
     resultsRef.current = [];
 
     setLastResult(null);
@@ -506,9 +669,8 @@ export default function NumberGame() {
   function renderSlots(value) {
     return [0, 1, 2, 3].map((index) => (
       <div
-        className={`ng-code-slot ${
-          value[index] ? "filled" : ""
-        } ${feedbackState ? `feedback-${feedbackState}` : ""}`}
+        className={`ng-code-slot ${value[index] ? "filled" : ""
+          } ${feedbackState ? `feedback-${feedbackState}` : ""}`}
         key={index}
       >
         {value[index] || <span>•</span>}
@@ -562,18 +724,19 @@ export default function NumberGame() {
           <div className="ng-history-list">
             {history.map((item, index) => (
               <div
-                className={`ng-history-row ${
-                  item.correct ? "history-correct" : ""
-                }`}
+                className={`ng-history-row ${item.correct ? "history-correct" : ""
+                  }`}
                 key={item.id}
               >
                 <span className="ng-history-index">
                   {String(index + 1).padStart(2, "0")}
                 </span>
+
                 <strong>{item.guess}</strong>
                 <b>{item.digits}/{item.places}</b>
               </div>
             ))}
+
             <div ref={historyEndRef} />
           </div>
         )}
@@ -593,9 +756,8 @@ export default function NumberGame() {
             onClick={() => {
               window.location.href = "/";
             }}
-            aria-label="Back to games"
           >
-            ←
+            EXIT ×
           </button>
 
           <div className="ng-brand">
@@ -604,7 +766,13 @@ export default function NumberGame() {
 
           <div className="ng-setup-content">
             <p className="ng-eyebrow">TWO PLAYER CHALLENGE</p>
-            <h1>NUMBER<br /><span>GAME</span></h1>
+
+            <h1>
+              NUMBER
+              <br />
+              <span>GAME</span>
+            </h1>
+
             <p className="ng-description">
               Set the clock. Crack the code. Beat your opponent.
             </p>
@@ -639,7 +807,9 @@ export default function NumberGame() {
                 {[60, 120, 180, 240].map((seconds) => (
                   <button
                     key={seconds}
-                    className={timeLimit === seconds ? "selected" : ""}
+                    className={
+                      timeLimit === seconds ? "selected" : ""
+                    }
                     onClick={() => setTimeLimit(seconds)}
                   >
                     {seconds / 60} MIN
@@ -650,6 +820,7 @@ export default function NumberGame() {
               <div className="ng-duplicate-setting">
                 <div>
                   <strong>NO DUPLICATE DIGITS</strong>
+
                   <small>
                     {noDuplicates
                       ? "Each digit can appear only once."
@@ -662,7 +833,9 @@ export default function NumberGame() {
                   className={`ng-toggle ${noDuplicates ? "on" : ""}`}
                   role="switch"
                   aria-checked={noDuplicates}
-                  onClick={() => setNoDuplicates((current) => !current)}
+                  onClick={() =>
+                    setNoDuplicates((current) => !current)
+                  }
                 >
                   <span />
                   <b>{noDuplicates ? "ON" : "OFF"}</b>
@@ -671,12 +844,17 @@ export default function NumberGame() {
             </div>
 
             <div className="ng-player-legend">
-              <span><i className="ng-dot red" /> PLAYER 1</span>
-              <span><i className="ng-dot blue" /> PLAYER 2</span>
+              <span>
+                <i className="ng-dot red" /> PLAYER 1
+              </span>
+
+              <span>
+                <i className="ng-dot blue" /> PLAYER 2
+              </span>
             </div>
 
             <button className="ng-primary" onClick={startGame}>
-              START GAME 
+              START GAME
             </button>
 
             <p className="ng-small-note">
@@ -692,22 +870,33 @@ export default function NumberGame() {
             <div className="ng-round-label">
               NUMBER GAME <span> / ROUND {results.length + 1}</span>
             </div>
-            <button className="ng-quit" onClick={playAgain}>EXIT ×</button>
+
+            <button className="ng-quit" onClick={playAgain}>
+              EXIT ×
+            </button>
           </header>
 
           <div className="ng-turn-heading">
-            <span className="ng-eyebrow">YOUR TURN TO SET THE CODE</span>
+            <span className="ng-eyebrow">
+              YOUR TURN TO SET THE CODE
+            </span>
+
             <h1>{giver.name}</h1>
             <p>Choose a secret four-digit number.</p>
           </div>
 
           {showIntro && (
-            <div className="ng-toast">KEEP YOUR NUMBER SECRET</div>
+            <div className="ng-toast">
+              KEEP YOUR NUMBER SECRET
+            </div>
           )}
 
           {error && <div className="ng-error">{error}</div>}
 
-          <div className={`ng-code-slots ${feedbackState === "wrong" ? "ng-shake" : ""}`}>
+          <div
+            className={`ng-code-slots ${feedbackState === "wrong" ? "ng-shake" : ""
+              }`}
+          >
             {renderSlots(secret)}
           </div>
 
@@ -722,7 +911,7 @@ export default function NumberGame() {
             disabled={secret.length !== 4}
             onClick={giveNumber}
           >
-            GIVE NO. 
+            GIVE NO.
           </button>
         </section>
       )}
@@ -733,7 +922,10 @@ export default function NumberGame() {
             <div className="ng-round-label">
               NUMBER GAME <span> / ROUND {results.length + 1}</span>
             </div>
-            <button className="ng-quit" onClick={playAgain}>EXIT ×</button>
+
+            <button className="ng-quit" onClick={playAgain}>
+              EXIT ×
+            </button>
           </header>
 
           <div className="ng-guess-layout">
@@ -742,13 +934,18 @@ export default function NumberGame() {
             <div className="ng-guess-main">
               <div className="ng-guess-player">
                 <span className="ng-eyebrow">CRACK THE CODE</span>
+
                 <h1>{guesser.name}</h1>
                 <p>Guess the secret number.</p>
               </div>
 
-              <div className={`ng-timer ${remaining <= 10 ? "urgent" : ""}`}>
+              <div
+                className={`ng-timer ${remaining <= 10 ? "urgent" : ""
+                  }`}
+              >
                 <span>TIME REMAINING</span>
                 <strong>{formatTime(remaining)}</strong>
+
                 <div className="ng-timer-track">
                   <i style={{ width: `${progress}%` }} />
                 </div>
@@ -763,9 +960,8 @@ export default function NumberGame() {
               {error && <div className="ng-error">{error}</div>}
 
               <div
-                className={`ng-code-slots ng-guess-slots ${
-                  feedbackState === "wrong" ? "ng-shake" : ""
-                }`}
+                className={`ng-code-slots ng-guess-slots ${feedbackState === "wrong" ? "ng-shake" : ""
+                  }`}
               >
                 {renderSlots(guess)}
               </div>
@@ -783,11 +979,18 @@ export default function NumberGame() {
       {screen === "solved" && (
         <section className="ng-intermission">
           <div className="ng-solved-mark">✓</div>
+
           <p className="ng-eyebrow">CODE CRACKED</p>
 
-          <h1>{lastResult?.guesserName}<br /><span>GOT IT.</span></h1>
+          <h1>
+            {lastResult?.guesserName}
+            <br />
+            <span>GOT IT.</span>
+          </h1>
 
-          <div className="ng-solved-number">{lastResult?.secret}</div>
+          <div className="ng-solved-number">
+            {lastResult?.secret}
+          </div>
 
           <div className="ng-frozen-timer">
             <span>TIME USED</span>
@@ -800,7 +1003,7 @@ export default function NumberGame() {
           </p>
 
           <button className="ng-primary" onClick={nextRound}>
-            NEXT PLAYER 
+            NEXT PLAYER
           </button>
         </section>
       )}
@@ -808,13 +1011,20 @@ export default function NumberGame() {
       {screen === "round-timeout" && (
         <section className="ng-intermission">
           <div className="ng-timeout-mark">!</div>
+
           <p className="ng-eyebrow">TIME IS UP</p>
 
-          <h1>TIME<br /><span>RECORDED.</span></h1>
+          <h1>
+            TIME
+            <br />
+            <span>RECORDED.</span>
+          </h1>
 
           <div className="ng-frozen-timer timeout-timer">
             <span>{lastResult?.guesserName}</span>
-            <strong>{formatTime(lastResult?.time ?? timeLimit)}</strong>
+            <strong>
+              {formatTime(lastResult?.time ?? timeLimit)}
+            </strong>
             <small>Full time limit recorded</small>
           </div>
 
@@ -823,7 +1033,7 @@ export default function NumberGame() {
           </p>
 
           <button className="ng-primary" onClick={nextRound}>
-            NEXT PLAYER 
+            NEXT PLAYER
           </button>
         </section>
       )}
@@ -834,29 +1044,36 @@ export default function NumberGame() {
             {winner?.tie ? "=" : "✓"}
           </div>
 
-          <p className="ng-eyebrow">NUMBER GAME · FINAL RESULT</p>
+          <p className="ng-eyebrow">
+            NUMBER GAME · FINAL RESULT
+          </p>
 
-          <h1>{winner?.tie ? "IT'S A TIE." : "GAME OVER."}</h1>
+          <h1>
+            {winner?.tie ? "IT'S A TIE." : "GAME OVER."}
+          </h1>
 
           <h2 className="ng-winner-name">
-            {winner?.tie ? "DRAW" : `${winner?.guesserName} WINS!`}
+            {winner?.tie
+              ? "DRAW"
+              : `${winner?.guesserName} WINS!`}
           </h2>
 
           <div className="ng-result-times">
             {results.map((result, index) => (
               <div
-                className={`ng-result-time ${
-                  winner && !winner.tie &&
-                  winner.guesserId === result.guesserId
+                className={`ng-result-time ${winner &&
+                    !winner.tie &&
+                    winner.guesserId === result.guesserId
                     ? "winner"
                     : ""
-                } ${!result.solved ? "timeout" : ""}`}
+                  } ${!result.solved ? "timeout" : ""}`}
                 key={`${result.guesserId}-${index}`}
               >
                 <span>
                   {result.guesserName}
                   {!result.solved ? " · TIME OUT" : " · SOLVED"}
                 </span>
+
                 <strong>{formatTime(result.time)}</strong>
               </div>
             ))}
@@ -869,7 +1086,7 @@ export default function NumberGame() {
           </p>
 
           <button className="ng-primary" onClick={playAgain}>
-            PLAY AGAIN 
+            PLAY AGAIN
           </button>
         </section>
       )}

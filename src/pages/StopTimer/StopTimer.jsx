@@ -313,8 +313,9 @@ export default function StopTimer() {
                     onClick={() => {
                         window.location.href = "/";
                     }}
+                    aria-label="Exit to home page"
                 >
-                    ← <span>GAMES</span>
+                    EXIT ×
                 </button>
 
                 <div className="st-brand">
