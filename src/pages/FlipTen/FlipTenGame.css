@@ -339,6 +339,13 @@
 .flipten-player-card {
     position: relative;
 
+    /* Keep card contents on a stable layer on mobile browsers. */
+    isolation: isolate;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+
     aspect-ratio:
         0.68;
 
@@ -420,11 +427,17 @@
 
     width: 100%;
     height: 100%;
+    min-width: 0;
+    min-height: 0;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
+
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 
@@ -524,6 +537,14 @@
 }
 
 .uno-card-symbol span {
+    display: block;
+    max-width: 100%;
+    flex: 0 0 auto;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
 
     font-size:
         clamp(
@@ -1752,26 +1773,20 @@
 
 
 @keyframes cardPlace {
-
     0% {
-        transform:
-            translateY(-8px)
-            scale(1.04)
-            rotateY(0deg);
+        transform: translate3d(0, -8px, 0) scale(1.04, 1.04);
     }
 
-    45% {
-        transform:
-            translateY(0)
-            scale(1)
-            rotateY(90deg);
+    42% {
+        transform: translate3d(0, 0, 0) scaleX(0.08);
+    }
+
+    58% {
+        transform: translate3d(0, 0, 0) scaleX(0.08);
     }
 
     100% {
-        transform:
-            translateY(0)
-            scale(1)
-            rotateY(0deg);
+        transform: translate3d(0, 0, 0) scale(1, 1);
     }
 }
 
@@ -3505,4 +3520,65 @@
         flex-shrink: 1;
     }
 
+}
+
+/* =========================================================
+   MOBILE CARD RENDERING FIX
+   Prevent number clipping/flicker during the placement flip.
+========================================================= */
+
+.flipten-player-card {
+    transform-origin: center center;
+    -webkit-transform-origin: center center;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flipten-player-card.placing-card {
+    will-change: transform;
+    animation: cardPlace 0.65s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+
+.flipten-player-card.placing-card .uno-card-symbol span,
+.flipten-player-card.placing-card .uno-card-corner {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.uno-card-symbol {
+    min-width: 0;
+    overflow: visible;
+}
+
+.uno-card-symbol span {
+    line-height: 1.08;
+    padding: 0.04em 0.08em 0.08em;
+}
+
+@media (max-width: 500px) {
+    .flipten-player-card {
+        overflow: visible;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+
+    .flipten-player-card::before {
+        pointer-events: none;
+    }
+
+    .uno-card-symbol span {
+        font-size: clamp(22px, 7vw, 29px);
+        line-height: 1.1;
+        padding: 1px 2px 2px;
+    }
+
+    .uno-card-corner {
+        line-height: 1.15;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flipten-player-card.placing-card {
+        animation-duration: 0.01ms;
+    }
 }

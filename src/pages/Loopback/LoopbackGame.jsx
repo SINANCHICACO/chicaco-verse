@@ -324,6 +324,92 @@ function LoopbackGame() {
     const holdTimer = useRef(null);
 
     /* =====================================================
+       SOUND EFFECTS
+    ===================================================== */
+
+    const soundContextRef = useRef(null);
+
+    const playSound = (soundName) => {
+        try {
+            const AudioContextClass =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContextClass) return;
+
+            if (!soundContextRef.current) {
+                soundContextRef.current =
+                    new AudioContextClass();
+            }
+
+            const audioContext = soundContextRef.current;
+
+            if (audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+
+            const playTone = (
+                frequency,
+                startTime,
+                duration,
+                type = "sine",
+                volume = 0.07
+            ) => {
+                const oscillator =
+                    audioContext.createOscillator();
+
+                const gain =
+                    audioContext.createGain();
+
+                oscillator.type = type;
+                oscillator.frequency.setValueAtTime(
+                    frequency,
+                    startTime
+                );
+
+                gain.gain.setValueAtTime(
+                    volume,
+                    startTime
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    startTime + duration
+                );
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            };
+
+            const now = audioContext.currentTime;
+
+            if (soundName === "card") {
+                playTone(520, now, 0.09, "triangle", 0.06);
+                playTone(760, now + 0.07, 0.11, "sine", 0.05);
+            } else if (soundName === "move") {
+                playTone(440, now, 0.07, "triangle", 0.045);
+            } else if (soundName === "skip") {
+                playTone(260, now, 0.12, "square", 0.04);
+                playTone(190, now + 0.1, 0.16, "square", 0.035);
+            } else if (soundName === "wild") {
+                playTone(440, now, 0.12, "sine", 0.055);
+                playTone(660, now + 0.1, 0.12, "sine", 0.055);
+                playTone(880, now + 0.2, 0.18, "sine", 0.06);
+            } else if (soundName === "win") {
+                playTone(523, now, 0.18, "triangle", 0.07);
+                playTone(659, now + 0.15, 0.18, "triangle", 0.07);
+                playTone(784, now + 0.3, 0.18, "triangle", 0.07);
+                playTone(1047, now + 0.45, 0.32, "triangle", 0.08);
+            }
+        } catch (error) {
+            // Sound must never interrupt gameplay.
+        }
+    };
+
+    /* =====================================================
        DECK REFS
     ===================================================== */
 
@@ -453,6 +539,7 @@ function LoopbackGame() {
             );
 
         setCards(drawn);
+        playSound("card");
     };
 
     /* =========================================================
@@ -474,6 +561,7 @@ function LoopbackGame() {
             );
 
         setCards(drawn);
+        playSound("card");
     };
 
     /* =========================================================
@@ -495,6 +583,7 @@ function LoopbackGame() {
             );
 
         setCards(drawn);
+        playSound("card");
     };
 
     /* =========================================================
@@ -516,7 +605,7 @@ function LoopbackGame() {
 
         holdTimer.current = setTimeout(() => {
             window.location.href = "/";
-        }, 2000);
+        }, 1000);
     };
 
     const cancelHold = () => {
@@ -660,6 +749,8 @@ function LoopbackGame() {
             setTokenPosition(
                 current
             );
+
+            playSound("move");
 
             await new Promise(
                 (resolve) =>
@@ -870,6 +961,7 @@ function LoopbackGame() {
             setWinner(
                 currentPlayer
             );
+            playSound("win");
 
             return;
         }
@@ -901,6 +993,7 @@ function LoopbackGame() {
         setWildEffect(effect);
 
         setWildReveal(true);
+        playSound("wild");
 
         setTimeout(
             async () => {
@@ -1269,6 +1362,7 @@ function LoopbackGame() {
             setWinner(
                 currentPlayer
             );
+            playSound("win");
 
             return;
         }
@@ -1466,7 +1560,7 @@ function LoopbackGame() {
                     </button>
 
                     <div className="hold-label">
-                        HOLD 2s
+                        HOLD 1s
                         <br />
                         TO EXIT
                     </div>
@@ -1955,7 +2049,7 @@ function LoopbackGame() {
                         <p>
                             Hold the back
                             button for
-                            2 seconds to exit.
+                            1 second to exit.
                         </p>
                     </div>
                 </div>

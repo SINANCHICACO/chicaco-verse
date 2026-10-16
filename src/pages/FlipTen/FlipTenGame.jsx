@@ -27,7 +27,7 @@ const PLAYER_COLORS = [
 ];
 
 
-const EXIT_HOLD_TIME = 3000;
+const EXIT_HOLD_TIME = 1000;
 const PLACE_ANIMATION_TIME = 650;
 
 
@@ -280,6 +280,69 @@ function FlipTenGame() {
 
     const initializedRef =
         useRef(false);
+
+    const soundContextRef = useRef(null);
+
+    const playSound = (soundName) => {
+        try {
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (!AudioContextClass) return;
+
+            if (!soundContextRef.current) {
+                soundContextRef.current = new AudioContextClass();
+            }
+
+            const audioContext = soundContextRef.current;
+
+            if (audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+
+            const now = audioContext.currentTime;
+
+            const tone = (frequency, start, duration, type = "sine", volume = 0.07) => {
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                oscillator.type = type;
+                oscillator.frequency.setValueAtTime(frequency, now + start);
+
+                gain.gain.setValueAtTime(0.0001, now + start);
+                gain.gain.exponentialRampToValueAtTime(volume, now + start + 0.012);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + start + duration);
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.start(now + start);
+                oscillator.stop(now + start + duration + 0.025);
+            };
+
+            if (soundName === "draw") {
+                tone(520, 0, 0.09, "triangle", 0.06);
+                tone(760, 0.045, 0.1, "triangle", 0.045);
+            } else if (soundName === "place") {
+                tone(420, 0, 0.08, "square", 0.035);
+                tone(660, 0.07, 0.14, "triangle", 0.06);
+            } else if (soundName === "shuffle") {
+                tone(360, 0, 0.08, "triangle", 0.035);
+                tone(290, 0.1, 0.08, "triangle", 0.035);
+                tone(440, 0.2, 0.1, "triangle", 0.045);
+            } else if (soundName === "skip") {
+                tone(330, 0, 0.12, "sawtooth", 0.04);
+                tone(220, 0.12, 0.2, "sawtooth", 0.04);
+            } else if (soundName === "win") {
+                tone(523.25, 0, 0.18, "triangle", 0.065);
+                tone(659.25, 0.13, 0.18, "triangle", 0.065);
+                tone(783.99, 0.26, 0.22, "triangle", 0.065);
+                tone(1046.5, 0.43, 0.38, "triangle", 0.075);
+            }
+        } catch (error) {
+            // Sound is optional; gameplay should continue if audio is unavailable.
+        }
+    };
 
 
     const gameActiveRef =
@@ -545,6 +608,8 @@ function FlipTenGame() {
         const card =
             drawDeck[0];
 
+        playSound(card.type === "skip" ? "skip" : "draw");
+
 
         setDrawDeck(
             (currentDeck) =>
@@ -730,6 +795,8 @@ function FlipTenGame() {
 
         setShowPopup(false);
 
+        playSound("place");
+
         setPhase(
             "animating"
         );
@@ -825,6 +892,8 @@ function FlipTenGame() {
 
         if (hasWon) {
 
+            playSound("win");
+
             setActiveCard(null);
 
             setTargetIndex(null);
@@ -860,6 +929,8 @@ function FlipTenGame() {
             revealedCard.type ===
             "skip"
         ) {
+
+            playSound("skip");
 
             setStatusCard(
                 revealedCard
@@ -1039,6 +1110,7 @@ function FlipTenGame() {
 
         setIsShuffling(true);
 
+        playSound("shuffle");
 
         await wait(750);
 
