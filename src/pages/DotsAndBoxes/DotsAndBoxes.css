@@ -742,3 +742,29 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Prevent blue selection highlights on mobile while drawing lines */
+.db-game,
+.db-game *,
+.db-board,
+.db-board * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.db-board {
+  touch-action: manipulation;
+}
+
+.db-edge-hit {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.db-edge-hit:focus {
+  outline: none;
+}

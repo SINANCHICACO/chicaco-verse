@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./DotsAndBoxes.css";
 
 const SIZE = 6;
@@ -8,6 +8,147 @@ const TOTAL_BOXES = BOX_SIZE * BOX_SIZE;
 
 const BLUE = "blue";
 const RED = "red";
+
+/* ---------------------------------
+   SOUND EFFECTS — Web Audio API
+---------------------------------- */
+
+let audioContext;
+
+function getAudioContext() {
+  if (typeof window === "undefined") return null;
+
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) return null;
+
+  if (!audioContext) {
+    audioContext = new AudioContextClass();
+  }
+
+  if (audioContext.state === "suspended") {
+    audioContext.resume().catch(() => {});
+  }
+
+  return audioContext;
+}
+
+// 1. Soft tap / button-like click
+function playTapSound() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(700, now);
+    oscillator.frequency.exponentialRampToValueAtTime(
+      300,
+      now + 0.055
+    );
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.12, now + 0.006);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+
+    oscillator.start(now);
+    oscillator.stop(now + 0.08);
+  } catch {
+    // Sound must never interrupt gameplay.
+  }
+}
+
+// 2. Box collection chime
+function playBoxSound(boxCount = 1) {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+
+    // A distinct two-note reward chime.
+    const notes = boxCount > 1
+      ? [660, 880, 1046.5]
+      : [740, 988];
+
+    notes.forEach((frequency, index) => {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const start = now + index * 0.075;
+      const duration = 0.2;
+
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(frequency, start);
+
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.linearRampToValueAtTime(0.13, start + 0.015);
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start + duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.01);
+    });
+  } catch {
+    // Sound must never interrupt gameplay.
+  }
+}
+
+// 3. Victory melody
+function playWinSound() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+
+    const notes = [
+      { frequency: 523.25, time: 0, duration: 0.22 },
+      { frequency: 659.25, time: 0.15, duration: 0.22 },
+      { frequency: 783.99, time: 0.3, duration: 0.22 },
+      { frequency: 1046.5, time: 0.45, duration: 0.48 },
+    ];
+
+    notes.forEach(({ frequency, time, duration }) => {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const start = now + time;
+
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(frequency, start);
+
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.linearRampToValueAtTime(0.15, start + 0.025);
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start + duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.02);
+    });
+  } catch {
+    // Sound must never interrupt gameplay.
+  }
+}
+
+/* ---------------------------------
+   GAME HELPERS
+---------------------------------- */
 
 const createEdges = () => ({
   h: Array(BOX_SIZE * SIZE).fill(""),
@@ -38,6 +179,10 @@ function getScore(boxes, player) {
   return boxes.filter((owner) => owner === player).length;
 }
 
+/* ---------------------------------
+   MAIN GAME
+---------------------------------- */
+
 function DotsAndBoxes({ onExit }) {
   const [edges, setEdges] = useState(createEdges);
   const [boxes, setBoxes] = useState(createBoxes);
@@ -46,22 +191,35 @@ function DotsAndBoxes({ onExit }) {
   const [capturedBoxes, setCapturedBoxes] = useState([]);
   const [showResult, setShowResult] = useState(false);
 
+  const winSoundPlayed = useRef(false);
+
   const blueScore = getScore(boxes, BLUE);
   const redScore = getScore(boxes, RED);
   const finished = boxes.every(Boolean);
 
+  // Show the result and play the victory sound once.
   useEffect(() => {
     if (!finished) {
       setShowResult(false);
+      winSoundPlayed.current = false;
       return;
     }
 
+    if (!winSoundPlayed.current) {
+      winSoundPlayed.current = true;
+      playWinSound();
+    }
+
     const timer = setTimeout(() => setShowResult(true), 1100);
+
     return () => clearTimeout(timer);
   }, [finished]);
 
   function playEdge(type, index) {
     if (finished || edges[type][index]) return;
+
+    // Sound for the player's valid tap.
+    playTapSound();
 
     const nextEdges = {
       h: [...edges.h],
@@ -74,7 +232,7 @@ function DotsAndBoxes({ onExit }) {
     const newlyCaptured = [];
 
     // Check all boxes after this move.
-    // A single line can complete two adjacent boxes.
+    // One line can complete two adjacent boxes.
     for (let row = 0; row < BOX_SIZE; row++) {
       for (let col = 0; col < BOX_SIZE; col++) {
         const boxIndex = row * BOX_SIZE + col;
@@ -94,6 +252,11 @@ function DotsAndBoxes({ onExit }) {
     setLastEdge(`${type}-${index}`);
     setCapturedBoxes(newlyCaptured);
 
+    // Play a reward sound if one or more boxes were captured.
+    if (newlyCaptured.length > 0) {
+      playBoxSound(newlyCaptured.length);
+    }
+
     // Capturing any boxes gives the same player another turn.
     if (newlyCaptured.length === 0) {
       setCurrentPlayer((player) =>
@@ -109,6 +272,7 @@ function DotsAndBoxes({ onExit }) {
     setLastEdge(null);
     setCapturedBoxes([]);
     setShowResult(false);
+    winSoundPlayed.current = false;
   }
 
   function handleExit() {
@@ -247,6 +411,7 @@ function DotsAndBoxes({ onExit }) {
           <span className="db-side-name">BLUE</span>
           <span className="db-side-points">{blueScore}</span>
           <span className="db-side-caption">POINTS</span>
+
           {currentPlayer === BLUE && !finished && (
             <span className="db-turn-indicator" />
           )}
@@ -289,6 +454,7 @@ function DotsAndBoxes({ onExit }) {
                   y2={point(SIZE - 1)}
                   className="db-grid-line"
                 />
+
                 <line
                   x1={point(0)}
                   y1={point(index)}
@@ -320,6 +486,7 @@ function DotsAndBoxes({ onExit }) {
           <span className="db-side-name">RED</span>
           <span className="db-side-points">{redScore}</span>
           <span className="db-side-caption">POINTS</span>
+
           {currentPlayer === RED && !finished && (
             <span className="db-turn-indicator" />
           )}
