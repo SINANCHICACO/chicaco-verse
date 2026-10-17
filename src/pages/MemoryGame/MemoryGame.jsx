@@ -1,3 +1,4 @@
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./MemoryGame.css";
 
@@ -167,7 +168,10 @@ export default function MemoryGame() {
         oscillator.frequency.setValueAtTime(frequency, start);
 
         gain.gain.setValueAtTime(0.001, start);
-        gain.gain.exponentialRampToValueAtTime(volume, start + 0.015);
+        gain.gain.exponentialRampToValueAtTime(
+          volume,
+          start + 0.015
+        );
         gain.gain.exponentialRampToValueAtTime(
           0.001,
           start + duration
@@ -206,20 +210,20 @@ export default function MemoryGame() {
       }
 
       if (type === "win") {
-        const notes = [523, 659, 784, 1047, 784, 1047];
-
-        notes.forEach((frequency, index) => {
-          tone(
-            frequency,
-            now + index * 0.14,
-            index === notes.length - 1 ? 0.42 : 0.19,
-            "triangle",
-            0.07
-          );
-        });
+        [523, 659, 784, 1047, 784, 1047].forEach(
+          (frequency, index, notes) => {
+            tone(
+              frequency,
+              now + index * 0.14,
+              index === notes.length - 1 ? 0.42 : 0.19,
+              "triangle",
+              0.07
+            );
+          }
+        );
       }
     } catch {
-      // Audio is optional; gameplay should work if sound is unavailable.
+      // Sound is optional.
     }
   }, []);
 
@@ -234,7 +238,9 @@ export default function MemoryGame() {
   }, []);
 
   useEffect(() => {
-    if (matched.length !== cards.length || cards.length === 0) return;
+    if (matched.length !== cards.length || cards.length === 0) {
+      return;
+    }
 
     if (score.Red === score.Blue) {
       setWinner("Draw");
@@ -249,11 +255,9 @@ export default function MemoryGame() {
   }, [matched, score, cards.length, playSound]);
 
   useEffect(() => {
-    setBestScore((previous) => Math.max(
-      previous,
-      score.Red,
-      score.Blue
-    ));
+    setBestScore((previous) =>
+      Math.max(previous, score.Red, score.Blue)
+    );
   }, [score]);
 
   function flip(card) {
@@ -305,9 +309,11 @@ export default function MemoryGame() {
         if (currentRound !== roundId.current) return;
 
         setOpened([]);
+
         setTurn((previous) =>
           previous === "Red" ? "Blue" : "Red"
         );
+
         playSound("turn");
       }, 900);
     }
@@ -358,16 +364,6 @@ export default function MemoryGame() {
 
             <strong>{score.Red}</strong>
             <small>POINTS</small>
-
-            <button
-              type="button"
-              className="top-game-button restart-button"
-              onClick={restart}
-              aria-label="Restart game"
-              title="Restart game"
-            >
-              <i className="restart-symbol" />
-            </button>
           </section>
 
           <div className="memory-title">
@@ -387,25 +383,38 @@ export default function MemoryGame() {
 
             <strong>{score.Blue}</strong>
             <small>POINTS</small>
-
-            <button
-              type="button"
-              className="top-game-button exit-button"
-              onClick={exitGame}
-              aria-label="Exit to home"
-              title="Exit game"
-            >
-              <i className="exit-symbol" />
-            </button>
           </section>
         </header>
 
         <div className="turn-strip">
           <span className={`turn-dot ${turn.toLowerCase()}`} />
           <b>{turn.toUpperCase()}'S TURN</b>
-          <span className="turn-hint">
-            Find a pair to score
-          </span>
+          <span className="turn-hint">Find a pair to score</span>
+        </div>
+
+        {/* Restart and Exit are outside the score panels. */}
+        <div className="memory-controls">
+          <button
+            type="button"
+            className="board-control restart-control"
+            onClick={restart}
+            aria-label="Restart game"
+            title="Restart game"
+          >
+            ↻
+          </button>
+
+          <span className="controls-label">MEMORY MATCH</span>
+
+          <button
+            type="button"
+            className="board-control exit-control"
+            onClick={exitGame}
+            aria-label="Exit to home"
+            title="Exit game"
+          >
+            ×
+          </button>
         </div>
 
         <section
@@ -442,7 +451,9 @@ export default function MemoryGame() {
                   }
                   aria-label={
                     faceUp
-                      ? `Revealed ${card.type}${isMatched ? ", matched" : ""}`
+                      ? `Revealed ${card.type}${
+                          isMatched ? ", matched" : ""
+                        }`
                       : "Face-down card"
                   }
                 >
@@ -468,7 +479,10 @@ export default function MemoryGame() {
             <b>{pairsFound}/10</b>
           </span>
 
-          <div className="progress-track" aria-label={`${pairsFound} of 10 pairs found`}>
+          <div
+            className="progress-track"
+            aria-label={`${pairsFound} of 10 pairs found`}
+          >
             <span style={{ width: `${pairsFound * 10}%` }} />
           </div>
 
@@ -484,12 +498,6 @@ export default function MemoryGame() {
             role="dialog"
             aria-modal="true"
           >
-            <div className="winner-confetti" aria-hidden="true">
-              {Array.from({ length: 18 }, (_, index) => (
-                <i key={index} style={{ "--confetti-index": index }} />
-              ))}
-            </div>
-
             <div className="winner-card">
               <div className="winner-medal" aria-hidden="true">
                 <i />
