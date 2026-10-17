@@ -19,6 +19,7 @@ import DotsAndBoxes from "./pages/DotsAndBoxes/DotsAndBoxes";
 
 import StopTimer from "./pages/StopTimer/StopTimer";
 
+import MathGuess from "./pages/Math-Guess/MathGuess";
 
 import MemoryGame from "./pages/MemoryGame/MemoryGame";
 
@@ -182,6 +183,9 @@ function App() {
         return <MemoryGame />;
     }
 
+    if (path === "/games/Math-Guess") {
+        return <MathGuess />;
+    }
     /*
     =====================================================
     FALLBACK

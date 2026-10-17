@@ -97,6 +97,17 @@ const games = [
     status: "available",
     path: "/games/memory-game",
   },
+
+  {
+    id: "Math-Guess",
+    name: "Math Guess",
+    description: "Flip the cards, find matching pairs, and beat your opponent.",
+    category: "Puzzle",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/Math-Guess",
+  },
 ];
 
 export default games;

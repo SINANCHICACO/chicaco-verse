@@ -1,0 +1,703 @@
+
+/* =========================================
+   MATH GUESS — BASE
+========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.math-game {
+  --math-bg: #805661;
+  --math-blue: #08c4e3;
+  --math-red: #ff665f;
+  --math-white: #fffdf8;
+  --math-ink: #34313a;
+
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--math-bg);
+  color: var(--math-white);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.math-game-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 42px minmax(0, 1fr);
+  overflow: hidden;
+}
+
+/* =========================================
+   PLAYER HALVES
+========================================= */
+
+.math-player {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: clamp(10px, 3vw, 24px);
+}
+
+.math-player-blue {
+  --player-color: var(--math-blue);
+  --player-ink: #08a9c8;
+  --player-light: #effdff;
+}
+
+.math-player-red {
+  --player-color: var(--math-red);
+  --player-ink: #e65352;
+  --player-light: #fff0ed;
+}
+
+/* TOP BLUE PLAYER — UPSIDE DOWN */
+
+.math-player-top {
+  transform: rotate(180deg);
+}
+
+/* BOTTOM RED PLAYER — NORMAL ORIENTATION */
+
+.math-player-bottom {
+  transform: none;
+}
+
+.math-player-content {
+  width: 100%;
+  max-width: 540px;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: clamp(7px, 1.8vh, 18px);
+}
+
+/* =========================================
+   PLAYER NAME AND SCORE
+========================================= */
+
+.math-player-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.math-player-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(12px, 3.5vw, 18px);
+  font-weight: 1000;
+  letter-spacing: 1px;
+}
+
+.math-player-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  flex: 0 0 12px;
+  border-radius: 50%;
+  background: var(--player-color);
+  box-shadow: 0 0 0 3px #ffffff28;
+}
+
+.math-player-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-score-number {
+  font-size: clamp(27px, 7vw, 43px);
+  line-height: 1;
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.2s ease;
+  animation: score-enter 0.3s ease both;
+}
+
+.math-score-label {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+/* =========================================
+   PROGRESS BAR
+========================================= */
+
+.math-progress-track {
+  width: 100%;
+  height: clamp(8px, 1.6vh, 13px);
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 50px;
+  background: #ffffff24;
+  box-shadow: inset 0 2px 3px #00000017;
+}
+
+.math-progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--player-color);
+  transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* =========================================
+   QUESTION
+========================================= */
+
+.math-question-area {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vh, 18px);
+  text-align: center;
+}
+
+.math-question-label {
+  font-size: clamp(9px, 2.5vw, 12px);
+  font-weight: 1000;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
+
+.math-equation {
+  width: 100%;
+  color: var(--math-white);
+  font-size: clamp(32px, 9vw, 64px);
+  line-height: 1.05;
+  font-weight: 1000;
+  letter-spacing: -1.5px;
+  overflow-wrap: anywhere;
+  text-shadow: 0 3px 0 #0000000d;
+  animation: question-enter 0.3s ease both;
+}
+
+/* =========================================
+   ANSWER OPTIONS
+========================================= */
+
+.math-answer-grid {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(7px, 2vw, 16px);
+}
+
+.math-answer {
+  position: relative;
+  min-width: 0;
+  min-height: clamp(64px, 12vh, 100px);
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  border: clamp(5px, 1.5vw, 8px) solid var(--player-color);
+  border-radius: 999px;
+  background: var(--player-light);
+  color: var(--player-ink);
+  font-family: inherit;
+  font-size: clamp(22px, 7vw, 43px);
+  font-weight: 1000;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  box-shadow:
+    inset 0 0 0 2px #ffffffb0,
+    0 4px 0 #0000000b;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 0.12s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.math-answer:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.math-answer:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 4px;
+}
+
+.math-answer:disabled {
+  cursor: default;
+}
+
+.math-answer.answer-correct {
+  background: #e4ffd9;
+  border-color: #6edc75;
+  color: #238b38;
+  animation: answer-correct 0.4s ease both;
+}
+
+.math-answer.answer-wrong {
+  background: #ffe1df;
+  border-color: #ff3939;
+  color: #cf2929;
+  animation: answer-shake 0.35s ease both;
+}
+
+/* =========================================
+   PLAYER FOOTER
+========================================= */
+
+.math-player-footer {
+  flex: 0 0 auto;
+  min-height: 14px;
+  text-align: center;
+  font-size: clamp(9px, 2.5vw, 12px);
+  font-weight: 1000;
+  letter-spacing: 2px;
+  opacity: 0.85;
+}
+
+/* =========================================
+   CENTER DIVIDER
+========================================= */
+
+.math-center-divider {
+  position: relative;
+  z-index: 3;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 52px;
+  border-top: 2px solid #292630;
+  border-bottom: 2px solid #292630;
+  background: #302c35;
+}
+
+.math-center-label {
+  font-size: clamp(10px, 2.8vw, 13px);
+  font-weight: 1000;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.math-round-label {
+  color: #ffffffa0;
+  font-size: 9px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.math-restart-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2px solid #ffffff50;
+  border-radius: 50%;
+  background: #ffffff14;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.math-restart-button:hover {
+  background: #ffffff30;
+  transform: translateY(-50%) rotate(35deg);
+}
+
+.math-restart-button:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+/* =========================================
+   WINNER OVERLAY
+========================================= */
+
+.math-winner-overlay {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #211e27c9;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: overlay-enter 0.25s ease both;
+}
+
+.math-winner-card {
+  width: min(100%, 360px);
+  padding: 28px 20px;
+  border: 5px solid var(--math-ink);
+  border-radius: 24px;
+  background: #fffaf0;
+  color: var(--math-ink);
+  text-align: center;
+  box-shadow: 7px 8px 0 #00000035;
+  animation: winner-enter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.math-winner-kicker {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background: #e9e2d9;
+  font-size: 10px;
+  font-weight: 1000;
+  letter-spacing: 2px;
+}
+
+.math-winner-card h1 {
+  margin: 20px 0 10px;
+  font-size: clamp(30px, 8vw, 46px);
+  line-height: 1;
+  font-weight: 1000;
+  overflow-wrap: anywhere;
+}
+
+.math-winner-card p {
+  margin: 14px 0 22px;
+  font-size: 23px;
+  font-weight: 1000;
+}
+
+.winner-blue h1 {
+  color: #08a9c8;
+}
+
+.winner-red h1 {
+  color: #e65352;
+}
+
+.math-winner-card button {
+  width: 100%;
+  min-height: 50px;
+  border: 3px solid var(--math-ink);
+  border-radius: 12px;
+  background: #ffbf31;
+  color: var(--math-ink);
+  font: inherit;
+  font-weight: 1000;
+  cursor: pointer;
+  box-shadow: 3px 4px 0 var(--math-ink);
+  transition: transform 0.15s ease;
+}
+
+.math-winner-card button:hover {
+  transform: translateY(-2px);
+}
+
+.math-winner-card button:active {
+  transform: scale(0.97);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes question-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes score-enter {
+  from {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes answer-correct {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes answer-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes overlay-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes winner-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================
+   MOBILE PORTRAIT
+========================================= */
+
+@media (max-width: 480px) {
+  .math-game-stage {
+    grid-template-rows: minmax(0, 1fr) 36px minmax(0, 1fr);
+  }
+
+  .math-player {
+    padding: 12px 14px;
+  }
+
+  .math-player-content {
+    gap: clamp(6px, 1.6vh, 12px);
+  }
+
+  .math-player-name {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .math-player-dot {
+    width: 10px;
+    height: 10px;
+    flex-basis: 10px;
+  }
+
+  .math-score-number {
+    font-size: 30px;
+  }
+
+  .math-score-label {
+    font-size: 7px;
+  }
+
+  .math-question-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .math-equation {
+    font-size: clamp(29px, 8.5vw, 42px);
+  }
+
+  .math-answer-grid {
+    gap: 7px;
+  }
+
+  .math-answer {
+    min-height: clamp(58px, 10vh, 80px);
+    padding: 3px;
+    border-width: 5px;
+    font-size: clamp(21px, 6.5vw, 31px);
+  }
+
+  .math-player-footer {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .math-center-divider {
+    gap: 8px;
+    padding: 0 45px 0 12px;
+  }
+
+  .math-center-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .math-round-label {
+    font-size: 8px;
+  }
+
+  .math-restart-button {
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    font-size: 19px;
+  }
+}
+
+/* =========================================
+   SHORT SCREENS
+========================================= */
+
+@media (max-height: 650px) {
+  .math-game-stage {
+    grid-template-rows: minmax(0, 1fr) 32px minmax(0, 1fr);
+  }
+
+  .math-player {
+    padding: 7px 14px;
+  }
+
+  .math-player-content {
+    gap: 5px;
+  }
+
+  .math-question-area {
+    gap: 5px;
+  }
+
+  .math-equation {
+    font-size: clamp(25px, 6vh, 42px);
+  }
+
+  .math-answer {
+    min-height: clamp(42px, 9vh, 65px);
+    font-size: clamp(20px, 5vh, 31px);
+  }
+
+  .math-player-footer {
+    font-size: 8px;
+  }
+}
+
+/* =========================================
+   LANDSCAPE PHONES
+========================================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .math-game-stage {
+    grid-template-rows: minmax(0, 1fr) 28px minmax(0, 1fr);
+  }
+
+  .math-player {
+    padding: 4px 20px;
+  }
+
+  .math-player-content {
+    max-width: 760px;
+    display: grid;
+    grid-template-columns:
+      minmax(80px, 0.65fr)
+      minmax(110px, 1fr)
+      minmax(180px, 1.5fr);
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    gap: 5px 12px;
+  }
+
+  .math-player-header {
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .math-progress-track {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .math-question-area {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .math-equation {
+    font-size: clamp(20px, 5vh, 32px);
+  }
+
+  .math-answer-grid {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    gap: 8px;
+  }
+
+  .math-answer {
+    min-height: 55px;
+    font-size: clamp(18px, 4vh, 28px);
+  }
+
+  .math-player-footer {
+    display: none;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .math-game *,
+  .math-game *::before,
+  .math-game *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
