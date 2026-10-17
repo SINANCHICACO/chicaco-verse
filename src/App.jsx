@@ -19,6 +19,9 @@ import DotsAndBoxes from "./pages/DotsAndBoxes/DotsAndBoxes";
 
 import StopTimer from "./pages/StopTimer/StopTimer";
 
+
+import MemoryGame from "./pages/MemoryGame/MemoryGame";
+
 function App() {
 
     const path = window.location.pathname;
@@ -173,6 +176,10 @@ function App() {
 
     if (path === "/games/DotsAndBoxes") {
         return <DotsAndBoxes />;
+    }
+
+    if (path === "/games/memory-game") {
+        return <MemoryGame />;
     }
 
     /*

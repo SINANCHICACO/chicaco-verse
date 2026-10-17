@@ -57,16 +57,12 @@ body {
     min-height: 105px;
 
     padding:
-        12px
-        18px
-        5px;
+        12px 18px 5px;
 
     display: grid;
 
     grid-template-columns:
-        1fr
-        auto
-        1fr;
+        1fr auto 1fr;
 
     align-items: start;
 
@@ -141,10 +137,8 @@ body {
     border-radius: 50%;
 
     background:
-        conic-gradient(
-            white var(--exit-progress),
-            transparent 0deg
-        );
+        conic-gradient(white var(--exit-progress),
+            transparent 0deg);
 
     z-index: 1;
 
@@ -155,13 +149,9 @@ body {
     --exit-progress: 360deg;
 }
 
-.loopback-back.holding
-.back-progress {
+.loopback-back.holding .back-progress {
     animation:
-        backHoldProgress
-        1s
-        linear
-        forwards;
+        backHoldProgress 1s linear forwards;
 }
 
 @keyframes backHoldProgress {
@@ -204,11 +194,9 @@ body {
     margin: 0;
 
     font-size:
-        clamp(
-            18px,
+        clamp(18px,
             2.5vw,
-            34px
-        );
+            34px);
 
     line-height: 1;
 
@@ -217,44 +205,33 @@ body {
 
 .header-player-name {
     min-width:
-        clamp(
-            120px,
+        clamp(120px,
             18vw,
-            240px
-        );
+            240px);
 
     margin-top: 7px;
 
     padding:
-        7px
-        15px;
+        7px 15px;
 
     background:
         var(--cream);
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 10px;
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.18
-        );
+            0.18);
 
     font-size:
-        clamp(
-            11px,
+        clamp(11px,
             1.4vw,
-            18px
-        );
+            18px);
 
     font-weight: 1000;
 
@@ -276,8 +253,7 @@ body {
     height: 62px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 50%;
 
@@ -302,15 +278,10 @@ body {
     cursor: pointer;
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.18
-        );
+            0.18);
 }
 
 /* =========================================================
@@ -325,17 +296,13 @@ body {
     justify-content: center;
 
     padding:
-        15px
-        3vw
-        0;
+        15px 3vw 0;
 }
 
 .loopback-board {
     width:
-        min(
-            94vw,
-            800px
-        );
+        min(94vw,
+            800px);
 
     aspect-ratio:
         11 / 9;
@@ -369,8 +336,7 @@ body {
         var(--cream);
 
     border:
-        2px solid
-        var(--black);
+        2px solid var(--black);
 }
 
 .start-cell {
@@ -406,8 +372,7 @@ body {
     max-height: 46px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 50%;
 
@@ -420,11 +385,9 @@ body {
     color: var(--black);
 
     font-size:
-        clamp(
-            10px,
+        clamp(10px,
             1.5vw,
-            22px
-        );
+            22px);
 
     font-weight: 1000;
 
@@ -433,41 +396,31 @@ body {
     z-index: 20;
 
     box-shadow:
-        0
-        3px
-        0
-        rgba(
+        0 3px 0 rgba(0,
             0,
             0,
-            0,
-            0.35
-        );
+            0.35);
 }
 
 .loopback-token.jumping {
     animation:
-        tokenJump
-        260ms
-        ease-out;
+        tokenJump 260ms ease-out;
 }
 
 @keyframes tokenJump {
     0% {
         transform:
-            translateY(4px)
-            scale(0.85);
+            translateY(4px) scale(0.85);
     }
 
     45% {
         transform:
-            translateY(-10px)
-            scale(1.15);
+            translateY(-10px) scale(1.15);
     }
 
     100% {
         transform:
-            translateY(0)
-            scale(1);
+            translateY(0) scale(1);
     }
 }
 
@@ -477,23 +430,17 @@ body {
 
 .loopback-cards {
     width:
-        min(
-            94vw,
-            760px
-        );
+        min(94vw,
+            760px);
 
     /*
         CLEAR SPACE BETWEEN BOARD AND CARDS
     */
 
     margin:
-        clamp(
-            55px,
+        clamp(55px,
             8vh,
-            95px
-        )
-        auto
-        0;
+            95px) auto 0;
 
     display: grid;
 
@@ -501,11 +448,9 @@ body {
         repeat(4, 1fr);
 
     gap:
-        clamp(
-            8px,
+        clamp(8px,
             1.5vw,
-            20px
-        );
+            20px);
 }
 
 .loopback-card {
@@ -519,8 +464,7 @@ body {
     padding: 0;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 12px;
 
@@ -528,25 +472,18 @@ body {
         #244d83;
 
     box-shadow:
-        5px
-        7px
-        0
-        rgba(
+        5px 7px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 
     cursor: pointer;
 
     overflow: hidden;
 
     transition:
-        transform
-        0.15s ease,
-        box-shadow
-        0.15s ease;
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .loopback-card::before {
@@ -557,31 +494,20 @@ body {
     inset: 7px;
 
     border:
-        2px solid
-        rgba(
+        2px solid rgba(255,
             255,
             255,
-            255,
-            0.8
-        );
+            0.8);
 
     border-radius: 8px;
 
     background:
-        repeating-linear-gradient(
-            135deg,
-            rgba(
+        repeating-linear-gradient(135deg,
+            rgba(255,
                 255,
                 255,
-                255,
-                0.08
-            )
-            0
-            8px,
-            transparent
-            8px
-            16px
-        );
+                0.08) 0 8px,
+            transparent 8px 16px);
 }
 
 .loopback-card span {
@@ -591,28 +517,21 @@ body {
     left: 50%;
 
     transform:
-        translate(
-            -50%,
-            -50%
-        );
+        translate(-50%,
+            -50%);
 
     width:
-        clamp(
-            35px,
+        clamp(35px,
             4vw,
-            58px
-        );
+            58px);
 
     height:
-        clamp(
-            35px,
+        clamp(35px,
             4vw,
-            58px
-        );
+            58px);
 
     border:
-        2px solid
-        white;
+        2px solid white;
 
     border-radius: 50%;
 
@@ -625,11 +544,9 @@ body {
     justify-content: center;
 
     font-size:
-        clamp(
-            17px,
+        clamp(17px,
             2vw,
-            28px
-        );
+            28px);
 
     font-weight: 1000;
 }
@@ -639,15 +556,10 @@ body {
         translateY(5px);
 
     box-shadow:
-        0
-        2px
-        0
-        rgba(
+        0 2px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 }
 
 .loopback-card:disabled {
@@ -671,8 +583,7 @@ body {
     padding: 8px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 12px;
 
@@ -680,15 +591,10 @@ body {
         var(--cream);
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 
     text-align: center;
 }
@@ -747,19 +653,16 @@ body {
     height: 90px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 9px;
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             #ef4949,
             #4285e8,
             #48a868,
-            #e7c843
-        );
+            #e7c843);
 
     color: white;
 
@@ -774,15 +677,10 @@ body {
     font-weight: 1000;
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 }
 
 /* =========================================================
@@ -797,12 +695,10 @@ body {
     z-index: 200;
 
     background:
-        rgba(
+        rgba(0,
             0,
             0,
-            0,
-            0.28
-        );
+            0.28);
 
     display: flex;
 
@@ -829,18 +725,15 @@ body {
 
 .revealed-card {
     width:
-        clamp(
-            150px,
+        clamp(150px,
             20vw,
-            230px
-        );
+            230px);
 
     aspect-ratio:
         0.67;
 
     border:
-        4px solid
-        var(--black);
+        4px solid var(--black);
 
     border-radius: 20px;
 
@@ -854,15 +747,10 @@ body {
     justify-content: center;
 
     box-shadow:
-        7px
-        9px
-        0
-        rgba(
+        7px 9px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 
     position: relative;
 
@@ -877,20 +765,12 @@ body {
     inset: 0;
 
     background:
-        repeating-linear-gradient(
-            135deg,
-            rgba(
+        repeating-linear-gradient(135deg,
+            rgba(255,
                 255,
                 255,
-                255,
-                0.08
-            )
-            0
-            10px,
-            transparent
-            10px
-            20px
-        );
+                0.08) 0 10px,
+            transparent 10px 20px);
 }
 
 .revealed-card-inner {
@@ -903,8 +783,7 @@ body {
     height: 68%;
 
     border:
-        4px solid
-        white;
+        4px solid white;
 
     border-radius: 50%;
 
@@ -917,11 +796,9 @@ body {
     justify-content: center;
 
     font-size:
-        clamp(
-            65px,
+        clamp(65px,
             10vw,
-            120px
-        );
+            120px);
 
     font-weight: 1000;
 }
@@ -956,11 +833,9 @@ body {
 
 .wild-card-flip {
     width:
-        clamp(
-            150px,
+        clamp(150px,
             20vw,
-            230px
-        );
+            230px);
 
     aspect-ratio:
         0.67;
@@ -977,8 +852,7 @@ body {
     inset: 0;
 
     border:
-        4px solid
-        var(--black);
+        4px solid var(--black);
 
     border-radius: 20px;
 
@@ -992,37 +866,28 @@ body {
         hidden;
 
     box-shadow:
-        7px
-        9px
-        0
-        rgba(
+        7px 9px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 
     color: white;
 
     font-size:
-        clamp(
-            70px,
+        clamp(70px,
             10vw,
-            125px
-        );
+            125px);
 
     font-weight: 1000;
 }
 
 .wild-front {
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             #ef4949,
             #4285e8,
             #48a868,
-            #e7c843
-        );
+            #e7c843);
 }
 
 .wild-back {
@@ -1032,22 +897,14 @@ body {
         rotateY(180deg);
 }
 
-.wild-card-flip.flipping
-.wild-front {
+.wild-card-flip.flipping .wild-front {
     animation:
-        flipFront
-        1.2s
-        ease-in-out
-        forwards;
+        flipFront 1.2s ease-in-out forwards;
 }
 
-.wild-card-flip.flipping
-.wild-back {
+.wild-card-flip.flipping .wild-back {
     animation:
-        flipBack
-        1.2s
-        ease-in-out
-        forwards;
+        flipBack 1.2s ease-in-out forwards;
 }
 
 @keyframes flipFront {
@@ -1076,17 +933,14 @@ body {
 
 .claim-button {
     width:
-        clamp(
-            150px,
+        clamp(150px,
             20vw,
-            230px
-        );
+            230px);
 
     height: 52px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 12px;
 
@@ -1103,15 +957,10 @@ body {
     cursor: pointer;
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 }
 
 /* =========================================================
@@ -1126,12 +975,10 @@ body {
     z-index: 300;
 
     background:
-        rgba(
+        rgba(0,
             0,
             0,
-            0,
-            0.62
-        );
+            0.62);
 
     display: flex;
 
@@ -1150,11 +997,9 @@ body {
 
 .starter-eyebrow {
     font-size:
-        clamp(
-            13px,
+        clamp(13px,
             2vw,
-            20px
-        );
+            20px);
 
     font-weight: 1000;
 
@@ -1167,11 +1012,9 @@ body {
 
 .starter-player-number {
     font-size:
-        clamp(
-            32px,
+        clamp(32px,
             7vw,
-            72px
-        );
+            72px);
 
     font-weight: 1000;
 
@@ -1182,11 +1025,9 @@ body {
     margin-top: 12px;
 
     font-size:
-        clamp(
-            20px,
+        clamp(20px,
             4vw,
-            38px
-        );
+            38px);
 
     font-weight: 900;
 }
@@ -1195,11 +1036,9 @@ body {
     margin-top: 16px;
 
     font-size:
-        clamp(
-            15px,
+        clamp(15px,
             2.5vw,
-            25px
-        );
+            25px);
 
     font-weight: 1000;
 
@@ -1218,12 +1057,10 @@ body {
     z-index: 400;
 
     background:
-        rgba(
+        rgba(0,
             0,
             0,
-            0,
-            0.76
-        );
+            0.76);
 
     display: flex;
 
@@ -1240,47 +1077,33 @@ body {
     z-index: 5;
 
     width:
-        min(
-            88vw,
-            560px
-        );
+        min(88vw,
+            560px);
 
     padding:
-        38px
-        25px
-        30px;
+        38px 25px 30px;
 
     background:
         var(--cream);
 
     border:
-        5px solid
-        var(--winner-color);
+        5px solid var(--winner-color);
 
     border-radius: 28px;
 
     text-align: center;
 
     box-shadow:
-        9px
-        11px
-        0
-        rgba(
+        9px 11px 0 rgba(0,
             0,
             0,
-            0,
-            0.35
-        );
+            0.35);
 
     animation:
-        winnerEnter
-        700ms
-        cubic-bezier(
-            0.15,
+        winnerEnter 700ms cubic-bezier(0.15,
             0.85,
             0.2,
-            1.25
-        );
+            1.25);
 }
 
 @keyframes winnerEnter {
@@ -1288,28 +1111,24 @@ body {
         opacity: 0;
 
         transform:
-            scale(0.2)
-            rotate(-12deg);
+            scale(0.2) rotate(-12deg);
     }
 
     55% {
         opacity: 1;
 
         transform:
-            scale(1.12)
-            rotate(3deg);
+            scale(1.12) rotate(3deg);
     }
 
     75% {
         transform:
-            scale(0.96)
-            rotate(-1deg);
+            scale(0.96) rotate(-1deg);
     }
 
     100% {
         transform:
-            scale(1)
-            rotate(0);
+            scale(1) rotate(0);
     }
 }
 
@@ -1318,13 +1137,10 @@ body {
     height: 70px;
 
     margin:
-        -70px
-        auto
-        5px;
+        -70px auto 5px;
 
     border:
-        5px solid
-        var(--winner-color);
+        5px solid var(--winner-color);
 
     border-radius: 50%;
 
@@ -1357,11 +1173,9 @@ body {
     margin-top: 8px;
 
     font-size:
-        clamp(
-            35px,
+        clamp(35px,
             6vw,
-            60px
-        );
+            60px);
 
     font-weight: 1000;
 
@@ -1373,11 +1187,9 @@ body {
     margin-top: 12px;
 
     font-size:
-        clamp(
-            22px,
+        clamp(22px,
             4vw,
-            38px
-        );
+            38px);
 
     font-weight: 1000;
 }
@@ -1396,12 +1208,10 @@ body {
     margin-top: 25px;
 
     padding:
-        12px
-        24px;
+        12px 24px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 12px;
 
@@ -1417,15 +1227,10 @@ body {
     cursor: pointer;
 
     box-shadow:
-        4px
-        5px
-        0
-        rgba(
+        4px 5px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 }
 
 /* =========================================================
@@ -1448,9 +1253,7 @@ body {
     top: -20px;
 
     left:
-        calc(
-            var(--i) * 3.4%
-        );
+        calc(var(--i) * 3.4%);
 
     width: 7px;
 
@@ -1459,27 +1262,16 @@ body {
     background: white;
 
     animation:
-        confettiFall
-        calc(
-            1.5s +
-            var(--i) * 0.07s
-        )
-        linear
-        infinite;
+        confettiFall calc(1.5s + var(--i) * 0.07s) linear infinite;
 
     transform:
-        rotate(
-            calc(
-                var(--i) * 31deg
-            )
-        );
+        rotate(calc(var(--i) * 31deg));
 }
 
 @keyframes confettiFall {
     to {
         transform:
-            translateY(110vh)
-            rotate(720deg);
+            translateY(110vh) rotate(720deg);
     }
 }
 
@@ -1495,12 +1287,10 @@ body {
     z-index: 500;
 
     background:
-        rgba(
+        rgba(0,
             0,
             0,
-            0,
-            0.6
-        );
+            0.6);
 
     display: flex;
 
@@ -1515,45 +1305,34 @@ body {
     position: relative;
 
     width:
-        min(
-            90vw,
-            600px
-        );
+        min(90vw,
+            600px);
 
     max-height: 85vh;
 
     overflow-y: auto;
 
     padding:
-        32px
-        26px;
+        32px 26px;
 
     background:
         var(--cream);
 
     border:
-        4px solid
-        var(--black);
+        4px solid var(--black);
 
     border-radius: 20px;
 
     box-shadow:
-        7px
-        9px
-        0
-        rgba(
+        7px 9px 0 rgba(0,
             0,
             0,
-            0,
-            0.25
-        );
+            0.25);
 }
 
 .instructions-box h2 {
     margin:
-        0
-        0
-        22px;
+        0 0 22px;
 
     font-size: 30px;
 
@@ -1562,9 +1341,7 @@ body {
 
 .instructions-box p {
     margin:
-        0
-        0
-        13px;
+        0 0 13px;
 
     font-size: 15px;
 
@@ -1583,8 +1360,7 @@ body {
     height: 40px;
 
     border:
-        3px solid
-        var(--black);
+        3px solid var(--black);
 
     border-radius: 9px;
 
@@ -1606,9 +1382,7 @@ body {
         min-height: 100px;
 
         padding:
-            10px
-            12px
-            4px;
+            10px 12px 4px;
     }
 
     .loopback-back,
@@ -1634,8 +1408,7 @@ body {
         min-width: 115px;
 
         padding:
-            6px
-            10px;
+            6px 10px;
 
         font-size: 12px;
     }
@@ -1666,9 +1439,7 @@ body {
         min-height: 92px;
 
         padding:
-            8px
-            8px
-            3px;
+            8px 8px 3px;
     }
 
     .loopback-back,
@@ -1701,8 +1472,7 @@ body {
         margin-top: 5px;
 
         padding:
-            6px
-            8px;
+            6px 8px;
 
         border-width: 2px;
 
@@ -1713,9 +1483,7 @@ body {
 
     .board-section {
         padding:
-            17px
-            2.5vw
-            0;
+            17px 2.5vw 0;
     }
 
     .loopback-board {
@@ -1757,15 +1525,10 @@ body {
         border-radius: 7px;
 
         box-shadow:
-            3px
-            5px
-            0
-            rgba(
+            3px 5px 0 rgba(0,
                 0,
                 0,
-                0,
-                0.25
-            );
+                0.25);
     }
 
     .loopback-card::before {
@@ -1842,9 +1605,7 @@ body {
         width: 88vw;
 
         padding:
-            32px
-            18px
-            25px;
+            32px 18px 25px;
     }
 
     .winner-crown {
@@ -1858,9 +1619,7 @@ body {
 
     .instructions-box {
         padding:
-            32px
-            20px
-            22px;
+            32px 20px 22px;
     }
 }
 
@@ -1868,11 +1627,7 @@ body {
    SHORT PHONE
 ========================================================= */
 
-@media (
-    max-width: 500px
-) and (
-    max-height: 700px
-) {
+@media (max-width: 500px) and (max-height: 700px) {
     .loopback-header {
         min-height: 82px;
     }
@@ -1900,8 +1655,7 @@ body {
         min-width: 95px;
 
         padding:
-            5px
-            7px;
+            5px 7px;
 
         font-size: 9px;
     }
@@ -1924,9 +1678,7 @@ body {
         min-height: 125px;
 
         padding:
-            18px
-            3vw
-            5px;
+            18px 3vw 5px;
     }
 
     .loopback-back,
@@ -1950,18 +1702,14 @@ body {
 
     .loopback-board {
         width:
-            min(
-                72vw,
-                850px
-            );
+            min(72vw,
+                850px);
     }
 
     .loopback-cards {
         width:
-            min(
-                72vw,
-                800px
-            );
+            min(72vw,
+                800px);
 
         margin-top: 75px;
     }

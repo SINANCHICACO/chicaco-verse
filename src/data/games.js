@@ -11,9 +11,9 @@ const games = [
   },
 
   {
-    id: "NumberGame",
+    id: "number-game",
     name: "Number Game",
-    description: "Get ready to play.",
+    description: "Choose your number and challenge your friends.",
     category: "Fun",
     minPlayers: 2,
     maxPlayers: 2,
@@ -33,9 +33,9 @@ const games = [
   },
 
   {
-    id: "ColorGuess",
+    id: "color-guess",
     name: "Color Guess",
-    description: "A new challenge awaits.",
+    description: "Test your instincts and guess the right color.",
     category: "Arcade",
     minPlayers: 2,
     maxPlayers: 2,
@@ -47,7 +47,7 @@ const games = [
     id: "reverse-voice",
     name: "Reverse Voice",
     description: "Reverse your voice and challenge a friend to imitate it.",
-    category: "Party Game",
+    category: "Party",
     minPlayers: 2,
     maxPlayers: 2,
     status: "available",
@@ -68,25 +68,35 @@ const games = [
   {
     id: "xox-game",
     name: "XOX Game",
-    description: "Classic Tic-Tac-Toe game for two players.",
+    description: "Challenge a friend in a classic game of Tic-Tac-Toe.",
     category: "Strategy",
     minPlayers: 2,
     maxPlayers: 2,
     status: "available",
     path: "/games/xox-game",
   },
-  
+
   {
-    id: "DotsAndBoxes",
-    name: "Dots And Boxes",
-    description: "Classic Tic-Tac-Toe game for two players.",
+    id: "dots-and-boxes",
+    name: "Dots and Boxes",
+    description: "Connect the dots, complete boxes, and outscore your opponent.",
     category: "Strategy",
     minPlayers: 2,
     maxPlayers: 2,
     status: "available",
     path: "/games/DotsAndBoxes",
-  } 
+  },
 
+  {
+    id: "memory-game",
+    name: "Memory Game",
+    description: "Flip the cards, find matching pairs, and beat your opponent.",
+    category: "Puzzle",
+    minPlayers: 2,
+    maxPlayers: 2,
+    status: "available",
+    path: "/games/memory-game",
+  },
 ];
 
 export default games;
